@@ -1,0 +1,201 @@
+export type Stat = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA';
+export const STATS: Stat[] = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
+export type Stats = Record<Stat, number>;
+
+/** 0 = family friendly, 1 = cheeky, 2 = crude. */
+export type Tone = 0 | 1 | 2;
+
+/** Text with optional per-tone variants. Falls back towards the family version. */
+export type Txt = string | { f: string; c?: string; x?: string };
+
+export type Risk = 'safe' | 'bold' | 'reckless';
+
+export interface Choice {
+  label: Txt;
+  stat: Stat;
+  risk: Risk;
+  win: Txt;
+  lose: Txt;
+}
+
+export interface Card {
+  id: string;
+  text: Txt;
+  choices: Choice[];
+}
+
+export interface Effects {
+  stats?: Partial<Stats>;
+  maxHp?: number;
+  rollBonus?: number;
+  climaxBonus?: number;
+  goldMult?: number;
+  dmgReduce?: number;
+  healPerQuest?: number;
+  critRange?: number;
+  luckPerQuest?: number;
+  startLuck?: number;
+  startGold?: number;
+}
+
+export interface ClassDef {
+  id: string;
+  name: string;
+  blurb: string;
+  stats: Stats;
+  hp: number;
+  perkName: string;
+  perkText: string;
+  cost: number;
+}
+
+export interface AncestryDef {
+  id: string;
+  name: string;
+  blurb: string;
+  effects: Effects;
+  lucky?: boolean;
+}
+
+export interface QuirkDef {
+  id: string;
+  name: string;
+  text: string;
+  effects: Effects;
+}
+
+export interface RelicDef {
+  id: string;
+  name: string;
+  text: string;
+  effects: Effects;
+}
+
+export interface Giver {
+  id: string;
+  name: Txt;
+}
+
+export interface Objective {
+  id: string;
+  title: Txt;
+  task: Txt;
+  climax: Card;
+}
+
+export interface Twist {
+  id: string;
+  text: Txt;
+  note: string;
+  statDc?: Partial<Stats>;
+  dcMod?: number;
+  goldMult?: number;
+  dmgMod?: number;
+  heal?: number;
+}
+
+export type Tier = 0 | 1 | 2;
+
+export interface QuestOffer {
+  giverId: string;
+  objectiveId: string;
+  twistId: string;
+  tier: Tier;
+}
+
+export type Outcome = 'crit' | 'success' | 'fail' | 'fumble' | 'bribe';
+
+export interface RollResult {
+  cardId: string;
+  choiceIdx: number;
+  stat: Stat;
+  d20: number;
+  mod: number;
+  bonus: number;
+  total: number;
+  dc: number;
+  outcome: Outcome;
+  dmg: number;
+  gold: number;
+  heal: number;
+  notes: string[];
+}
+
+export type Boon =
+  | { kind: 'heal'; amount: number }
+  | { kind: 'stat'; stat: Stat; amount: number }
+  | { kind: 'relic'; relicId: string }
+  | { kind: 'luck'; amount: number }
+  | { kind: 'gold'; amount: number };
+
+export type Phase = 'board' | 'card' | 'result' | 'boon' | 'dead' | 'victory';
+
+export interface ActiveQuest {
+  offer: QuestOffer;
+  cards: string[];
+  cardIdx: number;
+  firstRollDone: boolean;
+  luckyUsed: boolean;
+  climaxFailed: boolean;
+}
+
+export interface Hero {
+  name: string;
+  classId: string;
+  ancestryId: string;
+  quirkId: string;
+  stats: Stats;
+  hp: number;
+  maxHp: number;
+}
+
+export interface RunState {
+  rng: number;
+  hero: Hero;
+  gold: number;
+  goldEarned: number;
+  luck: number;
+  relics: string[];
+  questIndex: number;
+  questsDone: number;
+  phase: Phase;
+  board: QuestOffer[];
+  quest: ActiveQuest | null;
+  result: RollResult | null;
+  boons: Boon[];
+  payout: number;
+  revived: boolean;
+  blessed: boolean;
+  metaRollBonus: number;
+  seenCards: string[];
+  objectivesDone: string[];
+  epitaph: string;
+}
+
+export interface Obituary {
+  name: string;
+  line: string;
+  quests: number;
+  won: boolean;
+}
+
+export interface Meta {
+  version: 1;
+  tips: number;
+  tone: Tone;
+  toneChosen: boolean;
+  haptics: boolean;
+  unlockedClasses: string[];
+  upgrades: Record<string, number>;
+  journal: {
+    runs: number;
+    victories: number;
+    bestQuests: number;
+    totalQuests: number;
+    cardsSeen: string[];
+    relicsFound: string[];
+    objectivesDone: string[];
+    classesPlayed: string[];
+    obituaries: Obituary[];
+  };
+}
