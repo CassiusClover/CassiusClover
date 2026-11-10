@@ -50,10 +50,10 @@ export const HomeScreen = ({
     <View style={{ alignItems: 'center', paddingVertical: 28, gap: 6 }}>
       <OnWood style={{ letterSpacing: 3, fontSize: 12, fontWeight: '700', textAlign: 'center' }}>HEROES WANTED. STANDARDS NEGOTIABLE.</OnWood>
       <H1 style={{ color: C.cream, fontSize: 40, lineHeight: 46, textAlign: 'center' }}>Side Quest{'\n'}Simulator</H1>
-      <View style={{ flexDirection: 'row', gap: 10, marginTop: 10, alignItems: 'flex-end' }}>
-        <View style={{ transform: [{ rotate: '-6deg' }] }}><Art art={ART.goose} size={76} /></View>
-        <HeroArt classId="fighter" ancestryId="dwarf" size={100} />
-        <View style={{ transform: [{ rotate: '6deg' }] }}><Art art={ART.dragon} size={76} /></View>
+      <View style={{ flexDirection: 'row', gap: 10, marginTop: 12, alignItems: 'center' }}>
+        <View style={{ transform: [{ rotate: '-6deg' }] }}><Art art={ART.lich} size={84} /></View>
+        <HeroArt classId="barbarian" ancestryId="orc" size={104} />
+        <View style={{ transform: [{ rotate: '6deg' }] }}><Art art={ART.dragon} size={84} /></View>
       </View>
       <Row style={{ marginTop: 8 }}>
         <Pill label="TIPS" value={meta.tips} color="#7a5a17" />

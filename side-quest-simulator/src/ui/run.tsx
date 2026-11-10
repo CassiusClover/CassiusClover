@@ -18,7 +18,7 @@ const signed = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
 export const Hud = ({ run }: { run: RunState }) => (
   <View style={{ gap: 8 }}>
     <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
-      <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={64} />
+      <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={56} />
       <View style={{ flex: 1, gap: 6 }}>
         <Row style={{ justifyContent: 'space-between' }}>
           <OnWood style={{ fontWeight: '700', color: C.cream, flexShrink: 1 }}>{run.hero.name}</OnWood>
@@ -259,8 +259,8 @@ export const DeadScreen = ({
   <Screen>
     <Paper style={{ alignItems: 'center', gap: 10 }}>
       <Small style={{ fontWeight: '700', color: C.red }}>YOU HAVE DIED</Small>
-      <View style={{ opacity: 0.75, transform: [{ rotate: '8deg' }] }}>
-        <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} bg="#c9c4b8" />
+      <View style={{ opacity: 0.8, transform: [{ rotate: '7deg' }] }}>
+        <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} />
       </View>
       <H1 style={{ textAlign: 'center' }}>{run.hero.name}</H1>
       <P style={{ textAlign: 'center' }}>{run.epitaph}</P>
@@ -294,7 +294,7 @@ export const SummaryScreen = ({
       <Paper style={{ gap: 10 }}>
         <Small style={{ fontWeight: '700', color: won ? C.green : C.red }}>{won ? 'A LEGEND RETIRES' : 'FINAL INVOICE'}</Small>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={80} bg={won ? '#f3dd9a' : '#c9c4b8'} />
+          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={80} />
           <H1 style={{ flex: 1 }}>{run.hero.name}</H1>
         </View>
         <Small>{ancestryOf(run.hero.ancestryId).name} {cls.name}, {quirkOf(run.hero.quirkId).name}</Small>
