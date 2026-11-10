@@ -24,6 +24,40 @@ development build, because the ad SDK is native code:
 npx eas-cli@latest build --profile development --platform android
 ```
 
+## Build for a phone
+
+Cloud builds (both platforms) use EAS and need a one-time link to an Expo account:
+
+```bash
+npx eas-cli@latest init
+```
+
+```bash
+npx eas-cli@latest build --profile preview --platform android
+```
+
+```bash
+npx eas-cli@latest device:create
+```
+
+```bash
+npx eas-cli@latest build --profile development --platform ios
+```
+
+`device:create` registers an iPhone for test installs; the iOS build then asks for the Apple
+Developer login. The `preview` profile gives a standalone app, `development` a dev client that
+loads code from `npx expo start`.
+
+An Android APK can also be compiled locally with the Android SDK and JDK 17 installed:
+
+```bash
+npx expo prebuild --platform android
+```
+
+```bash
+cd android && ./gradlew assembleRelease -PreactNativeArchitectures=arm64-v8a
+```
+
 ## Check it
 
 ```bash
