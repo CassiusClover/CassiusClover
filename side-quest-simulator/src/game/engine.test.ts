@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { ART, ART_FOR } from '../art/creatures';
+import { ANCESTRY_IDS, CLASS_IDS, heroSvg } from '../art/heroes';
 import { CARDS } from './content/cards';
 import { ANCESTRIES, CLASSES, QUIRKS, RELICS } from './content/heroes';
 import { OBJECTIVES } from './content/quests';
@@ -68,6 +70,13 @@ describe('content', () => {
     const counts: Record<string, number> = {};
     for (const c of CARDS) for (const x of c.choices) counts[x.stat] = (counts[x.stat] ?? 0) + 1;
     for (const stat of ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA']) expect(counts[stat]).toBeGreaterThanOrEqual(12);
+  });
+
+  it('has art for every card, class and ancestry', () => {
+    for (const c of [...CARDS, ...OBJECTIVES.map((o) => o.climax)]) expect(ART[ART_FOR[c.id]], c.id).toBeDefined();
+    for (const c of CLASSES) expect(CLASS_IDS).toContain(c.id);
+    for (const a of ANCESTRIES) expect(ANCESTRY_IDS).toContain(a.id);
+    expect(heroSvg('wizard', 'gnome').length).toBeGreaterThan(200);
   });
 
   it('falls back through tone variants', () => {

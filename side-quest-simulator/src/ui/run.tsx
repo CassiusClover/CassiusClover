@@ -6,6 +6,8 @@ import {
   describeBoon, giverOf, isClimax, modOf, objectiveOf, potionCost, POTION_HEAL, questPay, QUESTS_TO_WIN, quirkOf,
   relicOf, t, twistOf,
 } from '../game/engine';
+import { Art, ArtBanner, HeroArt } from '../art/Art';
+import { artForCard, artForObjective } from '../art/creatures';
 import { tipsFor } from '../game/meta';
 import type { Meta, RunState, Tone } from '../game/types';
 import { STATS } from '../game/types';
@@ -15,16 +17,21 @@ const signed = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
 
 export const Hud = ({ run }: { run: RunState }) => (
   <View style={{ gap: 8 }}>
-    <Row style={{ justifyContent: 'space-between' }}>
-      <OnWood style={{ fontWeight: '700', color: C.cream, flexShrink: 1 }}>{run.hero.name}</OnWood>
-      <OnWood>Quest {Math.min(run.questIndex + 1, QUESTS_TO_WIN)} of {QUESTS_TO_WIN}</OnWood>
-    </Row>
-    <Bar value={run.hero.hp} max={run.hero.maxHp} />
-    <Row>
-      <Pill label="HP" value={`${run.hero.hp}/${run.hero.maxHp}`} color={C.red} />
-      <Pill label="GOLD" value={run.gold} color="#7a5a17" />
-      <Pill label="LUCK" value={run.luck} color={C.green} />
-    </Row>
+    <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+      <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={64} />
+      <View style={{ flex: 1, gap: 6 }}>
+        <Row style={{ justifyContent: 'space-between' }}>
+          <OnWood style={{ fontWeight: '700', color: C.cream, flexShrink: 1 }}>{run.hero.name}</OnWood>
+          <OnWood>Quest {Math.min(run.questIndex + 1, QUESTS_TO_WIN)} of {QUESTS_TO_WIN}</OnWood>
+        </Row>
+        <Bar value={run.hero.hp} max={run.hero.maxHp} />
+        <Row>
+          <Pill label="HP" value={`${run.hero.hp}/${run.hero.maxHp}`} color={C.red} />
+          <Pill label="GOLD" value={run.gold} color="#7a5a17" />
+          <Pill label="LUCK" value={run.luck} color={C.green} />
+        </Row>
+      </View>
+    </View>
     <Row style={{ gap: 4 }}>
       {STATS.map((stat) => (
         <View key={stat} style={st.stat}>
@@ -51,7 +58,10 @@ export const BoardScreen = ({ run, tone, onPick, onQuit }: { run: RunState; tone
             </Small>
             <Small style={{ fontWeight: '700' }}>PAYS {questPay(run, offer)} GOLD</Small>
           </Row>
-          <H2>{t(obj.title, tone)}</H2>
+          <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+            <Art art={artForObjective(offer.objectiveId)} size={72} />
+            <H2 style={{ flex: 1 }}>{t(obj.title, tone)}</H2>
+          </View>
           <P>{t(giverOf(offer.giverId).name, tone)} needs you to {t(obj.task, tone)}. {t(twist.text, tone)}</P>
           <Small>
             {twist.note}
@@ -78,6 +88,7 @@ export const CardScreen = ({ run, tone, onChoose, onBribe }: { run: RunState; to
         {t(objectiveOf(q.offer.objectiveId).title, tone)}  ({q.cardIdx + 1}/{q.cards.length})
       </OnWood>
       <Paper>
+        <ArtBanner art={artForCard(card.id)} />
         {isClimax(run) ? <Small style={{ fontWeight: '700', color: C.red }}>THE FINALE</Small> : null}
         <P style={{ fontSize: 19, lineHeight: 27 }}>{t(card.text, tone)}</P>
       </Paper>
@@ -164,10 +175,14 @@ export const ResultScreen = ({
     <Screen>
       <Hud run={run} />
       <Paper style={{ alignItems: 'center', gap: 12 }}>
+        {!choice ? <Art art={artForCard(res.cardId)} size={104} /> : null}
         {choice ? (
           <>
             <Small style={{ fontWeight: '700' }}>{t(choice.label, tone).toUpperCase()}</Small>
-            <Die value={res.d20} rolling={rolling} tint={tint} />
+            <View style={{ flexDirection: 'row', gap: 18, alignItems: 'center' }}>
+              <Art art={artForCard(res.cardId)} size={104} />
+              <Die value={res.d20} rolling={rolling} tint={tint} />
+            </View>
           </>
         ) : null}
         {rolling ? (
@@ -211,7 +226,10 @@ export const BoonScreen = ({ run, tone, onPick, onPotion }: { run: RunState; ton
       <Hud run={run} />
       <Paper>
         <Small style={{ fontWeight: '700', color: C.green }}>QUEST COMPLETE</Small>
-        <H2>{t(objectiveOf(q.offer.objectiveId).title, tone)}</H2>
+        <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+          <Art art={artForObjective(q.offer.objectiveId)} size={64} />
+          <H2 style={{ flex: 1 }}>{t(objectiveOf(q.offer.objectiveId).title, tone)}</H2>
+        </View>
         <P>
           {q.climaxFailed
             ? `It went badly, but it went. The client pays half: ${run.payout} gold.`
@@ -241,6 +259,9 @@ export const DeadScreen = ({
   <Screen>
     <Paper style={{ alignItems: 'center', gap: 10 }}>
       <Small style={{ fontWeight: '700', color: C.red }}>YOU HAVE DIED</Small>
+      <View style={{ opacity: 0.75, transform: [{ rotate: '8deg' }] }}>
+        <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} bg="#c9c4b8" />
+      </View>
       <H1 style={{ textAlign: 'center' }}>{run.hero.name}</H1>
       <P style={{ textAlign: 'center' }}>{run.epitaph}</P>
       <Small>Quests completed: {run.questsDone}</Small>
@@ -272,7 +293,10 @@ export const SummaryScreen = ({
     <Screen>
       <Paper style={{ gap: 10 }}>
         <Small style={{ fontWeight: '700', color: won ? C.green : C.red }}>{won ? 'A LEGEND RETIRES' : 'FINAL INVOICE'}</Small>
-        <H1>{run.hero.name}</H1>
+        <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={80} bg={won ? '#f3dd9a' : '#c9c4b8'} />
+          <H1 style={{ flex: 1 }}>{run.hero.name}</H1>
+        </View>
         <Small>{ancestryOf(run.hero.ancestryId).name} {cls.name}, {quirkOf(run.hero.quirkId).name}</Small>
         <P>{run.epitaph}</P>
         <Row>

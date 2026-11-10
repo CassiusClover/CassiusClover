@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
+import { Art, HeroArt } from '../art/Art';
+import { ART } from '../art/creatures';
 import { CARDS } from '../game/content/cards';
 import { ANCESTRIES, CLASSES, RELICS } from '../game/content/heroes';
 import { OBJECTIVES } from '../game/content/quests';
@@ -48,6 +50,11 @@ export const HomeScreen = ({
     <View style={{ alignItems: 'center', paddingVertical: 28, gap: 6 }}>
       <OnWood style={{ letterSpacing: 3, fontSize: 12, fontWeight: '700', textAlign: 'center' }}>HEROES WANTED. STANDARDS NEGOTIABLE.</OnWood>
       <H1 style={{ color: C.cream, fontSize: 40, lineHeight: 46, textAlign: 'center' }}>Side Quest{'\n'}Simulator</H1>
+      <View style={{ flexDirection: 'row', gap: 10, marginTop: 10, alignItems: 'flex-end' }}>
+        <View style={{ transform: [{ rotate: '-6deg' }] }}><Art art={ART.goose} size={76} /></View>
+        <HeroArt classId="fighter" ancestryId="dwarf" size={100} />
+        <View style={{ transform: [{ rotate: '6deg' }] }}><Art art={ART.dragon} size={76} /></View>
+      </View>
       <Row style={{ marginTop: 8 }}>
         <Pill label="TIPS" value={meta.tips} color="#7a5a17" />
         <Pill label="BEST" value={`${meta.journal.bestQuests} quests`} />
@@ -100,7 +107,10 @@ export const CreateScreen = ({
       </Paper>
       <Paper>
         <Small style={{ fontWeight: '700' }}>FATE HAS DECIDED</Small>
-        <H2>{name}</H2>
+        <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+          <HeroArt classId={classId} ancestryId={ancestryId} size={96} />
+          <H2 style={{ flex: 1 }}>{name}</H2>
+        </View>
         <P><P style={{ fontWeight: '700' }}>{quirk.name}.</P> {quirk.text}</P>
         <Button
           testID="reroll-quirk"
@@ -148,8 +158,13 @@ export const ShopScreen = ({
         const owned = meta.unlockedClasses.includes(c.id);
         return (
           <View key={c.id} style={{ gap: 4, paddingVertical: 6, borderTopWidth: 1, borderColor: '#d6c398' }}>
-            <P style={{ fontWeight: '700' }}>{c.name}</P>
-            <Small>{c.blurb}</Small>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+              <View style={{ opacity: owned ? 1 : 0.55 }}><HeroArt classId={c.id} ancestryId="human" size={56} /></View>
+              <View style={{ flex: 1 }}>
+                <P style={{ fontWeight: '700' }}>{c.name}</P>
+                <Small>{c.blurb}</Small>
+              </View>
+            </View>
             <Small><Small style={{ fontWeight: '700' }}>{c.perkName}:</Small> {c.perkText}</Small>
             {owned ? (
               <Small style={{ color: C.green, fontWeight: '700' }}>UNLOCKED</Small>
