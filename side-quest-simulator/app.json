@@ -8,7 +8,10 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.cassiusclover.sidequestsimulator"
+      "bundleIdentifier": "com.cassiusclover.sidequestsimulator",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -32,6 +35,12 @@
           "iosAppId": "ca-app-pub-3940256099942544~1458002511"
         }
       ]
-    ]
+    ],
+    "owner": "cassiusclover",
+    "extra": {
+      "eas": {
+        "projectId": "ad17a67e-7b95-47cf-a771-d45fef7a477d"
+      }
+    }
   }
 }
