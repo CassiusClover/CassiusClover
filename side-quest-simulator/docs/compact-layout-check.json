@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-11-11T19:43:14.714Z",
+  "checkedAt": "2026-11-11T20:25:44.352Z",
   "method": "Rendered web UI, synthetic test saves, default font scale; viewport height reserves space equivalent to native safe areas.",
   "checks": [
     {
@@ -28,15 +28,28 @@
       ],
       "content": {
         "bottom": 526,
-        "clientHeight": 448,
-        "height": 448,
-        "scrollHeight": 448,
-        "top": 78
+        "clientHeight": 423,
+        "scrollHeight": 423,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 230,
         "top": 526
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -64,15 +77,28 @@
       ],
       "content": {
         "bottom": 585,
-        "clientHeight": 507,
-        "height": 507,
-        "scrollHeight": 507,
-        "top": 78
+        "clientHeight": 482,
+        "scrollHeight": 482,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 171,
         "top": 585
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -100,15 +126,28 @@
       ],
       "content": {
         "bottom": 585,
-        "clientHeight": 507,
-        "height": 507,
-        "scrollHeight": 507,
-        "top": 78
+        "clientHeight": 482,
+        "scrollHeight": 482,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 171,
         "top": 585
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -146,15 +185,28 @@
       ],
       "content": {
         "bottom": 446,
-        "clientHeight": 368,
-        "height": 368,
-        "scrollHeight": 368,
-        "top": 78
+        "clientHeight": 343,
+        "scrollHeight": 343,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 310,
         "top": 446
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -172,15 +224,28 @@
       ],
       "content": {
         "bottom": 687,
-        "clientHeight": 609,
-        "height": 609,
-        "scrollHeight": 609,
-        "top": 78
+        "clientHeight": 584,
+        "scrollHeight": 584,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 69,
         "top": 687
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -198,15 +263,28 @@
       ],
       "content": {
         "bottom": 687,
-        "clientHeight": 637,
-        "height": 637,
-        "scrollHeight": 637,
-        "top": 50
+        "clientHeight": 612,
+        "scrollHeight": 612,
+        "top": 75.5
       },
       "dock": {
         "bottom": 756,
-        "height": 69,
         "top": 687
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -229,15 +307,28 @@
       ],
       "content": {
         "bottom": 633,
-        "clientHeight": 583,
-        "height": 583,
-        "scrollHeight": 583,
-        "top": 50
+        "clientHeight": 558,
+        "scrollHeight": 558,
+        "top": 75.5
       },
       "dock": {
         "bottom": 756,
-        "height": 123,
         "top": 633
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -270,15 +361,28 @@
       ],
       "content": {
         "bottom": 526,
-        "clientHeight": 448,
-        "height": 448,
-        "scrollHeight": 448,
-        "top": 78
+        "clientHeight": 423,
+        "scrollHeight": 423,
+        "top": 103.5
       },
       "dock": {
         "bottom": 756,
-        "height": 230,
         "top": 526
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 30, modifier +10",
+          "DEX: score 30, modifier +10",
+          "CON: score 30, modifier +10",
+          "INT: score 30, modifier +10",
+          "WIS: score 30, modifier +10",
+          "CHA: score 30, modifier +10"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +10DEX +10CON +10INT +10WIS +10CHA +10",
+        "top": 55,
+        "width": 366
       },
       "viewport": {
         "height": 756,
@@ -302,15 +406,14 @@
       "content": {
         "bottom": 614,
         "clientHeight": 614,
-        "height": 614,
         "scrollHeight": 614,
         "top": 0
       },
       "dock": {
         "bottom": 756,
-        "height": 142,
         "top": 614
       },
+      "stats": null,
       "viewport": {
         "height": 756,
         "width": 390
@@ -333,15 +436,14 @@
       "content": {
         "bottom": 628,
         "clientHeight": 628,
-        "height": 628,
         "scrollHeight": 628,
         "top": 0
       },
       "dock": {
         "bottom": 756,
-        "height": 128,
         "top": 628
       },
+      "stats": null,
       "viewport": {
         "height": 756,
         "width": 390
@@ -373,15 +475,28 @@
       ],
       "content": {
         "bottom": 350,
-        "clientHeight": 272,
-        "height": 272,
-        "scrollHeight": 272,
-        "top": 78
+        "clientHeight": 247,
+        "scrollHeight": 247,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 230,
         "top": 350
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -409,15 +524,28 @@
       ],
       "content": {
         "bottom": 409,
-        "clientHeight": 331,
-        "height": 331,
-        "scrollHeight": 331,
-        "top": 78
+        "clientHeight": 306,
+        "scrollHeight": 306,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 171,
         "top": 409
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -445,15 +573,28 @@
       ],
       "content": {
         "bottom": 409,
-        "clientHeight": 331,
-        "height": 331,
-        "scrollHeight": 331,
-        "top": 78
+        "clientHeight": 306,
+        "scrollHeight": 306,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 171,
         "top": 409
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -491,15 +632,28 @@
       ],
       "content": {
         "bottom": 331,
-        "clientHeight": 253,
-        "height": 253,
-        "scrollHeight": 253,
-        "top": 78
+        "clientHeight": 228,
+        "scrollHeight": 228,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 249,
         "top": 331
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -517,15 +671,28 @@
       ],
       "content": {
         "bottom": 511,
-        "clientHeight": 433,
-        "height": 433,
-        "scrollHeight": 433,
-        "top": 78
+        "clientHeight": 408,
+        "scrollHeight": 408,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 69,
         "top": 511
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -543,15 +710,28 @@
       ],
       "content": {
         "bottom": 511,
-        "clientHeight": 461,
-        "height": 461,
-        "scrollHeight": 461,
-        "top": 50
+        "clientHeight": 436,
+        "scrollHeight": 436,
+        "top": 75.5
       },
       "dock": {
         "bottom": 580,
-        "height": 69,
         "top": 511
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -574,15 +754,28 @@
       ],
       "content": {
         "bottom": 457,
-        "clientHeight": 407,
-        "height": 407,
-        "scrollHeight": 407,
-        "top": 50
+        "clientHeight": 382,
+        "scrollHeight": 382,
+        "top": 75.5
       },
       "dock": {
         "bottom": 580,
-        "height": 123,
         "top": 457
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -615,15 +808,28 @@
       ],
       "content": {
         "bottom": 350,
-        "clientHeight": 272,
-        "height": 272,
-        "scrollHeight": 272,
-        "top": 78
+        "clientHeight": 247,
+        "scrollHeight": 247,
+        "top": 103.5
       },
       "dock": {
         "bottom": 580,
-        "height": 230,
         "top": 350
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 30, modifier +10",
+          "DEX: score 30, modifier +10",
+          "CON: score 30, modifier +10",
+          "INT: score 30, modifier +10",
+          "WIS: score 30, modifier +10",
+          "CHA: score 30, modifier +10"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +10DEX +10CON +10INT +10WIS +10CHA +10",
+        "top": 55,
+        "width": 351
       },
       "viewport": {
         "height": 580,
@@ -647,15 +853,14 @@
       "content": {
         "bottom": 438,
         "clientHeight": 438,
-        "height": 438,
         "scrollHeight": 438,
         "top": 0
       },
       "dock": {
         "bottom": 580,
-        "height": 142,
         "top": 438
       },
+      "stats": null,
       "viewport": {
         "height": 580,
         "width": 375
@@ -678,21 +883,19 @@
       "content": {
         "bottom": 452,
         "clientHeight": 452,
-        "height": 452,
         "scrollHeight": 452,
         "top": 0
       },
       "dock": {
         "bottom": 580,
-        "height": 128,
         "top": 452
       },
+      "stats": null,
       "viewport": {
         "height": 580,
         "width": 375
       }
     }
   ],
-  "consoleErrors": [],
-  "note": "These cases fit without scrolling. Unusually large accessibility text can scroll independently of fixed actions."
+  "note": "Six live stat modifiers are visible on quest, board, roll and reward screens. All twenty cases fit without scrolling. Large accessibility text can scroll independently of fixed actions."
 }

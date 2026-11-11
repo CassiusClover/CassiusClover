@@ -61,7 +61,7 @@ export const Hud = ({ run, onClose }: { run: RunState; onClose?: () => void }) =
   );
 };
 
-/** The full sheet is available on demand, without taking half of every scene. */
+/** Keep roll modifiers visible; the larger character sheet remains available on tap. */
 const PlayHeader = ({ run, onClose, tone = 0, violence = 0, tracker = false }: {
   run: RunState; onClose?: () => void; tone?: Tone; violence?: Violence; tracker?: boolean;
 }) => {
@@ -77,6 +77,13 @@ const PlayHeader = ({ run, onClose, tone = 0, violence = 0, tracker = false }: {
         </View>
       </Pressable>
       {onClose ? <CloseButton onPress={onClose} label="Save and leave" size={28} /> : null}
+    </View>
+    <View testID="stat-strip" style={{ flexDirection: 'row', gap: 4 }}>
+      {STATS.map((stat) => (
+        <View key={stat} accessible accessibilityLabel={`${stat}: score ${run.hero.stats[stat]}, modifier ${signed(modOf(run.hero.stats[stat]))}`} style={st.compactStat}>
+          <Text style={st.compactStatText}>{stat} <Text style={st.compactStatValue}>{signed(modOf(run.hero.stats[stat]))}</Text></Text>
+        </View>
+      ))}
     </View>
     {tracker ? <Tracker compact run={run} tone={tone} violence={violence} /> : null}
     <Modal visible={details} transparent animationType="fade" onRequestClose={() => setDetails(false)}>
@@ -104,12 +111,12 @@ export const BoardScreen = ({ run, tone, violence = 0, onPick, onQuit }: { run: 
   }>
     <OnWood style={st.heading}>{run.board.length === 1 ? 'The final posting' : 'Choose a job'}</OnWood>
     <DmSays compact text={narrationFor(run, tone, violence)} />
-    {run.board.map((job, i) => <Pressable key={job.objectiveId} testID={`offer-${i}`} accessibilityRole="button" accessibilityState={{ selected: i === index }} accessibilityLabel={t(objectiveOf(job.objectiveId).title, tone, violence)} onPress={() => setSelected(i)} style={[st.offer, short && { padding: 6 }, i === index && { borderColor: C.gold, borderWidth: 2 }]}>
-      <Art art={artForObjective(job.objectiveId)} size={44} />
+    {run.board.map((job, i) => <Pressable key={job.objectiveId} testID={`offer-${i}`} accessibilityRole="button" accessibilityState={{ selected: i === index }} accessibilityLabel={t(objectiveOf(job.objectiveId).title, tone, violence)} onPress={() => setSelected(i)} style={[st.offer, short && { padding: 4 }, i === index && { borderColor: C.gold, borderWidth: 2 }]}>
+      <Art art={artForObjective(job.objectiveId)} size={short ? 40 : 44} />
       <View style={{ flex: 1, gap: 2 }}><P style={{ fontSize: 15, lineHeight: 19, fontWeight: '700' }}>{t(objectiveOf(job.objectiveId).title, tone, violence)}</P>
         <Small style={{ fontSize: 11 }}>{TIER_NAMES[job.tier]} · {questPay(run, job)} gold</Small></View>
     </Pressable>)}
-    <Paper style={{ padding: short ? 8 : 12 }}>
+    <Paper style={{ padding: short ? 8 : 12, gap: short ? 6 : 8 }}>
       <Row><Art art={artForGiver(offer.giverId)} size={30} /><Small style={{ flex: 1 }}>{t(giverOf(offer.giverId).name, tone, violence)}</Small></Row>
       <P style={{ fontSize: 16, lineHeight: 22 }}>Your job: {t(obj.task, tone, violence)}.</P>
       <Small>{t(twist.text, tone, violence)} {twist.note}{offer.tier === 2 ? '. Includes a relic offer.' : ''}</Small>
@@ -129,7 +136,7 @@ export const CardScreen = ({ run, tone, violence = 0, onChoose, onBribe, onQuit 
   const panel = panelForCard(card.id, run.rival);
   const art = card.art ? artForObjective(card.art) : artForCard(card.id);
   const key = `${run.questIndex}-${q.cardIdx}`;
-  return <PlayScreen contentKey={key} header={<PlayHeader run={run} onClose={onQuit} tracker tone={tone} violence={violence} />} actions={<>
+  return <PlayScreen compact={height < 700} contentKey={key} header={<PlayHeader run={run} onClose={onQuit} tracker tone={tone} violence={violence} />} actions={<>
     <View style={{ gap: 6, ...(denseChoices ? { flexDirection: 'row', flexWrap: 'wrap' } as const : {}) }}>
     {card.choices.map((choice, i) => {
       if (!choiceUnlocked(run, choice)) return null;
@@ -176,13 +183,13 @@ export const ResultScreen = ({ run, tone, violence = 0, onProceed, onReroll, onR
   const tint = res.outcome === 'crit' ? '#8a6410' : good ? C.green : C.red;
   const choice = res.choiceIdx >= 0 ? card.choices[res.choiceIdx] : null;
   const lethal = res.dmg >= run.hero.hp;
-  return <PlayScreen contentKey={rollKey} header={<PlayHeader run={run} />} actions={rolling
+  return <PlayScreen compact={short} contentKey={rollKey} header={<PlayHeader run={run} />} actions={rolling
     ? <Button compact label="Rolling…" disabled onPress={() => {}} />
     : <>
       {canReroll(run) ? <Button compact testID="reroll" label={`Try again · 1 luck (${run.luck} left)`} onPress={onReroll} /> : null}
       <Button compact testID="proceed" label={lethal ? 'Face the consequences' : 'Onwards'} kind="primary" onPress={onProceed} />
     </>}>
-    <Paper style={{ alignItems: 'center', gap: 8, padding: short ? 10 : 12 }}>
+    <Paper style={{ alignItems: 'center', gap: short ? 5 : 8, padding: short ? 10 : 12 }}>
       {choice && !short ? <Small style={{ fontWeight: '700', textAlign: 'center' }}>{t(choice.label, tone, violence)}</Small> : null}
       {hasRoll ? <D20 size={short ? 72 : 96} value={res.d20} rollKey={rollKey} outcome={res.outcome} onLanded={() => { setLandedKey(rollKey); onRevealed(good); }} />
         : <Art art={card.art ? artForObjective(card.art) : artForCard(res.cardId)} size={72} />}
@@ -218,14 +225,15 @@ export const ResultScreen = ({ run, tone, violence = 0, onProceed, onReroll, onR
 
 export const BoonScreen = ({ run, tone, violence = 0, onPick, onPotion }: { run: RunState; tone: Tone; violence?: Violence; onPick: (i: number) => void; onPotion: () => void }) => {
   const q = run.quest!;
-  return <PlayScreen header={<PlayHeader run={run} tracker tone={tone} violence={violence} />} actions={<>
+  const short = useWindowDimensions().height < 700;
+  return <PlayScreen compact={short} header={<PlayHeader run={run} tracker tone={tone} violence={violence} />} actions={<>
     {run.boons.map((boon, i) => {
       const d = describeBoon(boon);
       return <Button compact key={`${run.questIndex}-${i}`} testID={`boon-${i}`} label={d.title} sub={d.text} onPress={() => onPick(i)} />;
     })}
     <Pressable testID="potion" accessibilityRole="button" accessibilityLabel={`Buy a healing potion for ${potionCost(run)} gold and heal ${POTION_HEAL} HP`} disabled={!canBuyPotion(run)} onPress={onPotion} style={{ minHeight: 32, alignItems: 'center', justifyContent: 'center', opacity: canBuyPotion(run) ? 1 : .45 }}><Text style={{ fontSize: 12, color: C.parchmentDim }}>Healing potion · +{POTION_HEAL} HP · {potionCost(run)} gold</Text></Pressable>
   </>}>
-    <Paper style={{ padding: 12 }}>
+    <Paper style={{ padding: short ? 8 : 12, gap: short ? 6 : 8 }}>
       <Small style={{ fontWeight: '700', color: C.green }}>QUEST COMPLETE</Small>
       <Row><Art art={artForObjective(q.offer.objectiveId)} size={48} /><H2 style={{ flex: 1 }}>{t(objectiveOf(q.offer.objectiveId).title, tone, violence)}</H2></Row>
       <P>{q.climaxFailed ? `The job is finished, but the client has complaints. Half pay: ${run.payout} gold.` : `The client is satisfied. You collect ${run.payout} gold.`}</P>
@@ -323,6 +331,9 @@ const st = StyleSheet.create({
   stat: { flex: 1, minWidth: 44, alignItems: 'center', backgroundColor: C.woodLight, borderRadius: 6, paddingVertical: 4 },
   statName: { fontSize: 10, fontWeight: '700', letterSpacing: 0.6, color: C.parchmentDim },
   statVal: { fontSize: 14, fontWeight: '700', color: C.cream },
+  compactStat: { flex: 1, minWidth: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: C.woodLight, borderRadius: 4, paddingVertical: 2 },
+  compactStatText: { fontSize: 11, lineHeight: 16, color: C.parchmentDim },
+  compactStatValue: { fontSize: 12, fontWeight: '700', color: C.cream, fontVariant: ['tabular-nums'] },
   tipsBox: { alignItems: 'center', paddingVertical: 10, borderTopWidth: 1, borderBottomWidth: 1, borderColor: '#bfa873' },
   tipsNum: { fontFamily: serif, fontSize: 44, fontWeight: '700', color: C.gold, lineHeight: 50 },
   tipsCap: { fontSize: 11, fontWeight: '700', letterSpacing: 1.2, color: C.inkSoft },

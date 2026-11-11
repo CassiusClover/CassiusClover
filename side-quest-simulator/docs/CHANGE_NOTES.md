@@ -32,3 +32,8 @@ Use [STORY_GUIDE.md](STORY_GUIDE.md) and `stories/TEMPLATE.json.example`. New jo
 - Gameplay now has a compact hero header and a fixed action area on quest, roll, reward, death and summary screens. Full stats, notes and callbacks remain available in sheets. The quest board selects one posting at a time instead of stacking three complete descriptions. Short screens use compact illustrations and a grid for crowded finales. Large text can scroll in the reading area while actions remain available.
 - Replaced six weak creature drawings, added separate duck and courtroom-goose silhouettes, and gave the chef and plumber appropriate props. Added scene-specific art for the curb, rain, undead goldfish, scorched knight and kraken’s pool noodle.
 - Web, iOS and Android exports, 54 automated tests, TypeScript and lint pass. Lint retains the two existing optional-native-import warnings. Device-size browser measurements and screenshots are recorded in `compact-layout-check.json` and `parade-revised.jpg`.
+
+## Visible gameplay stats
+
+- STR, DEX, CON, INT, WIS and CHA modifiers now stay visible in one compact row below the health bar on quest, board, roll and reward screens. Values use the current hero stats, including equipment and upgrades; situational roll bonuses remain on each choice.
+- Trimmed spacing on short screens to preserve the fixed choice area. Reviewed ten scenarios at 390×756 and 375×580 with default text size; all fit without scrolling. Larger accessibility text can still scroll in the reading area. Evidence is in `compact-layout-check.json` and `stats-visible.jpg`.
