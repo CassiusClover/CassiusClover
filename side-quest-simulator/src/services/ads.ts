@@ -15,3 +15,8 @@ export const setAdTone = (_tone: Tone): void => {};
 /** Resolves true only if the player earned the reward. */
 export const showRewarded = (_placement: Placement): Promise<boolean> =>
   new Promise((resolve) => setTimeout(() => resolve(true), 900));
+
+/** No consent framework on web; nothing to revisit. */
+export const privacyOptionsRequired = async (): Promise<boolean> => false;
+
+export const showPrivacyOptions = async (): Promise<void> => {};

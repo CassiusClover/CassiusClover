@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Art, HeroArt } from '../art/Art';
 import { ART } from '../art/creatures';
@@ -7,6 +7,7 @@ import { ANCESTRIES, CLASSES, RELICS } from '../game/content/heroes';
 import { OBJECTIVES } from '../game/content/quests';
 import { LANGUAGE_OPTIONS, VIOLENCE_OPTIONS, languagePreview, violencePreview } from '../game/contentSettings';
 import { classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type HeroChoice } from '../game/engine';
+import { privacyOptionsRequired, showPrivacyOptions } from '../services/ads';
 import { DM_MODELS } from '../services/dmModels';
 import { cancelDownload, deleteModel, downloadModel, isModelDownloaded, localDmSupported } from '../services/localDm';
 import { UPGRADES, upgradeCost, upgradeLevel } from '../game/meta';
@@ -354,6 +355,12 @@ export const SettingsScreen = ({
   meta, onTone, onViolence, onHaptics, onDm, onReset, onBack,
 }: { meta: Meta; onTone: (tone: Tone) => void; onViolence: (violence: Violence) => void; onHaptics: (on: boolean) => void; onDm: (patch: Partial<Meta>) => void; onReset: () => void; onBack: () => void }) => {
   const [confirm, setConfirm] = useState(false);
+  const [privacyChoices, setPrivacyChoices] = useState(false);
+  useEffect(() => {
+    let live = true;
+    privacyOptionsRequired().then((required) => { if (live) setPrivacyChoices(required); });
+    return () => { live = false; };
+  }, []);
   return (
     <Screen>
       <TopBar title="Settings" onClose={onBack} />
@@ -364,6 +371,10 @@ export const SettingsScreen = ({
       <ContentPreview tone={meta.tone} violence={meta.violence} />
       <DmSettings meta={meta} onChange={onDm} />
       <Button testID="haptics" label={`Vibration: ${meta.haptics ? 'on' : 'off'}`} onPress={() => onHaptics(!meta.haptics)} />
+      {privacyChoices ? (
+        <Button testID="privacy-choices" label="Privacy choices" sub="Review or change how ads may use your data."
+          onPress={() => { showPrivacyOptions(); }} />
+      ) : null}
       <Button
         testID="reset"
         label={confirm ? 'Really erase everything? Tap again' : 'Erase all progress'}

@@ -44,6 +44,28 @@ export const initAds = (tone: Tone): Promise<void> => {
   return ready;
 };
 
+/** True where Google's consent rules require a way to revisit ad choices (EEA, UK, etc.). */
+export const privacyOptionsRequired = async (): Promise<boolean> => {
+  if (!sdk) return false;
+  try {
+    await initAds(0);
+    const info = await sdk.AdsConsent.getConsentInfo();
+    return info.privacyOptionsRequirementStatus === sdk.AdsConsentPrivacyOptionsRequirementStatus.REQUIRED;
+  } catch {
+    return false;
+  }
+};
+
+/** Opens Google's privacy options form so the player can change their ad consent. */
+export const showPrivacyOptions = async (): Promise<void> => {
+  if (!sdk) return;
+  try {
+    await sdk.AdsConsent.showPrivacyOptionsForm();
+  } catch {
+    // The form could not be shown (offline, for example). Nothing to change.
+  }
+};
+
 const unitFor = (placement: Placement): string => {
   const configured = AD_UNITS[Platform.OS === 'ios' ? 'ios' : 'android'][placement];
   return __DEV__ || !configured ? sdk!.TestIds.REWARDED : configured;

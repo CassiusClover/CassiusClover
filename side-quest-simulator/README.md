@@ -99,6 +99,12 @@ an AI version in Settings, which runs a small language model on the phone itself
 ## Language and violence settings
 
 Language (Clean/Cheeky/Crude) and violence descriptions (Cartoon/Gritty/Brutal) are independent.
+
+**Launch ceiling:** the first release offers only Clean/Cheeky and Cartoon/Gritty.
+`MAX_TONE` and `MAX_VIOLENCE` in `src/game/contentSettings.ts` hide the top levels and lower
+any saved setting to the ceiling. Crude and Brutal text stays authored. Raise the ceiling
+only together with new store age-rating answers.
+
 Both are available at first launch and in Settings, with a live example. They affect the
 current adventure immediately and persist across restarts. All 50 story/rival scene bodies
 and every scripted narrator event have authored language alternatives. Violence changes
@@ -127,18 +133,29 @@ See [the art guide](docs/ART_GUIDE.md) and [art samples](docs/artwork-preview.pn
 
 ## Before a store release
 
-1. Create an AdMob account, register the iOS and Android apps, and create three rewarded ad
-   units per platform.
-2. Replace the two sample app ids in `app.json` (the `react-native-google-mobile-ads` plugin).
-   They are currently Google's public test app ids.
-3. Paste the ad unit ids into `src/services/adConfig.ts`. While they are empty, or in any
-   development build, Google's test units are used.
-4. Confirm the bundle identifier and Android package in `app.json`.
-5. Set up a consent message in AdMob (Privacy and messaging) for the EEA and UK; the app
-   already requests it on launch.
-6. Review included content before store release: Crude includes strong swearing, and Brutal
-   includes bloody injury and death descriptions.
-7. Replace the placeholder icon and splash art in `assets/`.
+Done (November 11, 2026):
+
+- AdMob account (symbioticsolutionsai@gmail.com, publisher `pub-7682672193157403`) with
+  iOS and Android apps and three rewarded units each. Live ids are in `app.json` and
+  `src/services/adConfig.ts`.
+- Bundle id and Android package: `com.cassiusclover.sidequestsimulator`.
+- Native splash configured through the `expo-splash-screen` plugin (brand brown, d20 icon).
+- Launch content ceiling: Cheeky language and Gritty violence. Rating answers are in
+  [docs/STORE_RATINGS.md](docs/STORE_RATINGS.md).
+- Privacy policy: [PRIVACY.md](PRIVACY.md). Settings shows "Privacy choices" where
+  Google's consent rules require it.
+
+Still to do:
+
+1. Finish AdMob payment details (required before AdMob reviews the apps).
+2. Publish the AdMob European regulations message for both apps.
+3. Once each store listing is live, add it to its AdMob app so ad serving is no longer limited.
+4. Publish an `app-ads.txt` on the developer website listed in both stores.
+5. Answer both age-rating questionnaires and the privacy and data-safety forms using
+   `docs/STORE_RATINGS.md`.
+6. Google Play: run a closed test with at least 12 testers opted in for 14 continuous days
+   (required for personal accounts created after November 13, 2023), then apply for production.
+7. New production builds for both platforms (the live ad ids and splash need a native rebuild).
 
 Never tap your own live ads. AdMob suspends accounts for it.
 

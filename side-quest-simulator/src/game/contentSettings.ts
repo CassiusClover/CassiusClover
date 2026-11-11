@@ -1,21 +1,35 @@
 import type { ContentSettings, RollResult, Tone, ToneText, Txt, Violence, ViolenceName } from './types';
 
 export const VIOLENCE_NAMES: ViolenceName[] = ['cartoon', 'gritty', 'brutal'];
-export const LANGUAGE_OPTIONS = [
+
+/**
+ * Launch content ceiling. The store age ratings are answered for these levels, so the
+ * shipped build must never reach above them. Crude language (2) and Brutal violence (2)
+ * stay authored but are unreachable until these are raised AND both store ratings are
+ * re-answered for the stronger content.
+ */
+export const MAX_TONE: Tone = 1;
+export const MAX_VIOLENCE: Violence = 1;
+
+const ALL_LANGUAGE_OPTIONS = [
   { value: 0 as const, name: 'Clean', text: 'Clean language, dry jokes and silly fantasy.' },
   { value: 1 as const, name: 'Cheeky', text: 'Sharper sarcasm, rude jokes and mild innuendo.' },
   { value: 2 as const, name: 'Crude', text: 'Strong swearing and foul-mouthed commentary.' },
 ];
-export const VIOLENCE_OPTIONS = [
+const ALL_VIOLENCE_OPTIONS = [
   { value: 0 as const, name: 'Cartoon', text: 'Slapstick mishaps and non-graphic defeat. No bloody injury detail.' },
   { value: 1 as const, name: 'Gritty', text: 'Cuts, bruises and blood, without graphic wound detail.' },
   { value: 2 as const, name: 'Brutal', text: 'Bloody wounds and harsher injury and death descriptions.' },
 ];
+export const LANGUAGE_OPTIONS = ALL_LANGUAGE_OPTIONS.filter((x) => x.value <= MAX_TONE);
+export const VIOLENCE_OPTIONS = ALL_VIOLENCE_OPTIONS.filter((x) => x.value <= MAX_VIOLENCE);
 
-export const contentSettings = (raw: Partial<ContentSettings> = {}): ContentSettings => ({
-  tone: raw.tone === 1 || raw.tone === 2 ? raw.tone : 0,
-  violence: raw.violence === 1 || raw.violence === 2 ? raw.violence : 0,
-});
+/** Validates a saved setting and lowers anything above the launch ceiling to the ceiling. */
+export const contentSettings = (raw: Partial<ContentSettings> = {}): ContentSettings => {
+  const tone: Tone = raw.tone === 1 || raw.tone === 2 ? raw.tone : 0;
+  const violence: Violence = raw.violence === 1 || raw.violence === 2 ? raw.violence : 0;
+  return { tone: Math.min(tone, MAX_TONE) as Tone, violence: Math.min(violence, MAX_VIOLENCE) as Violence };
+};
 
 const toneText = (txt: ToneText, tone: Tone): string => typeof txt === 'string' ? txt :
   tone === 2 ? txt.x ?? txt.c ?? txt.f : tone === 1 ? txt.c ?? txt.f : txt.f;

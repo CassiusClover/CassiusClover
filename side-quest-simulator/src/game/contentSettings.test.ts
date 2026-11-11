@@ -4,7 +4,8 @@ import { CARDS } from './content/cards';
 import { OBJECTIVES } from './content/quests';
 import { RIVAL_SCENES, STORIES } from './content/stories.generated';
 import { allowsModelLine, contentSettings, contentText, deathDescription, deathHeading,
-  injuryDescription, languagePreview, VIOLENCE_NAMES, violencePreview } from './contentSettings';
+  injuryDescription, LANGUAGE_OPTIONS, languagePreview, MAX_TONE, MAX_VIOLENCE, VIOLENCE_NAMES, VIOLENCE_OPTIONS,
+  violencePreview } from './contentSettings';
 import { applyAiNarration, choose, clearAiNarration, currentCard, dmContext, dmMomentContext, isLiveNarration,
   narrationFor, narrationKey, newRun, pickQuest, t } from './engine';
 import { defaultMeta, hydrateMeta } from './meta';
@@ -32,14 +33,26 @@ describe('independent content controls', () => {
   it('migrates old saves to cartoon violence while retaining selected language and progress', () => {
     const restored = hydrateMeta({ tone: 2, tips: 61, unlockedClasses: ['fighter', 'wizard', 'rogue', 'bard'], journal: { runs: 8 } });
     expect(restored.violence).toBe(0);
-    expect(restored.tone).toBe(2);
+    expect(restored.tone).toBe(Math.min(2, MAX_TONE));
     expect(restored.tips).toBe(61);
     expect(restored.unlockedClasses).toContain('bard');
     expect(restored.journal.runs).toBe(8);
     for (const invalid of [-1, 3, '2', null, NaN]) {
       expect(contentSettings({ tone: invalid as Tone, violence: invalid as Violence })).toEqual({ tone: 0, violence: 0 });
     }
-    expect(hydrateMeta(JSON.parse(JSON.stringify({ ...restored, violence: 2 })))).toMatchObject({ tone: 2, violence: 2 });
+    expect(hydrateMeta(JSON.parse(JSON.stringify({ ...restored, tone: 2, violence: 2 }))))
+      .toMatchObject({ tone: Math.min(2, MAX_TONE), violence: Math.min(2, MAX_VIOLENCE) });
+  });
+
+  it('never offers or restores a level above the launch content ceiling', () => {
+    expect(LANGUAGE_OPTIONS.map((x) => x.value)).toEqual(LEVELS.filter((x) => x <= MAX_TONE));
+    expect(VIOLENCE_OPTIONS.map((x) => x.value)).toEqual(LEVELS.filter((x) => x <= MAX_VIOLENCE));
+    for (const tone of LEVELS) for (const violence of LEVELS) {
+      const s = contentSettings({ tone, violence });
+      expect(s.tone).toBeLessThanOrEqual(MAX_TONE);
+      expect(s.violence).toBeLessThanOrEqual(MAX_VIOLENCE);
+      expect(hydrateMeta({ tone, violence })).toMatchObject(s);
+    }
   });
 
   it('changes injury and defeat wording at each level and never adds injuries to successful actions', () => {

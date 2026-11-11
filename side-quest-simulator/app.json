@@ -29,10 +29,19 @@
     "backgroundColor": "#2a1c12",
     "plugins": [
       [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#2a1c12",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain"
+        }
+      ],
+      [
         "react-native-google-mobile-ads",
         {
-          "androidAppId": "ca-app-pub-3940256099942544~3347511713",
-          "iosAppId": "ca-app-pub-3940256099942544~1458002511"
+          "androidAppId": "ca-app-pub-7682672193157403~2748279690",
+          "iosAppId": "ca-app-pub-7682672193157403~9070658815"
         }
       ],
       [
