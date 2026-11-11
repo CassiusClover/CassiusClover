@@ -18,11 +18,11 @@ export const Art = ({ art, size, style }: { art: InkArt | undefined; size: numbe
 };
 
 /** Full-width illustration panel for the top of an event card. */
-export const ArtBanner = ({ art, height = 150 }: { art: InkArt | undefined; height?: number }) => {
+export const ArtBanner = ({ art, height = 150, compact = false }: { art: InkArt | undefined; height?: number; compact?: boolean }) => {
   const xml = useMemo(() => (art ? wrap(art.svg, art.height, art.width) : null), [art]);
   if (!art || !xml) return null;
   return (
-    <View testID="comic-panel" accessible={!!art.label} accessibilityRole="image" accessibilityLabel={art.label} style={{ ...(art.width ? { width: '100%', aspectRatio: art.width / (art.height ?? 120) } : { height }), backgroundColor: art.bg, borderRadius: 4, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+    <View testID="comic-panel" accessible={!!art.label} accessibilityRole="image" accessibilityLabel={art.label} style={{ ...(art.width && !compact ? { width: '100%', aspectRatio: art.width / (art.height ?? 120) } : { height }), backgroundColor: art.bg, borderRadius: 4, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
       <SvgXml xml={xml} width={art.width ? '100%' : height} height={art.width ? '100%' : height} />
     </View>
   );

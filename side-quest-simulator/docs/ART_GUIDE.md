@@ -7,10 +7,10 @@ The extra art should tell a joke through scale, staging and one recognisable pro
 ## Where it lives
 
 - `src/art/ink.ts`: shared palette, angular shapes, shadows and SVG instance identifiers.
-- `src/art/creatures.ts`: the original 42 card illustrations. Each also exposes its actor without the surrounding card.
+- `src/art/creatures.ts`: card illustrations and revised story actors. Each also exposes its actor without the surrounding card.
 - `src/art/heroes.ts`: the original 56 class/ancestry portraits, with optional `triumphant` and `disaster` reactions. Neutral is still the default.
 - `src/art/cast.ts`: all 14 quest givers and eight rivals. A rival keeps the same portrait in the season log, road encounters and showdown.
-- `src/art/panels.ts`: 19 quest panels, six additional scene variations, and three rival encounters. Panels use a 240 × 120 viewBox and the same original actors.
+- `src/art/panels.ts`: 19 quest panels, ten additional scene variations, and three rival encounters. Panels use a 240 × 120 viewBox and the same original actors.
 - `src/art/Art.tsx`: SVG rendering; panels scale to the available width without cropping or stretching.
 
 ## Adding a quest panel
@@ -25,4 +25,8 @@ When repeating an actor inside one SVG, give each instance unique clip-path iden
 
 `artwork-preview.png` shows representative panels, recurring characters and reactions. `art-catalogue.png` shows every quest's main panel. `artwork-in-game.jpg` shows the actual mobile-width web UI.
 
-Automated coverage checks include all quests, authored story routes, givers, rivals and clip-path references. The original 56 neutral heroes and all 42 original card illustrations were compared with the previous commit after normalising generated clip IDs; their SVG drawing content is unchanged. All 112 new hero reactions and the new illustrations were rendered to check SVG validity. Browser checks cover the new quest panel, a success reaction and a rival portrait in the season log. Phone-native rendering still requires the updated app build.
+Automated coverage checks include all quests, authored story routes, givers, rivals and clip-path references. The 56 neutral hero drawings preserve the original home-screen style. Six weaker creature drawings are replaced in `storyActors.ts`; the duck and courtroom goose have their own silhouettes. The chef and plumber use their own props. Scene variants show the curb, flooded street, goldfish, knight’s repair bill and pool noodle at the appropriate story beat. The 112 hero reaction variants and the new illustrations are rendered to check SVG validity. Phone-size browser checks verify the illustrations alongside the complete prose and fixed actions.
+
+## Story and layout constraints
+
+Quest prose and UI use American English. The Dungeon Master keeps a dry British voice. Artwork follows the actual obstacle described in the scene, rather than adding an unrelated joke. Keep silhouettes recognizable at a compact panel size; avoid square eye stalks, overlapping expressions and using a wizard goose as a courtroom client.

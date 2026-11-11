@@ -10,9 +10,9 @@ export const STORIES: QuestStory[] = [
         "id": "goose-interview",
         "art": "showdown",
         "text": {
-          "f": "Your client refuses to answer unless you honk first. The arresting officer says the goose issued seventeen parking fines and one declaration of war.",
-          "c": "The goose demands a preliminary honk before giving instructions. Seventeen parking fines and one war suggest its grasp of municipal authority is worryingly strong.",
-          "x": "Your client demands a honk before speaking. Seventeen parking fines, one declaration of war, and the smug feathered bastard wants to discuss privilege."
+          "f": "A goose has been arrested for stealing the mayor's hat. It refuses to speak to anyone who cannot honk. The officer hands you seventeen previous complaints.",
+          "c": "The goose is accused of stealing the mayor's hat. It demands a lawyer who can honk. The officer says this is the most reasonable thing it has asked for.",
+          "x": "The goose stole the mayor's hat and now wants a lawyer. It refuses to speak until you honk. The officer calls it a difficult little bastard."
         },
         "next": [
           {
@@ -21,39 +21,38 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Learn enough Goose to establish privilege",
+            "label": "Honk until the goose cooperates",
             "stat": "WIS",
             "risk": "bold",
-            "win": "The goose confesses everything under legal privilege. You immediately regret understanding it.",
-            "lose": "Your honk is legally a guilty plea. You begin drafting an appeal.",
+            "win": "The goose tells you the hats were abandoned campaign gifts. You ask to examine them.",
+            "lose": "Your honk sounds like an insult. The goose bites your hand.",
             "onWin": {
               "flag": "goose-confidential",
               "momentum": 1,
-              "memory": "You learned Goose and immediately acquired seventeen confidential regrets."
+              "memory": "The goose tells you the hats were abandoned campaign gifts. You ask to examine them."
             }
           },
           {
-            "label": "Purchase an official interpreter and a bag of bread",
+            "label": "Hire an interpreter",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 18
             },
-            "hint": "A guaranteed interview; bread remains privileged evidence.",
-            "win": "The interpreter translates 'honk' as 'my learned friend'. It sounds expensive.",
-            "lose": "No interpreter is available.",
+            "win": "The interpreter explains that the goose claims the mayor gave the hats away.",
+            "lose": "The interpreter refuses to work with this goose again.",
             "onWin": {
-              "memory": "You hired a goose interpreter who billed every honk separately."
+              "memory": "The interpreter explains that the goose claims the mayor gave the hats away."
             }
           },
           {
-            "label": "Read all seventeen disputed parking fines",
+            "label": "Read the officer’s complaints",
             "stat": "INT",
             "risk": "safe",
-            "win": "They are valid. The goose is annoyingly good at municipal law.",
-            "lose": "Fine eighteen appears on your boot.",
+            "win": "You find a note saying the mayor distributed hats during his campaign.",
+            "lose": "You turn the pages too slowly. The goose adds your finger to its list of objections.",
             "onWin": {
-              "memory": "You discovered the goose's parking fines were legally impeccable."
+              "memory": "You find a note saying the mayor distributed hats during his campaign."
             }
           }
         ]
@@ -62,30 +61,30 @@ export const STORIES: QuestStory[] = [
         "id": "goose-evidence",
         "art": "library-book",
         "text": {
-          "f": "The evidence locker is full of stolen mayoral hats. Every hat fits the goose. One has already endorsed its re-election.",
-          "c": "The evidence consists of mayoral hats, all suspiciously goose-sized. One hat has publicly endorsed the defendant, compromising its usefulness as an impartial witness.",
-          "x": "Every stolen mayoral hat fits the goose. One has endorsed its re-election. Even the fucking evidence has political ambitions."
+          "f": "The evidence locker holds seventeen identical mayoral hats. Each says FREE CAMPAIGN GIFT inside. The officer insists the goose could not possibly need seventeen.",
+          "c": "Every hat says FREE CAMPAIGN GIFT. The officer's case now rests on the claim that seventeen free hats is simply too many hats.",
+          "x": "All seventeen hats say FREE CAMPAIGN GIFT. The officer still wants a conviction. Apparently the goose is guilty of being an irritating little bastard."
         },
         "choices": [
           {
-            "label": "Cross-examine the partisan hat",
+            "label": "Show the judge the labels",
             "stat": "CHA",
             "risk": "bold",
-            "win": "Under pressure, the hat admits it endorses anyone with a head.",
-            "lose": "It claims parliamentary immunity and lands on the judge.",
+            "win": "The judge agrees the hats were gifts. The case can proceed with the evidence corrected.",
+            "lose": "You grab the wrong hat. The goose bites you before you can show the label.",
             "onWin": {
               "momentum": 1,
-              "memory": "You exposed a mayoral hat's indiscriminate electoral endorsements."
+              "memory": "The judge agrees the hats were gifts. The case can proceed with the evidence corrected."
             }
           },
           {
-            "label": "Measure the goose without losing a finger",
+            "label": "Measure the hats against the goose",
             "stat": "DEX",
             "risk": "safe",
-            "win": "The measurements match the former mayor exactly. Especially the beak.",
-            "lose": "The goose adds attempted tailoring to your invoice.",
+            "win": "You prove the hats were made for campaign supporters of every size.",
+            "lose": "The goose refuses the fitting and chases you around the evidence table.",
             "onWin": {
-              "memory": "Your client's beak measurements matched the former mayor."
+              "memory": "You prove the hats were made for campaign supporters of every size."
             }
           }
         ]
@@ -100,9 +99,9 @@ export const STORIES: QuestStory[] = [
         "id": "checkout-receipt",
         "art": "lich-eviction",
         "text": {
-          "f": "The ghost waves a receipt the length of its unfulfilled life. It only wanted milk. Every three feet is a survey asking how the haunting went.",
-          "c": "The ghost's receipt contains a lifetime of unresolved purchases and a survey every three feet. It only came in for milk, which feels professionally relevant.",
-          "x": "The ghost only wanted milk. Now its receipt is longer than its life, and the bloody till keeps asking whether it would recommend the experience."
+          "f": "A ghost is haunting a grocery checkout. It paid for milk just before it died, but the register says payment failed. It will not leave without a receipt.",
+          "c": "The ghost paid for its milk and then died in line. The register says payment failed. Customer service says it needs a living signature.",
+          "x": "The ghost is owed a receipt for milk. Customer service wants a living signature. It has been arguing with these bastards since it died."
         },
         "next": [
           {
@@ -111,41 +110,40 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Identify the unfinished transaction",
+            "label": "Match the payment to the register",
             "stat": "INT",
             "risk": "bold",
-            "win": "A coupon expired at the exact moment of death. An unusually literal outstanding balance.",
-            "lose": "The receipt prints a receipt for your investigation. It is longer.",
+            "win": "You find the payment in the register’s records. A supervisor must authorize the refund.",
+            "lose": "The register prints twenty feet of errors. You slip on the paper.",
             "onWin": {
               "flag": "ghost-coupon",
               "momentum": 1,
-              "memory": "The checkout ghost died with an expired milk coupon unresolved."
+              "memory": "You find the payment in the register’s records. A supervisor must authorize the refund."
             }
           },
           {
-            "label": "Pay off the ghost's milk debt",
+            "label": "Pay the disputed milk charge",
             "stat": "WIS",
             "risk": "safe",
             "deal": {
               "gold": 14
             },
-            "hint": "End the dispute over milk; face the supervisor next.",
-            "win": "The ghost can finally move on. Unfortunately, store policy requires supervisor approval.",
-            "lose": "The till refuses payment.",
+            "win": "The register accepts the payment. A supervisor must now approve the ghost’s receipt.",
+            "lose": "The register refuses the payment.",
             "onWin": {
               "flag": "ghost-coupon",
-              "memory": "You paid an undead shopper's outstanding milk debt."
+              "memory": "The register accepts the payment. A supervisor must now approve the ghost’s receipt."
             }
           },
           {
-            "label": "Lift the till away from the possessed counter",
+            "label": "Lift the register to check its records",
             "stat": "STR",
             "risk": "reckless",
-            "win": "The ghost follows the plug. Your diagnosis is correct and inconvenient.",
-            "lose": "The counter is also possessed. They are married.",
+            "win": "You find the trapped receipt beneath the register. It still needs a supervisor’s stamp.",
+            "lose": "The register’s cord pulls tight. You drop it on your foot.",
             "onLose": {
               "momentum": -1,
-              "memory": "You discovered the haunted till and counter were married."
+              "memory": "The register’s cord pulls tight. You drop it on your foot."
             }
           }
         ]
@@ -154,30 +152,30 @@ export const STORIES: QuestStory[] = [
         "id": "checkout-supervisor",
         "art": "lich-eviction",
         "text": {
-          "f": "The supervisor appears from a door marked 'Staff Only, Living or Otherwise'. She asks why your exorcism has not scanned as a vegetable.",
-          "c": "The supervisor emerges from Staff Only, Living or Otherwise and asks why your exorcism will not scan as a vegetable. The training budget speaks for itself.",
-          "x": "The supervisor wants your exorcism scanned as a vegetable. The ghost says this is why it never complained while alive. Customer service is a fucking haunting in its own right."
+          "f": "The supervisor agrees the ghost paid. She says refunds require a customer survey. The ghost asks whether being dead counts as a poor shopping experience.",
+          "c": "The supervisor insists on a customer survey before approving the refund. The ghost asks whether 'never shop here again' is meant to include the afterlife.",
+          "x": "The supervisor agrees the ghost paid, then demands a customer survey. The ghost says dying in line was already a pretty fucking clear review."
         },
         "choices": [
           {
-            "label": "Explain the difference between a spirit and a sprout",
+            "label": "Ask the supervisor to approve an exception",
             "stat": "CHA",
             "risk": "bold",
-            "win": "She updates the training manual. It is now both longer and haunted.",
-            "lose": "She weighs your soul on the produce scale.",
+            "win": "She approves the receipt. The ghost finally has proof of purchase.",
+            "lose": "She directs you to the complaints desk. A falling stack of baskets blocks your way.",
             "onWin": {
               "momentum": 1,
-              "memory": "You corrected the shop's spirit-versus-sprout training manual."
+              "memory": "She approves the receipt. The ghost finally has proof of purchase."
             }
           },
           {
-            "label": "Endure the mandatory customer experience questionnaire",
+            "label": "Complete the customer survey",
             "stat": "CON",
             "risk": "safe",
-            "win": "Twenty pages. The ghost crosses over out of respect.",
-            "lose": "Question twenty-one asks if you would recommend being dead.",
+            "win": "You finish the survey. The ghost collects its receipt and stops haunting the register.",
+            "lose": "The survey restarts on the last question. The ghost loses patience and shoves the register into you.",
             "onWin": {
-              "memory": "You completed a twenty-page questionnaire during an exorcism."
+              "memory": "You finish the survey. The ghost collects its receipt and stops haunting the register."
             }
           }
         ]
@@ -193,46 +191,45 @@ export const STORIES: QuestStory[] = [
         "id": "offshore-hoard",
         "art": "dragon-tax",
         "text": {
-          "f": "This dragon keeps its wealth offshore. Literally: the hoard is on a raft, three feet beyond the tax inspector's shoes. The tide is coming in.",
-          "c": "The dragon's offshore account is a raft just beyond the inspector's shoes. Its accountant calls this jurisdiction. The incoming tide offers a robust counterargument.",
-          "x": "The dragon put its hoard on a raft and called it offshore. A tax-dodging bastard's idea of financial engineering. The tide is about to audit the whole fucking thing."
+          "f": "The dragon has moved its gold onto a raft beyond the tax inspector's reach. It calls this an offshore account. The raft is leaking.",
+          "c": "The dragon's offshore account is a raft three feet from shore. It is leaking gold through the floor. The inspector is enjoying the audit immensely.",
+          "x": "The dragon has put its gold on a leaking raft and called it an offshore account. The inspector says it is the stupidest tax dodge he has ever bloody seen."
         },
         "choices": [
           {
-            "label": "Reclassify the raft as a mobile pension",
+            "label": "Explain that the raft is still taxable",
             "stat": "INT",
             "risk": "bold",
-            "win": "The inspector boards it for valuation. The pension becomes extremely mobile.",
-            "lose": "The raft is now liable for road tax. Nobody understands why.",
+            "win": "The inspector accepts the declaration and helps secure the raft.",
+            "lose": "The dragon refuses the explanation and shoves you into the shallows.",
             "onWin": {
               "momentum": 1,
-              "memory": "You registered a floating dragon hoard as a mobile pension."
+              "memory": "The inspector accepts the declaration and helps secure the raft."
             }
           },
           {
-            "label": "Retrieve the gold without sinking the jurisdiction",
+            "label": "Bring the gold back without tipping the raft",
             "stat": "STR",
             "risk": "reckless",
-            "win": "Hoard ashore. The dragon mourns the golden age of fiscal freedom.",
-            "lose": "You sink through a loophole. A literal one in the raft.",
+            "win": "You recover the gold before the raft sinks. The inspector starts counting.",
+            "lose": "The raft tips. You fall between the gold crates and the dock.",
             "onLose": {
               "momentum": -1,
-              "memory": "You fell through a dragon's literal tax loophole."
+              "memory": "The raft tips. You fall between the gold crates and the dock."
             }
           },
           {
-            "label": "Buy waterproof filing boxes before the tide wins",
+            "label": "Buy waterproof boxes for the records",
             "stat": "WIS",
             "risk": "safe",
             "deal": {
               "gold": 18
             },
-            "hint": "Secure evidence; preparation +1 in the tax-return finale.",
-            "win": "The evidence floats. A small, infuriating triumph for accountancy.",
-            "lose": "The boxes are unavailable.",
+            "win": "You keep the tax records dry while the inspector secures the raft.",
+            "lose": "The supply shop has no waterproof boxes.",
             "onWin": {
               "momentum": 1,
-              "memory": "Waterproof filing boxes saved the dragon's offshore accounts."
+              "memory": "You keep the tax records dry while the inspector secures the raft."
             }
           }
         ]
@@ -248,9 +245,9 @@ export const STORIES: QuestStory[] = [
         "id": "soup-manifesto",
         "art": "soup",
         "text": {
-          "f": "Tonight's soup has formed a political party. Its manifesto demands bowls with exits and representation for bisques. The chef has called an emergency ladle meeting.",
-          "c": "The soup has founded a political party promising exits in every bowl. Bisques demand representation, and the chef has called an emergency ladle summit.",
-          "x": "The soup has formed a political party. Bisques want representation. The chef wants everyone to shut the fuck up and be lunch. You have been hired to mediate."
+          "f": "Gregory the soup has organized a walkout. The other dishes agree they should not be eaten, but none can reach the kitchen door. The chef is fetching bowls.",
+          "c": "Gregory has persuaded the other dishes to walk out. The plan has reached a small difficulty: most of his supporters do not have legs.",
+          "x": "Gregory has organized a kitchen walkout. None of his supporters can walk. The chef is fetching bowls, so you had better sort the bloody transport."
         },
         "next": [
           {
@@ -259,39 +256,38 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Help the soup organise a peaceful walkout",
+            "label": "Arrange a tray for the escaping dishes",
             "stat": "CHA",
             "risk": "bold",
-            "win": "The soup flows out in single file. The chowder supplies a brass band.",
-            "lose": "A chowder faction disputes the route and blocks the pass.",
+            "win": "You load the dishes onto a serving cart and wheel them away from the chef.",
+            "lose": "The overloaded cart tips into your legs. The kitchen staff hears the crash.",
             "onWin": {
               "momentum": 1,
-              "memory": "You organised a soup walkout with a chowder brass band."
+              "memory": "You load the dishes onto a serving cart and wheel them away from the chef."
             }
           },
           {
-            "label": "Print waterproof campaign leaflets",
+            "label": "Print signs declaring the food alive",
             "stat": "INT",
             "risk": "safe",
             "deal": {
               "gold": 15
             },
-            "hint": "Fund the campaign; the argument still has to be won.",
-            "win": "'A future with less ladling.' It polls well among liquids.",
-            "lose": "The printer is closed.",
+            "win": "The staff stops serving the dishes while a manager checks the complaint.",
+            "lose": "The printer is unavailable.",
             "onWin": {
-              "memory": "You printed waterproof election leaflets for an anti-ladling soup party."
+              "memory": "The staff stops serving the dishes while a manager checks the complaint."
             }
           },
           {
-            "label": "Stand between the soup and the bread patrol",
+            "label": "Hold the door against the kitchen staff",
             "stat": "CON",
             "risk": "bold",
-            "win": "The bread patrol retreats, slightly soggy.",
-            "lose": "A baguette makes an unnecessarily firm point.",
+            "win": "You hold the door while Gregory’s supporters reach the exit.",
+            "lose": "A waiter pushes a bread cart through the door and knocks you down.",
             "onLose": {
               "momentum": -1,
-              "memory": "A bread patrol used a baguette against your soup campaign."
+              "memory": "A waiter pushes a bread cart through the door and knocks you down."
             }
           }
         ]
@@ -300,30 +296,30 @@ export const STORIES: QuestStory[] = [
         "id": "soup-debate",
         "art": "soup",
         "text": {
-          "f": "The televised debate is between soup and a roast potato. The potato's platform is 'be quiet and get eaten'. It is leading among chefs.",
-          "c": "The soup debates a roast potato running on 'be quiet and get eaten'. The potato is polling disturbingly well among people who work with forks.",
-          "x": "The opposition is a roast potato whose entire platform is 'shut up and get eaten'. It is winning among chefs. Apparently being a complete bastard counts as policy."
+          "f": "The manager will release Gregory if the staff agrees. Gregory argues that talking food deserves a choice. The chef argues that soup is much harder to sell once it talks.",
+          "c": "The manager has called a staff vote. Gregory asks for the right to leave. The chef says he has already sold six portions and would prefer nobody mention that.",
+          "x": "The staff is voting on Gregory's freedom. The chef is worried about refunds. Gregory points out that being eaten is rather more of a bloody inconvenience."
         },
         "choices": [
           {
-            "label": "Ask the potato a question outside its briefing",
+            "label": "Ask the staff whether they would eat Gregory",
             "stat": "INT",
             "risk": "bold",
-            "win": "The potato cannot answer a question about gravy rights. Its support crumbles.",
-            "lose": "It answers with devastating simplicity: 'Butter.' The crowd roars.",
+            "win": "Nobody volunteers. The manager agrees that Gregory may leave.",
+            "lose": "The chef describes his recipe. The hungry staff crowds you away from the table.",
             "onWin": {
               "momentum": 1,
-              "memory": "You exposed a roast potato's weak policy on gravy rights."
+              "memory": "Nobody volunteers. The manager agrees that Gregory may leave."
             }
           },
           {
-            "label": "Remind the audience what happened to yesterday's soup",
+            "label": "Remind them that Gregory asked for help",
             "stat": "WIS",
             "risk": "safe",
-            "win": "A difficult silence. Even the potato looks down.",
-            "lose": "The chef calls that a positive customer testimonial.",
+            "win": "The staff backs Gregory’s request. The manager reluctantly agrees to release him.",
+            "lose": "The chef calls it part of the dinner show. A waiter bundles you out of the meeting.",
             "onWin": {
-              "memory": "Yesterday's soup became the moral centre of a televised debate."
+              "memory": "The staff backs Gregory’s request. The manager reluctantly agrees to release him."
             }
           }
         ]
@@ -339,41 +335,41 @@ export const STORIES: QuestStory[] = [
         "id": "password-lute",
         "art": "password",
         "text": {
-          "f": "The tower's support line plays one lute note. After two hours a voice says, 'For security reasons, please describe the note you have been holding.'",
-          "c": "Two hours of one lute note, and support wants you to describe it for security. The musician has somehow become both the obstacle and the entire department.",
-          "x": "Two hours of the same fucking lute note, and support wants you to identify it for security. You are one incorrect chord away from a formal complaint."
+          "f": "The tower's support line has played the same lute note for two hours. A clerk finally answers and asks you to identify the note as a security check.",
+          "c": "Two hours on hold, one lute note. The support clerk now wants its name before discussing the password. The musician looks as tired as you feel.",
+          "x": "Two hours of the same bloody lute note. Support finally answers, then asks you to identify it. The wizard is ready to attack the instrument."
         },
         "choices": [
           {
-            "label": "Transcribe the note into an arcane support ticket",
+            "label": "Identify the note for the support clerk",
             "stat": "INT",
             "risk": "bold",
-            "win": "Ticket accepted. The note was secretly the password, with excellent job security.",
-            "lose": "You have described B flat. The tower regards that as an insult.",
+            "win": "You identify the note. The clerk starts the password reset.",
+            "lose": "You give the wrong note. The security alarm knocks you off the doorstep.",
             "onWin": {
               "momentum": 1,
-              "memory": "You discovered a wizard's support hold note was the password."
+              "memory": "You identify the note. The clerk starts the password reset."
             }
           },
           {
-            "label": "Stay on hold until a human answers",
+            "label": "Wait for a senior support clerk",
             "stat": "CON",
             "risk": "reckless",
-            "win": "A human answers. They have forgotten why they work here. You bond.",
-            "lose": "The hold music gains a second note. It is worse.",
+            "win": "A senior clerk answers and authorizes a reset. You exchange exhausted sympathies.",
+            "lose": "The line sends you back to the beginning. You slump backward off the waiting bench.",
             "onWin": {
-              "memory": "You reached a real human at the wizard's tower support line."
+              "memory": "A senior clerk answers and authorizes a reset. You exchange exhausted sympathies."
             }
           },
           {
-            "label": "Ask the lute player for a quiet hint",
+            "label": "Ask the lute player for a hint",
             "stat": "CHA",
             "risk": "safe",
-            "win": "The musician slips you the chord chart. It is marked 'confidential'.",
-            "lose": "The musician forwards you to percussion. A mallet answers.",
+            "win": "The musician quietly names the note. Support accepts your answer.",
+            "lose": "The musician calls security instead. A guard escorts you out with unnecessary force.",
             "onWin": {
               "momentum": 1,
-              "memory": "A support-line lute player leaked a confidential chord chart."
+              "memory": "The musician quietly names the note. Support accepts your answer."
             }
           }
         ]
@@ -388,9 +384,9 @@ export const STORIES: QuestStory[] = [
         "id": "tax-receipts",
         "art": "dragon-tax",
         "text": {
-          "f": "The dragon's accountant is hiding inside a fireproof biscuit tin. Outside it: one mountain of receipts and a smaller mountain of former accountants.",
-          "c": "The dragon's accountant has locked himself in a fireproof biscuit tin. Outside: receipts, scorch marks, and a salary dispute that has lasted six accountants.",
-          "x": "The dragon's accountant is hiding in a biscuit tin because his boss is a tax-dodging bastard with a flamethrower for a face. The receipts are your problem now."
+          "f": "The dragon has scorched its tax receipts. Its accountant is hiding in a biscuit tin and refuses to come out until you sort them.",
+          "c": "The accountant has taken shelter in a biscuit tin. Apparently, the dragon considers breathing fire at the paperwork a valid filing system.",
+          "x": "The dragon has burned its own tax receipts. Its accountant is hiding in a biscuit tin, and the bastard has left you to sort it out."
         },
         "next": [
           {
@@ -403,16 +399,15 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Sort the receipts by scorch mark",
+            "label": "Sort the scorched receipts",
             "stat": "INT",
             "risk": "bold",
-            "hint": "Success keeps evidence for the audit.",
-            "win": "The biscuit tin opens. A tiny hand gives you a labelled folder.",
-            "lose": "You classify three receipts as toast. They were essential toast.",
+            "win": "You recover the figures. The accountant gives you a folder marked STRICTLY LESS FLAMMABLE.",
+            "lose": "You mistake three important receipts for crumbs and sweep them away.",
             "onWin": {
               "flag": "receipts",
               "momentum": 1,
-              "memory": "You rescued the dragon's receipts from the biscuit-tin accountant."
+              "memory": "You recover the figures. The accountant gives you a folder marked STRICTLY LESS FLAMMABLE."
             }
           },
           {
@@ -422,27 +417,26 @@ export const STORIES: QuestStory[] = [
             "deal": {
               "gold": 15
             },
-            "hint": "Keep the receipts and unlock a finale approach.",
-            "win": "His emergency duplicate was under the emergency biscuits.",
-            "lose": "The biscuit tin remains firmly shut.",
+            "win": "You collect the emergency duplicate from beneath the biscuits.",
+            "lose": "The accountant refuses to open the tin.",
             "onWin": {
               "flag": "receipts",
-              "memory": "You paid fifteen gold for the dragon accountant's emergency duplicate."
+              "memory": "You collect the emergency duplicate from beneath the biscuits."
             }
           },
           {
-            "label": "Carry the whole mountain to the tax office",
+            "label": "Carry the receipts to the tax office",
             "stat": "STR",
             "risk": "reckless",
-            "win": "You carry a taxable mountain. The dragon calls this a capital improvement.",
-            "lose": "The mountain catches fire. The accountant changes tins.",
+            "win": "You deliver the entire stack. The clerk asks why you did not use a folder.",
+            "lose": "The stack topples into a brazier. The accountant starts packing.",
             "onWin": {
               "momentum": 1,
-              "memory": "You carried a dragon's entire filing mountain."
+              "memory": "You deliver the entire stack. The clerk asks why you did not use a folder."
             },
             "onLose": {
               "momentum": -1,
-              "memory": "The dragon's receipts burned during your attempt to lift them."
+              "memory": "The stack topples into a brazier. The accountant starts packing."
             }
           }
         ]
@@ -451,30 +445,30 @@ export const STORIES: QuestStory[] = [
         "id": "tax-auditor",
         "art": "dragon-tax",
         "text": {
-          "f": "The auditor finds a deduction for 'one emotionally necessary village'. You have the receipts. Regrettably, so does the village.",
-          "c": "The auditor challenges a deduction for 'one emotionally necessary village'. The dragon calls it self-care. The village calls it the roofing crisis.",
-          "x": "The dragon has claimed an entire fucking village as an emotional-support expense. The auditor has your receipts. The villagers have opinions and ladders."
+          "f": "The receipts include a claim for repairing a village the dragon burned. The auditor says damage you caused yourself is not a business expense.",
+          "c": "The dragon has claimed replacement roofs as a business expense. The auditor asks why every invoice mentions the same dragon-shaped hole.",
+          "x": "The dragon wants a tax deduction for rebuilding the village it burned down. The auditor says being a destructive bastard is not a profession."
         },
         "choices": [
           {
             "label": "Reclassify the village as dependent relatives",
             "stat": "INT",
             "risk": "bold",
-            "win": "The auditor accepts. The dragon acquires four hundred dependants and a school newsletter.",
-            "lose": "The village requests pocket money. The auditor requests your head.",
+            "win": "The auditor accepts the villagers as dependants. The dragon now owes them birthday presents.",
+            "lose": "The villagers demand pocket money. The dragon takes its frustration out on you.",
             "onWin": {
               "momentum": 1,
-              "memory": "You registered an entire village as the dragon's dependants."
+              "memory": "The auditor accepts the villagers as dependants. The dragon now owes them birthday presents."
             }
           },
           {
-            "label": "Have the dragon apologise to the village",
+            "label": "Ask the dragon to pay for the roofs",
             "stat": "CHA",
             "risk": "safe",
-            "win": "It is a very large apology. The village accepts payment in roofing.",
-            "lose": "The apology starts with 'if anyone was offended'. The village objects.",
+            "win": "The dragon agrees to compensate the villagers. The auditor accepts the corrected return.",
+            "lose": "The dragon calls the villagers ungrateful. A roof tile flies through the window.",
             "onWin": {
-              "memory": "You negotiated replacement roofs for the dragon's village."
+              "memory": "The dragon agrees to compensate the villagers. The auditor accepts the corrected return."
             }
           }
         ]
@@ -483,33 +477,33 @@ export const STORIES: QuestStory[] = [
         "id": "tax-ashes",
         "art": "dragon-tax",
         "text": {
-          "f": "Without receipts, the auditor wants a demonstration of 'ordinary business expenses'. The dragon has prepared an ordinary business knight.",
-          "c": "The auditor requests a normal business expense. The dragon produces a knight. The knight would very much like to be classed as a guest.",
-          "x": "No receipts. The dragon proposes eating a knight as a business demonstration. The knight thinks this is absolute bollocks, and has a point."
+          "f": "The receipts are gone. The auditor wants another record of the dragon's expenses. A knight arrives with an itemised bill for scorched armor.",
+          "c": "The auditor needs proof of expenses. Fortunately, the dragon's last visitor has kept every bill for repairing his armor. He has kept a grudge, too.",
+          "x": "No receipts. A knight arrives with a repair bill and a grudge. For once, the dragon's habit of setting people on fire might solve the bloody paperwork."
         },
         "choices": [
           {
-            "label": "Explain depreciation before the knight ignites",
+            "label": "Value the damage to the knight’s armor",
             "stat": "INT",
             "risk": "reckless",
-            "win": "The knight depreciates gracefully. Into retirement, alive.",
-            "lose": "The dragon hears 'appreciation'. It appreciates the knight flambé.",
+            "win": "You verify the repair costs. The knight gets compensation and the dragon gets an accurate bill.",
+            "lose": "You underestimate the repairs. The knight demonstrates the dent using your helmet.",
             "onWin": {
               "momentum": 1,
-              "memory": "Your lecture on depreciation saved the business knight."
+              "memory": "You verify the repair costs. The knight gets compensation and the dragon gets an accurate bill."
             },
             "onLose": {
-              "memory": "The tax demonstration ended in knight flambé."
+              "memory": "You underestimate the repairs. The knight demonstrates the dent using your helmet."
             }
           },
           {
-            "label": "Stand between the knight and accounting",
+            "label": "Shield the knight from another blast",
             "stat": "CON",
             "risk": "bold",
-            "win": "Your singed outline is accepted as documentary evidence.",
-            "lose": "You discover that tax liability can be measured in burns.",
+            "win": "You protect the witness. The auditor adds a fireproof screen to the approved expenses.",
+            "lose": "The dragon scorches you as well. The auditor requests another repair estimate.",
             "onWin": {
-              "memory": "You became the dragon's documentary evidence."
+              "memory": "You protect the witness. The auditor adds a fireproof screen to the approved expenses."
             }
           }
         ]
@@ -537,9 +531,9 @@ export const STORIES: QuestStory[] = [
         "id": "lich-tenancy",
         "art": "lich-eviction",
         "text": {
-          "f": "The lich's tenancy agreement predates the kingdom. A skeleton in slippers asks whether you have an appointment or an appointment-shaped weapon.",
-          "c": "The lich's tenancy agreement outlived three kingdoms and the original lettings agent. A skeleton in slippers asks whether your weapon has been declared on the appointment form.",
-          "x": "Nine hundred years of lease, one smug undead bastard, and a skeleton receptionist who insists your weapon requires a separate appointment. Welcome to property law."
+          "f": "The lich answers the door in slippers. His lease is nine hundred years old, but the clause about returning his deposit is perfectly clear.",
+          "c": "The lich has ignored nine centuries of rent increases. He has, however, calculated every penny of interest owed on his deposit.",
+          "x": "The lich has lived rent-free for nine hundred years. Now the old bastard wants his deposit back, with interest."
         },
         "next": [
           {
@@ -555,38 +549,37 @@ export const STORIES: QuestStory[] = [
             "label": "Read the nine-hundred-year break clause",
             "stat": "INT",
             "risk": "bold",
-            "win": "The lease permits eviction only if he gets his deposit back. The slippers nod.",
-            "lose": "You accidentally renew him for another dynasty.",
+            "win": "The lease allows eviction once the deposit is returned. You finally have terms to negotiate.",
+            "lose": "The lich reads the entire lease aloud. He pokes you with his staff whenever you doze off.",
             "onWin": {
               "flag": "tenant-rights",
               "momentum": 1,
-              "memory": "You discovered that the lich is owed nine centuries of deposit interest."
+              "memory": "The lease allows eviction once the deposit is returned. You finally have terms to negotiate."
             }
           },
           {
-            "label": "Fund a moving van with reinforced soul storage",
+            "label": "Pay for a specialist moving van",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 18
             },
-            "hint": "Negotiate a move instead of a siege.",
-            "win": "The skeleton starts packing. All the boxes say 'fragile: mortal remains'.",
-            "lose": "No van is available.",
+            "win": "The movers agree to carry the lich, his coffin and all his jars.",
+            "lose": "The movers refuse the booking.",
             "onWin": {
               "flag": "tenant-rights",
-              "memory": "You paid for the lich's moving van."
+              "memory": "The movers agree to carry the lich, his coffin and all his jars."
             }
           },
           {
             "label": "Take the front door off its hinges",
             "stat": "STR",
             "risk": "reckless",
-            "win": "You serve notice directly through the new architectural feature.",
-            "lose": "The door is a beloved ancestor. The family assembles.",
+            "win": "The lich agrees to discuss moving before you dismantle anything else.",
+            "lose": "The door falls on you. The lich adds it to the damages claim.",
             "onLose": {
               "momentum": -1,
-              "memory": "You insulted the lich's ancestor, who was also his front door."
+              "memory": "The door falls on you. The lich adds it to the damages claim."
             }
           }
         ]
@@ -595,30 +588,30 @@ export const STORIES: QuestStory[] = [
         "id": "lich-flatshare",
         "art": "lich-eviction",
         "text": {
-          "f": "The lich agrees to leave if you find a flat accepting pets. His pet is the basement. It has started following you.",
-          "c": "The lich agrees to move if you find somewhere pet-friendly. His pet is the basement. It is following you with the enthusiasm of a poorly trained extension.",
-          "x": "The lich will move, but only if the new landlord accepts his pet basement. The bloody thing is following you. It has already eaten a deposit form."
+          "f": "The lich will leave if you find a home for him and his undead goldfish. The new landlord wants a pet reference. The fish has outlived six landlords.",
+          "c": "You find a flat, but the landlord wants a reference for the lich's undead goldfish. Its previous owners are unavailable for comment.",
+          "x": "The new landlord wants a pet reference for the lich's undead goldfish. Nine hundred years in a bowl, and the poor sod still needs a character witness."
         },
         "choices": [
           {
-            "label": "Write a flattering reference for the basement",
+            "label": "Write the goldfish a good reference",
             "stat": "CHA",
             "risk": "bold",
-            "win": "'Quiet, self-contained, eats damp.' A landlord is delighted.",
-            "lose": "The basement eats the reference and one supporting wall.",
+            "win": "The landlord approves the fish. The lich starts packing his coffin.",
+            "lose": "The landlord phones a previous neighbor. The fish has a noise complaint.",
             "onWin": {
               "momentum": 1,
-              "memory": "You found a pet-friendly flat for a sentient basement."
+              "memory": "The landlord approves the fish. The lich starts packing his coffin."
             }
           },
           {
-            "label": "Teach it to stay",
+            "label": "Teach the goldfish to play dead",
             "stat": "WIS",
             "risk": "safe",
-            "win": "Good basement. Very good basement. The lich cries one dust.",
-            "lose": "It sits. On your foot.",
+            "win": "The fish keeps still during the inspection. The landlord approves an apparently empty bowl.",
+            "lose": "The fish performs a vigorous resurrection halfway through the inspection. The landlord throws you out.",
             "onWin": {
-              "memory": "The lich's basement now responds to 'stay'."
+              "memory": "The fish keeps still during the inspection. The landlord approves an apparently empty bowl."
             }
           }
         ]
@@ -627,30 +620,30 @@ export const STORIES: QuestStory[] = [
         "id": "lich-phylactery",
         "art": "lich-eviction",
         "text": {
-          "f": "A row of identical jam jars blocks the stairs. One contains the lich's soul. The others contain his frankly excessive marmalade.",
-          "c": "Identical jam jars line the stairs. One holds an immortal soul; the others hold a frankly attention-seeking quantity of marmalade.",
-          "x": "One jam jar holds the lich's soul. The rest hold his precious marmalade. Mix them up and the bastard will haunt your breakfast indefinitely."
+          "f": "The lich has packed his soul in a jam jar. Unfortunately, it is identical to thirty jars of marmalade. He refuses to move until you find it.",
+          "c": "Thirty-one jars, thirty labels saying MARMALADE. One contains an immortal soul. The lich admits his filing system could use work.",
+          "x": "The lich keeps his soul beside the marmalade. Every jar has the same bloody label, and he refuses to leave without the right one."
         },
         "choices": [
           {
-            "label": "Identify the jar that fears the tenancy tribunal",
+            "label": "Find the jar that whispers threats",
             "stat": "WIS",
             "risk": "bold",
-            "win": "The soul rattles. Marmalade, famously, does not fear due process.",
-            "lose": "You threaten the apricot preserve. It retains counsel.",
+            "win": "You identify the soul jar by its threats against the landlord.",
+            "lose": "You open the wrong jar. The soul jar rolls off the shelf and hits your foot.",
             "onWin": {
               "momentum": 1,
-              "memory": "You identified the lich's soul by its fear of the tenancy tribunal."
+              "memory": "You identify the soul jar by its threats against the landlord."
             }
           },
           {
-            "label": "Carry every jar outside without tasting any",
+            "label": "Carry every jar to the moving van",
             "stat": "DEX",
             "risk": "safe",
-            "win": "The soul and the preserves reach the pavement intact.",
-            "lose": "You drop one. Citrus revenge follows.",
+            "win": "You move the whole collection. The lich promises to label it before his next eviction.",
+            "lose": "The crate slips. You catch the soul jar with your knee.",
             "onWin": {
-              "memory": "You moved a lich's entire marmalade collection."
+              "memory": "You move the whole collection. The lich promises to label it before his next eviction."
             }
           }
         ]
@@ -665,9 +658,9 @@ export const STORIES: QuestStory[] = [
         "id": "sock-witness",
         "art": "kings-sock",
         "text": {
-          "f": "The royal laundry basket requests witness protection. It saw the left sock leave willingly, carrying a tiny suitcase.",
-          "c": "The royal laundry basket wants witness protection. Apparently the sock left voluntarily, packed better than the king, and did not leave a flattering note.",
-          "x": "The laundry basket saw the sock leave with a suitcase and a clear determination to escape the king's feet. It wants witness protection. Sensible fucking basket."
+          "f": "The king's left sock has run away. A talking laundry basket saw it board a train, but wants protection from the royal washerwoman before it gives evidence.",
+          "c": "The laundry basket saw the sock board a train. It will talk if you can guarantee it never has to hold the king's underwear again.",
+          "x": "The laundry basket knows where the sock went. It wants witness protection, which seems fair after years of holding the king's filthy pants."
         },
         "next": [
           {
@@ -680,40 +673,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Promise the basket a new identity",
+            "label": "Offer the basket a new job",
             "stat": "CHA",
             "risk": "safe",
-            "win": "It becomes a humble bread bin and gives you the sock's forwarding address.",
-            "lose": "You call it 'Basket Two'. It withdraws cooperation.",
+            "win": "The basket agrees to become a bread bin and gives you the sock’s destination.",
+            "lose": "The washerwoman overhears and throws a wet towel at you.",
             "onWin": {
               "flag": "sock-address",
-              "memory": "The royal laundry basket entered witness protection as a bread bin."
+              "memory": "The basket agrees to become a bread bin and gives you the sock’s destination."
             }
           },
           {
-            "label": "Purchase the sock's train ticket records",
+            "label": "Buy the sock’s train records",
             "stat": "INT",
             "risk": "bold",
             "deal": {
               "gold": 12
             },
-            "hint": "Follow the sock into the labour movement.",
-            "win": "One single to Freedom, changing at Damp Junction.",
-            "lose": "The station is closed.",
+            "win": "The ticket office confirms the sock travelled to the textile workers’ hall.",
+            "lose": "The ticket office refuses to release the records.",
             "onWin": {
               "flag": "sock-address",
-              "memory": "You bought evidence that the royal sock fled by train."
+              "memory": "The ticket office confirms the sock travelled to the textile workers’ hall."
             }
           },
           {
-            "label": "Search the royal drawer without breathing",
+            "label": "Search the king’s drawer for clues",
             "stat": "CON",
             "risk": "bold",
-            "win": "You recover a left-shaped indent and a revolutionary pamphlet.",
-            "lose": "A century of royal foot announces itself.",
+            "win": "You find a union leaflet and a very small railway timetable.",
+            "lose": "The drawer sticks. When you pull harder, it lands on your foot.",
             "onLose": {
               "momentum": -1,
-              "memory": "The royal drawer defeated your lungs."
+              "memory": "The drawer sticks. When you pull harder, it lands on your foot."
             }
           }
         ]
@@ -722,31 +714,31 @@ export const STORIES: QuestStory[] = [
         "id": "sock-union",
         "art": "kings-sock",
         "text": {
-          "f": "The sock is organising the kingdom's neglected left things. A left glove asks if you are management. A left shoe blocks the exit.",
-          "c": "The sock now represents neglected left things. A glove demands recognition; a shoe blocks the door. You appear to have walked into a very narrow general strike.",
-          "x": "The sock has unionised the kingdom's neglected left things. The shoe at the exit says you look like management. This is already turning into a complete shitshow."
+          "f": "You find the sock at a union meeting. It wants shorter working hours and a king who washes his feet. A left glove takes the minutes.",
+          "c": "The runaway sock has formed a union. Its demands are a five-day week, regular washing and an end to being called 'the spare one'.",
+          "x": "The sock wants a five-day week and a king who washes his bloody feet. The left glove taking the minutes says these are modest demands."
         },
         "choices": [
           {
             "label": "Draft a five-day footwear week",
             "stat": "INT",
             "risk": "bold",
-            "win": "The shoe moves aside. The sock agrees to one final audience.",
-            "lose": "You forgot weekends. The glove calls a general strike.",
+            "win": "The sock agrees to return if the king signs the contract.",
+            "lose": "The glove spots a loophole. The sock’s supporters pelt you with pegs.",
             "onWin": {
               "flag": "sock-contract",
               "momentum": 1,
-              "memory": "You negotiated a five-day footwear week with the runaway sock."
+              "memory": "The sock agrees to return if the king signs the contract."
             }
           },
           {
-            "label": "Listen without calling anyone odd",
+            "label": "Hear the sock out",
             "stat": "WIS",
             "risk": "safe",
-            "win": "For once, someone hears their side. Their left side.",
-            "lose": "You say 'all right'. The meeting takes it personally.",
+            "win": "The sock explains its grievances. You persuade it to attend a meeting with the king.",
+            "lose": "You call it an odd sock. Its supporters take exception to that.",
             "onWin": {
-              "memory": "You heard the left things' grievances without making the obvious joke."
+              "memory": "The sock explains its grievances. You persuade it to attend a meeting with the king."
             }
           }
         ]
@@ -755,30 +747,30 @@ export const STORIES: QuestStory[] = [
         "id": "sock-drawer",
         "art": "kings-sock",
         "text": {
-          "f": "Your only lead is a drawer that locks from inside. It is sheltering the sock's replacement, a nervous knitted turnip.",
-          "c": "The locked drawer is sheltering a knitted turnip hired to impersonate the missing sock. The turnip is suffering from textile impostor syndrome.",
-          "x": "The replacement sock is a knitted turnip and everyone involved knows the plan is shit. The drawer has locked itself from inside to avoid responsibility."
+          "f": "The royal tailor has knitted a replacement sock to hide the disappearance. It is green, lumpy and plainly the wrong size. He begs you not to tell the king.",
+          "c": "The tailor's replacement sock looks like a turnip. He calls it an experimental fit. The king is due to inspect it in five minutes.",
+          "x": "The tailor has knitted something resembling a turnip and called it a sock. He wants your help selling this obvious cock-up to the king."
         },
         "choices": [
           {
-            "label": "Convince the turnip to act naturally",
+            "label": "Distract the king during the fitting",
             "stat": "CHA",
             "risk": "reckless",
-            "win": "It practises being worn. Unsettlingly convincing.",
-            "lose": "It photosynthesises under questioning.",
+            "win": "You keep the king talking while the tailor hides the replacement.",
+            "lose": "The king looks down, sees the lump and demands an explanation. The tailor points at you.",
             "onWin": {
-              "memory": "You coached a turnip to impersonate a royal sock."
+              "memory": "You keep the king talking while the tailor hides the replacement."
             }
           },
           {
-            "label": "Follow the loose thread under the door",
+            "label": "Follow the thread to the tailor’s workshop",
             "stat": "DEX",
             "risk": "bold",
-            "win": "The thread leads to a secret knitting cell.",
-            "lose": "The thread leads out of your own trousers.",
+            "win": "You find the original sock’s union leaflet beside the knitting needles.",
+            "lose": "You pull the wrong thread and bring a shelf of wool down on your head.",
             "onWin": {
               "momentum": 1,
-              "memory": "A loose thread led you to a secret knitting cell."
+              "memory": "You find the original sock’s union leaflet beside the knitting needles."
             }
           }
         ]
@@ -806,50 +798,49 @@ export const STORIES: QuestStory[] = [
         "id": "sandwich-armistice",
         "art": "sandwich",
         "text": {
-          "f": "Both armies call a ceasefire to inspect your sandwich. One claims the mustard is a provocation. The other has mobilised a pickle division.",
-          "c": "Both armies pause to inspect your sandwich. One declares the mustard provocative; the other introduces a pickle division. Lunch has acquired a disturbingly active foreign policy.",
-          "x": "Two armies are arguing over your sandwich's mustard. The pickle division has mobilised. You are delivering lunch through a geopolitical shitshow."
+          "f": "Both armies have stopped you at the checkpoint. The customer is across the battlefield. Each commander insists you must use the other side's delivery gate.",
+          "c": "Two armies, two checkpoints, no agreed delivery route. The sandwich is getting cold while the commanders argue about which side ordered mustard.",
+          "x": "The commanders are arguing about which gate you can use. The sandwich is going cold, and neither bastard is willing to admit they could just let you through."
         },
         "choices": [
           {
-            "label": "Declare the sandwich a neutral state",
+            "label": "Declare the sandwich neutral",
             "stat": "CHA",
             "risk": "bold",
-            "win": "They recognise its borders. The crust gains diplomatic immunity.",
-            "lose": "Both armies appoint ambassadors. Neither will leave the bag.",
+            "win": "Both commanders accept a neutral lunch delivery. You get a pass for the battlefield.",
+            "lose": "One commander calls it enemy catering and has you removed from the checkpoint.",
             "onWin": {
               "flag": "neutral-lunch",
               "momentum": 1,
-              "memory": "You secured diplomatic immunity for a sandwich."
+              "memory": "Both commanders accept a neutral lunch delivery. You get a pass for the battlefield."
             }
           },
           {
-            "label": "Pay the official bread corridor toll",
+            "label": "Pay for an escorted delivery route",
             "stat": "WIS",
             "risk": "safe",
             "deal": {
               "gold": 14
             },
-            "hint": "Guaranteed passage, but the lunch loses its military prestige.",
-            "win": "A drummer announces the transit of one extremely important lunch.",
-            "lose": "The bread corridor is closed.",
+            "win": "The guards open a protected route across the battlefield.",
+            "lose": "The guards refuse to open the gate.",
             "onWin": {
-              "memory": "You paid a bread-corridor toll to move lunch through a war."
+              "memory": "The guards open a protected route across the battlefield."
             }
           },
           {
-            "label": "Sprint between the catapults without spilling soup",
+            "label": "Sprint between the catapults",
             "stat": "DEX",
             "risk": "reckless",
-            "win": "You clear the battlefield. The soup has acquired a medal.",
-            "lose": "A crouton causes an international incident.",
+            "win": "You reach the far checkpoint with the sandwich still wrapped.",
+            "lose": "You dodge a stone and land on the sandwich. The customer will notice.",
             "onWin": {
               "momentum": 1,
-              "memory": "Your lunch sprint earned the soup a military medal."
+              "memory": "You reach the far checkpoint with the sandwich still wrapped."
             },
             "onLose": {
               "momentum": -1,
-              "memory": "A crouton from your delivery caused an international incident."
+              "memory": "You dodge a stone and land on the sandwich. The customer will notice."
             }
           }
         ]
@@ -864,9 +855,9 @@ export const STORIES: QuestStory[] = [
         "id": "soup-interview",
         "art": "soup",
         "text": {
-          "f": "The soup whispers through a straw: 'My name is Gregory. I have dependants. Mostly croutons.' The waiter approaches with a pepper mill.",
-          "c": "'Gregory,' whispers the soup. 'I have crouton dependants.' The waiter approaches with a pepper mill and the confidence of someone about to become a custody dispute.",
-          "x": "The soup calls itself Gregory and says the croutons are its children. A waiter approaches with a pepper mill. Apparently you are rescuing a fucking casserole family now."
+          "f": "Today's soup introduces itself as Gregory. It wants to leave the restaurant before lunch. The waiter approaches with a bowl and an encouraging smile.",
+          "c": "The soup's name is Gregory. He would like to be taken off the menu, preferably before the waiter finishes recommending him.",
+          "x": "Gregory the soup would rather not be lunch. The waiter calls him today's special. Gregory calls the waiter a heartless bastard."
         },
         "next": [
           {
@@ -879,40 +870,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Disguise Gregory as a decorative pond",
+            "label": "Disguise Gregory as a table decoration",
             "stat": "INT",
             "risk": "bold",
-            "win": "A tiny reed conceals him beautifully. The croutons practise being ducks.",
-            "lose": "The waiter asks why the pond smells of lunch.",
+            "win": "You float flowers in the bowl. The waiter mistakes Gregory for a centerpiece.",
+            "lose": "Gregory sneezes pepper over the waiter. The disguise is ruined.",
             "onWin": {
               "flag": "soup-disguise",
               "momentum": 1,
-              "memory": "You disguised Gregory the soup as a duck pond."
+              "memory": "You float flowers in the bowl. The waiter mistakes Gregory for a centerpiece."
             }
           },
           {
-            "label": "Buy Gregory and declare him takeaway",
+            "label": "Buy Gregory as a takeaway",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 16
             },
-            "hint": "Avoid the kitchen; keep Gregory's disguise.",
-            "win": "Gregory objects to being bought, then notices the exit.",
-            "lose": "The till refuses.",
+            "win": "You buy the whole bowl. Gregory asks you to keep the receipt in case freedom needs proof of purchase.",
+            "lose": "The waiter refuses the takeaway order.",
             "onWin": {
               "flag": "soup-disguise",
-              "memory": "You bought Gregory's freedom as a takeaway order."
+              "memory": "You buy the whole bowl. Gregory asks you to keep the receipt in case freedom needs proof of purchase."
             }
           },
           {
-            "label": "Lift the entire table and walk out",
+            "label": "Carry Gregory’s table outside",
             "stat": "STR",
             "risk": "reckless",
-            "win": "A table for one becomes a vehicle for six bowls.",
-            "lose": "The legs fold. The waiter applauds your reservation cancellation.",
+            "win": "You lift the table and head for the door. The waiter assumes you have booked a private function.",
+            "lose": "The table catches in the doorway. Hot soup splashes your hands.",
             "onWin": {
-              "memory": "You used restaurant furniture as a soup getaway vehicle."
+              "memory": "You lift the table and head for the door. The waiter assumes you have booked a private function."
             }
           }
         ]
@@ -921,30 +911,30 @@ export const STORIES: QuestStory[] = [
         "id": "soup-escape",
         "art": "soup",
         "text": {
-          "f": "At the exit, Gregory's crouton children demand to rescue their uncle. Uncle is garlic bread and has no opinion on the matter.",
-          "c": "The croutons refuse to leave without Uncle Garlic Bread. Uncle has yet to express a view, but smells strongly of a successful hostage negotiation.",
-          "x": "Gregory's crouton children want their garlic-bread uncle rescued. The uncle has no opinions. You are risking your arse for a side dish."
+          "f": "At the door, Gregory asks you to rescue the garlic bread as well. He calls it his uncle. The chef says family discounts do not apply to the menu.",
+          "c": "Gregory will not leave without the garlic bread he calls Uncle. The chef says it comes with the soup only if you pay for the meal deal.",
+          "x": "Gregory insists the garlic bread is his uncle. The chef wants another three gold. Rescuing an entire bloody meal is becoming expensive."
         },
         "choices": [
           {
-            "label": "Smuggle Uncle in your sleeve",
+            "label": "Smuggle the garlic bread in your sleeve",
             "stat": "DEX",
             "risk": "bold",
-            "win": "The family is reunited. Your sleeve is wonderfully fragrant.",
-            "lose": "Butter betrays you at the elbow.",
+            "win": "You slip the bread into your sleeve. Gregory thanks you for saving Uncle.",
+            "lose": "The hot bread burns your arm. You drop it and attract the chef’s attention.",
             "onWin": {
               "flag": "soup-family",
-              "memory": "You rescued Gregory's garlic-bread uncle."
+              "memory": "You slip the bread into your sleeve. Gregory thanks you for saving Uncle."
             }
           },
           {
-            "label": "Explain that Uncle may be happier here",
+            "label": "Persuade Gregory to leave without it",
             "stat": "WIS",
             "risk": "safe",
-            "win": "A mature conversation. Gregory leaves him a forwarding napkin.",
-            "lose": "The croutons demand custody mediation.",
+            "win": "Gregory agrees to send someone back for the bread. For now, getting out alive takes priority.",
+            "lose": "Gregory shouts for Uncle. The chef hears and reaches for his ladle.",
             "onWin": {
-              "memory": "Gregory left his garlic-bread uncle a forwarding napkin."
+              "memory": "Gregory agrees to send someone back for the bread. For now, getting out alive takes priority."
             }
           }
         ]
@@ -953,31 +943,31 @@ export const STORIES: QuestStory[] = [
         "id": "soup-kitchen",
         "art": "soup",
         "text": {
-          "f": "The chef corners you beside a tureen. Gregory pretends to be normal soup. He is doing this by shouting 'ordinary soup noises'.",
-          "c": "Cornered by the chef, Gregory attempts to pass as ordinary soup by shouting 'ordinary soup noises'. His grasp of undercover work is mostly liquid.",
-          "x": "Gregory is trying to blend in by yelling 'ordinary soup noises' at the chef. For fuck's sake, Gregory. You had one job: simmer quietly."
+          "f": "The chef blocks the kitchen exit. Gregory tries to stay quiet, but every time the chef reaches for a spoon he screams. You need a distraction.",
+          "c": "Gregory's disguise has failed. He shouted 'I am ordinary soup' at the chef, who is now standing between you and the exit.",
+          "x": "The chef has caught you. Gregory keeps shouting that he is ordinary soup, which is a bloody terrible way to prove it."
         },
         "choices": [
           {
-            "label": "Distract the chef with a fabricated inspection",
+            "label": "Pretend to be a kitchen inspector",
             "stat": "CHA",
             "risk": "bold",
-            "win": "You condemn the ladle. Gregory escapes during the appeal.",
-            "lose": "The chef requests credentials. Gregory says 'blub'.",
+            "win": "The chef hides his dirty pans. You carry Gregory out while he is busy.",
+            "lose": "The chef asks for identification. Your improvised badge fails to impress him.",
             "onWin": {
               "momentum": 1,
-              "memory": "You condemned a ladle to help Gregory escape."
+              "memory": "The chef hides his dirty pans. You carry Gregory out while he is busy."
             }
           },
           {
-            "label": "Drink the decoy soup without flinching",
+            "label": "Taste the decoy soup and keep talking",
             "stat": "CON",
             "risk": "reckless",
-            "win": "Entirely ordinary. Gregory is deeply offended by your satisfied expression.",
-            "lose": "The decoy contains experimental chilli.",
+            "win": "You keep the chef occupied with a detailed review while Gregory edges towards the door.",
+            "lose": "The decoy soup is scalding. Your yelp brings the chef straight back.",
             "onLose": {
               "momentum": -1,
-              "memory": "Experimental chilli nearly ended Gregory's rescue."
+              "memory": "The decoy soup is scalding. Your yelp brings the chef straight back."
             }
           }
         ]
@@ -992,9 +982,9 @@ export const STORIES: QuestStory[] = [
         "id": "union-agenda",
         "art": "goblin-union",
         "text": {
-          "f": "The goblins demand dental cover. Their dark lord offers a dental cover: one enormous helmet. The meeting is entering its fourth headbutt.",
-          "c": "The goblins want dental insurance. The dark lord offers a large helmet. The fourth headbutt suggests the benefits presentation has not landed.",
-          "x": "The goblins want dental cover. The dark lord has offered a helmet, the cheap bastard. Four headbutts into negotiations, nobody is calling this competitive benefits."
+          "f": "The goblins want helmets, lunch breaks and dental care. The dark lord says helmets are cheaper. He has not noticed their list includes a ban on compulsory headbutts.",
+          "c": "The goblins want dental care. The dark lord offers helmets and asks them to headbutt more carefully. Negotiations have stalled.",
+          "x": "The dark lord refuses dental care and suggests the goblins stop breaking their teeth. He is also the bastard making them headbutt castle gates."
         },
         "next": [
           {
@@ -1007,40 +997,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Calculate the cost of replacing every headbutted manager",
+            "label": "Explain why dental care costs less",
             "stat": "INT",
             "risk": "bold",
-            "win": "Dental insurance is cheaper. The helmet becomes a suggestion box.",
-            "lose": "The dark lord introduces a headbutt tax.",
+            "win": "You show the dark lord the replacement-helmet bills. He agrees to discuss dental care.",
+            "lose": "He orders a practical demonstration. You are handed a helmet and shown a wall.",
             "onWin": {
               "momentum": 1,
-              "memory": "You proved dental insurance costs less than headbutted managers."
+              "memory": "You show the dark lord the replacement-helmet bills. He agrees to discuss dental care."
             }
           },
           {
-            "label": "Contribute to the goblin strike fund",
+            "label": "Donate to the strike fund",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 15
             },
-            "hint": "Stand with the workers; unlock collective bargaining.",
-            "win": "They give you a tiny placard and an enormous responsibility.",
-            "lose": "The fund is closed.",
+            "win": "The goblins can afford to keep striking. They ask you to speak for them.",
+            "lose": "The strike fund refuses the donation.",
             "onWin": {
               "flag": "union-solidarity",
-              "memory": "You funded the goblins' strike and carried their placard."
+              "memory": "The goblins can afford to keep striking. They ask you to speak for them."
             }
           },
           {
-            "label": "Demonstrate a safer headbutt on the table",
+            "label": "Demonstrate a safer way to break gates",
             "stat": "CON",
             "risk": "reckless",
-            "win": "The table joins the union. It has endured enough.",
-            "lose": "The table wins. Management applauds.",
+            "win": "You use a battering ram. Several goblins ask why nobody mentioned these before.",
+            "lose": "The ram swings backwards and knocks you off the platform.",
             "onWin": {
               "flag": "union-solidarity",
-              "memory": "A table joined the goblin union after your demonstration."
+              "memory": "You use a battering ram. Several goblins ask why nobody mentioned these before."
             }
           }
         ]
@@ -1049,41 +1038,30 @@ export const STORIES: QuestStory[] = [
         "id": "union-picket",
         "art": "goblin-union",
         "text": {
-          "f": "Your new comrades ask you to lead the chant. Their current slogan is 'LESS DYING, PLEASE', which tested well across all departments.",
-          "c": "You are leading a chant called 'LESS DYING, PLEASE'. It is popular across departments, though management objects to the implication that staff retention needs work.",
-          "x": "The goblins' chant is 'LESS DYING, PLEASE'. Management calls it unrealistic. You are now responsible for making that bunch of bastards listen."
+          "f": "The goblins ask you to lead their picket line. Their slogan is 'Fewer headbutts, please.' A company of skeletons arrives to take their jobs.",
+          "c": "The goblins have a picket line and a promising rhyme for 'dental'. The dark lord has hired skeletons, who insist they have no interest in teeth.",
+          "x": "The strikebreakers are skeletons. The goblins ask you to explain that having no teeth is not a good bloody reason to oppose dental care."
         },
         "choices": [
           {
-            "label": "Lead a chant with a legally actionable rhyme",
+            "label": "Lead the strike chant",
             "stat": "CHA",
             "risk": "bold",
-            "win": "The dark lord comes out to negotiate before the second verse.",
-            "lose": {
-              "f": "You rhyme pension with detention. The meter collapses.",
-              "c": "You rhyme pension with detention. The goblins request a different lyricist.",
-              "x": "Your rhyme is complete bollocks. The goblins ask whether you have ever heard a song.",
-              "v": {
-                "brutal": {
-                  "f": "You rhyme pension with dismemberment. The meter collapses.",
-                  "c": "You rhyme pension with dismemberment. Even the goblins question your tone.",
-                  "x": "You rhyme pension with dismemberment. The meter is fucked and so are negotiations."
-                }
-              }
-            },
+            "win": "The chanting draws a crowd. The dark lord comes out to negotiate.",
+            "lose": "You forget the words. The guards break up the chanting with their shields.",
             "onWin": {
               "momentum": 1,
-              "memory": "Your legally actionable chant brought the dark lord to the table."
+              "memory": "The chanting draws a crowd. The dark lord comes out to negotiate."
             }
           },
           {
-            "label": "Hold the line against the skeleton scabs",
+            "label": "Invite the skeletons to join the strike",
             "stat": "STR",
             "risk": "bold",
-            "win": "You point out skeletons also lack dental cover. They swap sides.",
-            "lose": "Their picket line has significantly more elbows.",
+            "win": "You point out that skeletons need bone repairs. They join the goblins.",
+            "lose": "The skeletons refuse and push through the picket line, taking you with them.",
             "onWin": {
-              "memory": "The skeleton strikebreakers joined the dental-cover campaign."
+              "memory": "You point out that skeletons need bone repairs. They join the goblins."
             }
           }
         ]
@@ -1092,30 +1070,30 @@ export const STORIES: QuestStory[] = [
         "id": "union-payroll",
         "art": "goblin-union",
         "text": {
-          "f": "Payroll has been replaced by an enchanted sack that screams whenever a goblin earns overtime. The sack is also requesting a break.",
-          "c": "Payroll is an enchanted sack that screams at overtime claims. The sack has requested a wellness break. Its request is still inside itself.",
-          "x": "The payroll sack screams whenever a goblin earns overtime. Now the bloody sack wants paid leave. Even the machinery knows this employer is shit."
+          "f": "The goblins' wages come from an enchanted purse. It screams whenever anyone claims overtime. The dark lord calls this an accounting feature.",
+          "c": "The payroll purse screams every time a goblin earns overtime. The dark lord says it is working as intended. The goblins disagree.",
+          "x": "The enchanted payroll purse screams at every overtime claim. The dark lord paid extra for that feature, the miserable bastard."
         },
         "choices": [
           {
-            "label": "Audit the screaming sack",
+            "label": "Check the overtime figures",
             "stat": "INT",
             "risk": "bold",
-            "win": "The sack has been withholding its own wages. A difficult meeting follows.",
-            "lose": "The sack alleges you are an expense and attempts to swallow you.",
+            "win": "You prove the purse has been rejecting valid claims. The dark lord must settle the arrears.",
+            "lose": "The purse mistakes your hand for a withdrawal request and bites it.",
             "onWin": {
               "momentum": 1,
-              "memory": "You discovered the payroll sack was withholding its own wages."
+              "memory": "You prove the purse has been rejecting valid claims. The dark lord must settle the arrears."
             }
           },
           {
-            "label": "Counsel the sack through a breathing exercise",
+            "label": "Explain the pay rules to the purse",
             "stat": "WIS",
             "risk": "safe",
-            "win": "The screaming stops. The payslips emerge with little apology notes.",
-            "lose": "It inhales you instead.",
+            "win": "The purse accepts the rules and starts paying the goblins. It still sighs between coins.",
+            "lose": "The purse refuses to listen and snaps shut on your fingers.",
             "onWin": {
-              "memory": "You taught the payroll sack to breathe before processing overtime."
+              "memory": "The purse accepts the rules and starts paying the goblins. It still sighs between coins."
             }
           }
         ]
@@ -1149,49 +1127,48 @@ export const STORIES: QuestStory[] = [
         "id": "hound-route",
         "art": "hellhound",
         "text": {
-          "f": "The hellhound's heads vote on the route. Two want the park. One wants to consume a cathedral. The duchess says they are usually so democratic.",
-          "c": "Two hellhound heads vote for the park; the third proposes a cathedral-based snack. The duchess calls this healthy debate. The cathedral has concerns.",
-          "x": "Two heads want walkies. The third wants to eat a fucking cathedral. The duchess insists the hellhound is usually good with people, which is an impressive technicality."
+          "f": "The hellhound's three heads want three different walks. One wants the park, one wants the butcher's, and one has spotted a squirrel. You have one lead.",
+          "c": "Two hellhound heads agree on the park. The third has voted for a squirrel and considers the debate closed. The lead is getting very tight.",
+          "x": "Two heads want the park. The third has seen a squirrel and is dragging you towards it. Nobody mentioned that the bloody lead was fireproof for a reason."
         },
         "choices": [
           {
-            "label": "Negotiate a park with a small chapel",
+            "label": "Persuade all three heads to take the park route",
             "stat": "CHA",
             "risk": "bold",
-            "win": "A workable compromise. The chapel can be rebuilt.",
-            "lose": "The third head invokes the constitution. It is written in fire.",
+            "win": "You promise a stop at the butcher’s on the way back. All three heads follow you.",
+            "lose": "The third head spots another squirrel and drags you through a hedge.",
             "onWin": {
               "momentum": 1,
-              "memory": "You negotiated a hellhound walking route with optional small chapel."
+              "memory": "You promise a stop at the butcher’s on the way back. All three heads follow you."
             }
           },
           {
-            "label": "Buy three separate distraction sausages",
+            "label": "Buy one sausage for each head",
             "stat": "WIS",
             "risk": "safe",
             "deal": {
               "gold": 12
             },
-            "hint": "All heads stay occupied; the finale still needs handling.",
-            "win": "Each head assumes it received the largest sausage. Peace through geometry.",
-            "lose": "No sausages remain.",
+            "win": "All three heads chew happily while you regain control of the lead.",
+            "lose": "The butcher refuses to sell any more sausages.",
             "onWin": {
-              "memory": "Three geometrically ambiguous sausages saved a cathedral."
+              "memory": "All three heads chew happily while you regain control of the lead."
             }
           },
           {
-            "label": "Hold the lead through a squirrel sighting",
+            "label": "Hold on when the squirrel runs",
             "stat": "STR",
             "risk": "reckless",
-            "win": "The squirrel withdraws from public life. You retain both arms.",
-            "lose": "For several streets you are the dog walk.",
+            "win": "You brace yourself and keep the hound on the path. The squirrel escapes.",
+            "lose": "The hound drags you across the park. You arrive well before the lead stops moving.",
             "onWin": {
               "momentum": 1,
-              "memory": "You held a hellhound back from a squirrel."
+              "memory": "You brace yourself and keep the hound on the path. The squirrel escapes."
             },
             "onLose": {
               "momentum": -1,
-              "memory": "The hellhound dragged you through several streets."
+              "memory": "The hound drags you across the park. You arrive well before the lead stops moving."
             }
           }
         ]
@@ -1206,9 +1183,9 @@ export const STORIES: QuestStory[] = [
         "id": "library-renewal",
         "art": "library-book",
         "text": {
-          "f": "The overdue book insists the library is late collecting it. Its margins contain three centuries of increasingly personal legal arguments.",
-          "c": "The book claims the library is late collecting it. Its margins contain three centuries of legal argument and a remarkably personal assessment of librarians.",
-          "x": "Three hundred years overdue, and the book says the library is at fault. Its margins contain legal threats, unsolicited opinions, and enough bullshit to qualify as a second volume."
+          "f": "The book says it was returned on time three hundred years ago. The librarian says her records disagree. A faded receipt is stuck inside the cover.",
+          "c": "The library wants three hundred years of late fees. The book claims it was returned on time and asks whether anybody has bothered to read its receipt.",
+          "x": "The librarian wants three hundred years of late fees. The book says the receipt is inside its cover. Apparently nobody has opened the bloody thing."
         },
         "next": [
           {
@@ -1221,40 +1198,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Find the original return receipt in the margins",
+            "label": "Read the faded return receipt",
             "stat": "INT",
             "risk": "bold",
-            "win": "A receipt! The book had been using it as a character witness.",
-            "lose": "The margin cross-examines you until you forget your name.",
+            "win": "You recover the date and request a hearing to challenge the fine.",
+            "lose": "You misread the ink. The librarian slams a reference volume onto your fingers.",
             "onWin": {
               "flag": "book-evidence",
               "momentum": 1,
-              "memory": "You found a return receipt inside a book's legal argument."
+              "memory": "You recover the date and request a hearing to challenge the fine."
             }
           },
           {
-            "label": "Pay for a retrospective renewal",
+            "label": "Pay for a backdated renewal",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 18
             },
-            "hint": "Earn a hearing instead of being sent through the stacks.",
-            "win": "Your renewal is backdated to a kingdom that no longer exists.",
-            "lose": "Renewals are closed.",
+            "win": "The library renews the book from its original due date. The receipt will help with the final return.",
+            "lose": "The librarian refuses the renewal.",
             "onWin": {
               "flag": "book-evidence",
-              "memory": "You renewed the library book retroactively by three centuries."
+              "memory": "The library renews the book from its original due date. The receipt will help with the final return."
             }
           },
           {
-            "label": "Ignore its arguments and carry it inside",
+            "label": "Carry the book through the returns gate",
             "stat": "CON",
             "risk": "bold",
-            "win": "It quotes precedent all the way. You develop a useful immunity to footnotes.",
-            "lose": "It opens on a really sharp footnote.",
+            "win": "You get the book inside before the librarian can object.",
+            "lose": "The book snaps shut on your hand as the returns gate closes.",
             "onWin": {
-              "memory": "You carried a litigious book through three centuries of footnotes."
+              "memory": "You get the book inside before the librarian can object."
             }
           }
         ]
@@ -1263,30 +1239,30 @@ export const STORIES: QuestStory[] = [
         "id": "library-hearing",
         "art": "library-book",
         "text": {
-          "f": "A jury of dictionaries hears your case. The thesaurus keeps saying 'objection, protest, dissent, remonstrance'.",
-          "c": "A dictionary jury hears the case while the thesaurus raises an objection, protest, dissent and remonstrance. It appears to bill by the synonym.",
-          "x": "The jury is dictionaries. The thesaurus keeps objecting in four different ways. You are being tried by a bunch of books that cannot shut the fuck up."
+          "f": "A committee of talking dictionaries reviews the receipt. The librarian argues that 'returned' did not mean the same thing three hundred years ago.",
+          "c": "The dictionary committee is examining your receipt. The librarian is trying to redefine 'returned'. Even the thesaurus thinks this is a stretch.",
+          "x": "The librarian claims the word 'returned' has changed meaning. The dictionary committee has heard some pedantic bullshit, but this is new."
         },
         "choices": [
           {
-            "label": "Define 'overdue' narrowly enough to fit the receipt",
+            "label": "Compare the receipt with the old definition",
             "stat": "INT",
             "risk": "bold",
-            "win": "The dictionaries accept the definition. The thesaurus has no words. Briefly.",
-            "lose": "You are found guilty of lexical opportunism.",
+            "win": "The committee rules that the book was returned. It issues a written decision.",
+            "lose": "You cite the wrong edition. A dictionary drops heavily onto your foot.",
             "onWin": {
               "flag": "book-acquitted",
-              "memory": "A jury of dictionaries accepted your definition of overdue."
+              "memory": "The committee rules that the book was returned. It issues a written decision."
             }
           },
           {
-            "label": "Appeal to the children's section",
+            "label": "Ask the children’s librarian to explain it",
             "stat": "CHA",
             "risk": "safe",
-            "win": "A picture book supplies a simple moral. The dictionaries feel ashamed.",
-            "lose": "The moral is 'never trust strangers with fines'.",
+            "win": "She gives a very clear explanation. The committee rules in your favor.",
+            "lose": "She explains the overdue-book rules slowly, using you as the bad example.",
             "onWin": {
-              "memory": "A picture book shamed the library's dictionary jury."
+              "memory": "She gives a very clear explanation. The committee rules in your favor."
             }
           }
         ]
@@ -1295,30 +1271,30 @@ export const STORIES: QuestStory[] = [
         "id": "library-stacks",
         "art": "library-book",
         "text": {
-          "f": "The returns chute drops you into Reference. A librarian whispers that nobody leaves Reference without becoming a source.",
-          "c": "Reference admits visitors and retains them as citations. The librarian assures you this is an excellent opportunity to become a primary source.",
-          "x": "Nobody leaves Reference without becoming a source. The librarian calls it a publishing opportunity. You call it a fucking hostage policy."
+          "f": "The returns chute jams. The book is stuck behind a shelf in Reference. The librarian says you may fetch it, provided you do so in complete silence.",
+          "c": "The returns chute has lodged the book behind Reference. The librarian offers access, then points to a sign forbidding noise, ladders and useful assistance.",
+          "x": "The book is stuck behind Reference. The librarian forbids noise, ladders and moving the shelves. Getting it back will apparently require a bloody miracle."
         },
         "choices": [
           {
-            "label": "Catalogue your own escape under E",
+            "label": "Find the service hatch in the catalog",
             "stat": "INT",
             "risk": "reckless",
-            "win": "A perfect filing loophole. Your escape is now available in hardback.",
-            "lose": "You are cross-referenced under Trapped, see Also: Fool.",
+            "win": "The maintenance plan shows a hatch behind the shelf. You recover the book quietly.",
+            "lose": "You pull the wrong shelf latch. A stack of atlases falls on you.",
             "onWin": {
               "momentum": 1,
-              "memory": "You catalogued your library escape under E."
+              "memory": "The maintenance plan shows a hatch behind the shelf. You recover the book quietly."
             }
           },
           {
-            "label": "Crawl beneath the silent biographies",
+            "label": "Crawl under the shelves",
             "stat": "DEX",
             "risk": "safe",
-            "win": "One biography mouths 'good luck'. You decline to find out whose.",
-            "lose": "You sneeze in a volume of famous last words.",
+            "win": "You squeeze under the shelves and recover the book without a sound.",
+            "lose": "You sneeze in the dust. The librarian drags you out by your ankles.",
             "onWin": {
-              "memory": "A silent biography wished you luck beneath the library shelves."
+              "memory": "You squeeze under the shelves and recover the book without a sound."
             }
           }
         ]
@@ -1326,14 +1302,14 @@ export const STORIES: QuestStory[] = [
     ],
     "finaleChoices": [
       {
-        "label": "Cite the dictionary jury's acquittal",
+        "label": "Present the dictionary committee’s ruling",
         "stat": "INT",
         "risk": "safe",
         "requires": "book-acquitted",
-        "win": "The fine is struck out. The book begins writing its courtroom memoir.",
-        "lose": "The acquittal has itself accrued an overdue charge.",
+        "win": "The librarian accepts the ruling and cancels the fine. The book requests a quieter shelf.",
+        "lose": "The librarian finds a missing signature. She drops the appeals ledger onto your foot.",
         "onWin": {
-          "memory": "You defeated the library fine with a dictionary jury's acquittal."
+          "memory": "The librarian accepts the ruling and cancels the fine. The book requests a quieter shelf."
         }
       }
     ]
@@ -1346,9 +1322,9 @@ export const STORIES: QuestStory[] = [
         "id": "giant-instructions",
         "art": "giant-furniture",
         "text": {
-          "f": "The instructions show a smiling stick figure assembling a wardrobe with twelve hands. You have fewer hands and considerably less optimism.",
-          "c": "The wardrobe instructions depict a twelve-handed figure radiating professional satisfaction. You have two hands and a growing resentment of educational diagrams.",
-          "x": "The smug little bastard in the instructions has twelve hands. You have two, a tiny key, and a wardrobe apparently designed by someone who hates you."
+          "f": "The giant's wardrobe kit has six identical panels and no labels. The instructions show a smiling person holding a single tiny key. The giant is not smiling.",
+          "c": "The instructions promise easy assembly. They show a tiny smiling person, but omit the part where the screws weigh as much as you do.",
+          "x": "Six unlabelled panels, screws the size of goats and one tiny key. The instructions say this takes twenty minutes. Absolute bollocks."
         },
         "next": [
           {
@@ -1357,40 +1333,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Decipher the wordless stick-figure theology",
+            "label": "Work out which panel is the door",
             "stat": "INT",
             "risk": "bold",
-            "win": "You discover step one means 'do not build during a thunderstorm'. Useful, belatedly.",
-            "lose": "Step one means 'summon assistance'. You summon a hinge demon.",
+            "win": "You identify the hinges. The giant is delighted that the wardrobe might eventually open.",
+            "lose": "You fit the door as the floor. The giant asks you to demonstrate it.",
             "onWin": {
               "momentum": 1,
-              "memory": "You translated twelve-handed furniture instructions."
+              "memory": "You identify the hinges. The giant is delighted that the wardrobe might eventually open."
             }
           },
           {
-            "label": "Hire twelve goblin hands, attached to six goblins",
+            "label": "Hire a goblin assembly crew",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 16
             },
-            "hint": "Guarantee the opening assembly; owe the crew a recommendation.",
-            "win": "The crew arrives wearing tiny hard hats. One is the foreman and has no hands.",
-            "lose": "The crew is unavailable.",
+            "win": "The goblins label the panels and put up a sturdy frame.",
+            "lose": "The assembly crew declines the booking.",
             "onWin": {
               "flag": "assembly-crew",
-              "memory": "You hired a six-goblin furniture crew and their handless foreman."
+              "memory": "The goblins label the panels and put up a sturdy frame."
             }
           },
           {
-            "label": "Bend the panels until they resemble a wardrobe",
+            "label": "Force the panels into place",
             "stat": "STR",
             "risk": "reckless",
-            "win": "The wardrobe fits through the door. Technically, you made the door fit.",
-            "lose": "You invent flat-pack shrapnel.",
+            "win": "The joints fit after one determined shove. You discreetly pocket the splinters.",
+            "lose": "A panel slips from its groove and knocks you down.",
             "onLose": {
               "momentum": -1,
-              "memory": "Your furniture technique produced flat-pack shrapnel."
+              "memory": "A panel slips from its groove and knocks you down."
             }
           }
         ]
@@ -1399,30 +1374,30 @@ export const STORIES: QuestStory[] = [
         "id": "giant-spare-parts",
         "art": "giant-furniture",
         "text": {
-          "f": "There is one spare screw. The wardrobe says it is important. The giant asks why the wardrobe can speak. Neither is in the instructions.",
-          "c": "One screw remains. The wardrobe says it matters. The giant asks why the wardrobe is speaking. The instructions decline to comment on either development.",
-          "x": "A spare screw. A talking wardrobe. A giant asking you to explain both. None of this shit was on the front of the box."
+          "f": "The wardrobe stands upright, but one enormous screw remains. Whenever the giant opens a door, the whole frame leans towards you.",
+          "c": "One screw left. The giant says that usually means a spare. The wardrobe leans ominously towards the side without a hinge.",
+          "x": "The giant calls the last screw a spare. The wardrobe is leaning at a frankly alarming angle. You would prefer not to test that theory from underneath it."
         },
         "choices": [
           {
-            "label": "Ask the wardrobe which screw it is missing",
+            "label": "Find the empty hole in the hinge",
             "stat": "WIS",
             "risk": "safe",
-            "win": "It indicates its conscience. You fit the screw. It apologises for the shouting.",
-            "lose": "It requests a private consultation with the hinge demon.",
+            "win": "You fit the missing screw. The wardrobe stops leaning.",
+            "lose": "You loosen the wrong hinge. The door swings into your face.",
             "onWin": {
-              "memory": "You installed the wardrobe's conscience using the spare screw."
+              "memory": "You fit the missing screw. The wardrobe stops leaning."
             }
           },
           {
-            "label": "Perform the load test yourself",
+            "label": "Brace the frame during a load test",
             "stat": "CON",
             "risk": "bold",
-            "win": "You survive inside a wardrobe sitting inside another wardrobe. Certified.",
-            "lose": "The wardrobe decides you are a coat.",
+            "win": "You hold the frame steady while the giant secures the hinge.",
+            "lose": "The giant hangs up his coat. You discover how much a giant’s coat weighs.",
             "onWin": {
               "momentum": 1,
-              "memory": "You personally certified a giant's nesting wardrobes."
+              "memory": "You hold the frame steady while the giant secures the hinge."
             }
           }
         ]
@@ -1437,9 +1412,9 @@ export const STORIES: QuestStory[] = [
         "id": "nephew-snack",
         "art": "babysit",
         "text": {
-          "f": "The dark lord's nephew wants a bedtime story in which the moon gets eaten. The moon is visible through the window and listening anxiously.",
-          "c": "The nephew requests a story in which the moon is eaten. The actual moon is listening at the window with the expression of a threatened stakeholder.",
-          "x": "The kid wants a bedtime story about eating the moon. The moon is outside, listening. Even nursery duty apparently comes with this level of bullshit."
+          "f": "The dark lord's nephew demands the moon as a bedtime snack. He has a summoning wand and has already moved it worryingly close to the window.",
+          "c": "The nephew wants to eat the moon. With an ordinary child this would be a negotiation. This one has a wand and a telescope.",
+          "x": "The nephew wants the moon for supper and has a summoning wand. You need to get the little sod into bed before he ruins the tides."
         },
         "next": [
           {
@@ -1448,40 +1423,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Tell a story where the moon negotiates a smaller bite",
+            "label": "Tell a story about a moon-eating stomach ache",
             "stat": "CHA",
             "risk": "bold",
-            "win": "The child agrees to a crescent. The moon takes notes for its lawyer.",
-            "lose": "The child asks for a practical demonstration.",
+            "win": "The nephew decides the moon can stay where it is. For now, he asks for toast.",
+            "lose": "He wants to see whether your story is true. The wand fires past your ear.",
             "onWin": {
               "flag": "moon-promise",
-              "memory": "You promised the dark lord's nephew a story with only a crescent-sized bite."
+              "memory": "The nephew decides the moon can stay where it is. For now, he asks for toast."
             }
           },
           {
-            "label": "Replace the moon with a cheese wheel",
+            "label": "Offer a cheese wheel instead",
             "stat": "DEX",
             "risk": "safe",
-            "win": "A convincing lunar eclipse. The nephew requests crackers.",
-            "lose": "The moon complains that the cheese is a poor likeness.",
+            "win": "He accepts the cheese as a practice moon and puts down the wand.",
+            "lose": "He throws the cheese back. It was a disappointingly accurate moon.",
             "onWin": {
               "momentum": 1,
-              "memory": "You impersonated the moon using a cheese wheel."
+              "memory": "He accepts the cheese as a practice moon and puts down the wand."
             }
           },
           {
-            "label": "Purchase the officially licensed sleep spell",
+            "label": "Buy a licensed sleep spell",
             "stat": "INT",
             "risk": "bold",
             "deal": {
               "gold": 20
             },
-            "hint": "Preparation +1 for the finale; side effects include dreams about licensing.",
-            "win": "The spell arrives with seventeen pages of terms and a tiny pillow.",
-            "lose": "The spell is out of stock.",
+            "win": "The sleep spell settles him down long enough for a bedtime story.",
+            "lose": "The spell seller has none left.",
             "onWin": {
               "momentum": 1,
-              "memory": "You bought a licensed sleep spell with seventeen pages of terms."
+              "memory": "The sleep spell settles him down long enough for a bedtime story."
             }
           }
         ]
@@ -1490,30 +1464,30 @@ export const STORIES: QuestStory[] = [
         "id": "nephew-monster",
         "art": "babysit",
         "text": {
-          "f": "The monster under the bed hands you its resignation. It cannot work with a child who keeps asking it for career advice.",
-          "c": "The under-bed monster is resigning. The child keeps asking about its career prospects, and the monster has not prepared an answer it can live with.",
-          "x": "The monster under the bed has had enough of this shit. The child wants career advice and the monster is realising its own job has no pension."
+          "f": "The nephew's pet monster, Gerald, refuses to go under the bed. The child has been asking it to check for monsters. Gerald is beginning to worry.",
+          "c": "Gerald is supposed to be the monster under the bed. The nephew has asked him to check beneath it first. Gerald would like a second opinion.",
+          "x": "Gerald refuses to go under the bed until someone checks it for monsters. The child has managed to frighten his own bloody monster."
         },
         "choices": [
           {
-            "label": "Coach the monster through an exit interview",
+            "label": "Reassure Gerald after checking the room",
             "stat": "WIS",
             "risk": "safe",
-            "win": "It stays on a consultancy basis. The nephew respects the title.",
-            "lose": "The nephew offers it an unpaid internship. It bites the contract.",
+            "win": "Gerald settles under the bed. The child agrees it is safe to put his feet down.",
+            "lose": "Gerald mistakes your reassuring shadow for another monster and knocks you over.",
             "onWin": {
-              "memory": "The bedtime monster now works as a consultant."
+              "memory": "Gerald settles under the bed. The child agrees it is safe to put his feet down."
             }
           },
           {
-            "label": "Take over under-bed duties until lights out",
+            "label": "Take the first shift under the bed",
             "stat": "CON",
             "risk": "bold",
-            "win": "You make one convincing growl. The child finally brushes his teeth.",
-            "lose": "There is another monster under the monster. It wants your CV.",
+            "win": "You check the dust and give the all-clear. Gerald takes over gratefully.",
+            "lose": "You bang your head on the bed frame. The nephew rates your growl disappointingly low.",
             "onWin": {
               "momentum": 1,
-              "memory": "You covered the under-bed monster's shift."
+              "memory": "You check the dust and give the all-clear. Gerald takes over gratefully."
             }
           }
         ]
@@ -1528,9 +1502,9 @@ export const STORIES: QuestStory[] = [
         "id": "password-questions",
         "art": "password",
         "text": {
-          "f": "The tower asks a security question: 'What was your first familiar's maiden name?' The wizard insists it was a snail, and a very private snail.",
-          "c": "The tower wants the maiden name of the wizard's first familiar. The familiar was a snail with a complicated private life and excellent boundaries.",
-          "x": "The tower wants a snail's maiden name. The wizard insists it was a private snail. You are doing identity verification for a mollusc, for fuck's sake."
+          "f": "The tower asks for the name of the wizard's first familiar. He remembers it was a snail. He has forgotten the name. The snail lives just down the path.",
+          "c": "The wizard remembers his first familiar was a snail. The tower requires its name. The snail is nearby and is taking a very long time to introduce itself.",
+          "x": "The wizard has forgotten his familiar's name. It was a snail. He kept it for eighty years, the forgetful bastard."
         },
         "next": [
           {
@@ -1543,41 +1517,40 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Trace the snail's wedding announcement",
+            "label": "Find the snail’s old registration form",
             "stat": "INT",
             "risk": "bold",
-            "win": "Snail Society, volume four. The wedding was three inches from the birthplace.",
-            "lose": "The announcement is still travelling to the printer.",
+            "win": "The familiar register lists the snail’s name. The tower sends a recovery code.",
+            "lose": "The register collapses from its shelf. You are briefly buried in familiar paperwork.",
             "onWin": {
               "flag": "snail-answer",
               "momentum": 1,
-              "memory": "You located a wizard's snail familiar through its society wedding announcement."
+              "memory": "The familiar register lists the snail’s name. The tower sends a recovery code."
             }
           },
           {
-            "label": "Bribe the tower's helpdesk gargoyle",
+            "label": "Pay the helpdesk gargoyle",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 14
             },
-            "hint": "Reach the snail verification step.",
-            "win": "The gargoyle escalates you to someone technically alive.",
-            "lose": "The gargoyle is on lunch.",
+            "win": "The gargoyle retrieves the familiar’s name and starts the recovery process.",
+            "lose": "The gargoyle refuses the request.",
             "onWin": {
               "flag": "snail-answer",
-              "memory": "A helpdesk gargoyle escalated your password ticket to someone alive."
+              "memory": "The gargoyle retrieves the familiar’s name and starts the recovery process."
             }
           },
           {
-            "label": "Climb past the login window",
+            "label": "Climb to the wizard’s window",
             "stat": "DEX",
             "risk": "reckless",
-            "win": "You bypass authentication using a drainpipe. Security hates this one trick.",
-            "lose": "The drainpipe requests a verification code.",
+            "win": "You bypass the locked door and find his recovery notes on the desk.",
+            "lose": "The window has the same lock. You lose your grip while arguing with it.",
             "onLose": {
               "momentum": -1,
-              "memory": "A drainpipe locked you out for failing two-factor authentication."
+              "memory": "The window has the same lock. You lose your grip while arguing with it."
             }
           }
         ]
@@ -1586,30 +1559,30 @@ export const STORIES: QuestStory[] = [
         "id": "password-snail",
         "art": "password",
         "text": {
-          "f": "The tower sends a one-time code to the snail. You can see the snail. You can also see it beginning a long and thoughtful turn.",
-          "c": "A login code is on its way via snail. The snail has begun turning around. The concept of one-time access is being tested rather aggressively.",
-          "x": "The code went to the snail. The snail is still turning around. Whoever designed this fucking security system deserves to use it."
+          "f": "The tower has posted a recovery code to the snail. The code expires at sunset. The snail is still crossing the doorstep to collect it.",
+          "c": "The recovery code has arrived. Unfortunately, the snail insists on opening its own post. The code expires at sunset, which it considers rather hasty.",
+          "x": "The code expires at sunset. The snail insists on opening its own post and is still crossing the doorstep. You may be here all bloody day."
         },
         "choices": [
           {
-            "label": "Read the code in its trail before it expires",
+            "label": "Read the code over the snail’s shoulder",
             "stat": "DEX",
             "risk": "bold",
-            "win": "Correct on the first attempt. It was six zeroes and a leaf.",
-            "lose": "The trail spells 'loading'. You have been misled.",
+            "win": "You read all six digits before the code expires.",
+            "lose": "The snail turns to block your view. You lean too far and fall off the doorstep.",
             "onWin": {
               "flag": "password-proof",
-              "memory": "You decoded two-factor authentication from a snail trail."
+              "memory": "You read all six digits before the code expires."
             }
           },
           {
-            "label": "Convince the tower that patience is secure",
+            "label": "Ask the tower to extend the deadline",
             "stat": "WIS",
             "risk": "safe",
-            "win": "It extends the timeout to geological time. Sensible for a snail.",
-            "lose": "It classifies you as suspiciously patient.",
+            "win": "The tower allows extra time for snail post. You receive a valid code.",
+            "lose": "The tower refuses the extension and shocks you for repeated requests.",
             "onWin": {
-              "memory": "The wizard's tower now supports geological-time login codes."
+              "memory": "The tower allows extra time for snail post. You receive a valid code."
             }
           }
         ]
@@ -1618,30 +1591,30 @@ export const STORIES: QuestStory[] = [
         "id": "password-lockout",
         "art": "password",
         "text": {
-          "f": "Too many attempts. The tower has locked itself out of itself. It asks you to click every picture containing a smaller tower.",
-          "c": "The tower has locked itself out of itself and is now asking you to identify pictures of smaller towers. Architectural self-esteem appears to be the actual vulnerability.",
-          "x": "The tower locked itself out and now wants pictures of other towers clicked. Even enchanted architecture has apparently outsourced its security to complete bastards."
+          "f": "Too many wrong guesses have locked the door. To try again, you must identify every tower in a set of pictures. The wizard calls several of them 'large sheds'.",
+          "c": "The door's security test asks you to identify towers. The wizard is disputing the difference between a tower and a tall shed. The door is counting failures.",
+          "x": "The wizard keeps calling towers 'tall sheds'. The door's security test keeps rejecting him. You need to settle this before another bloody lockout."
         },
         "choices": [
           {
-            "label": "Solve the architectural identity crisis",
+            "label": "Identify the towers correctly",
             "stat": "INT",
             "risk": "bold",
-            "win": "You explain that a turret can be part of a tower. It weeps stone tears.",
-            "lose": "It decides you are a smaller tower and tries to absorb you.",
+            "win": "You complete the test. The door grants another password attempt.",
+            "lose": "You select a windmill. The door’s alarm knocks you off the step.",
             "onWin": {
               "momentum": 1,
-              "memory": "You talked a locked-out tower through an architectural identity crisis."
+              "memory": "You complete the test. The door grants another password attempt."
             }
           },
           {
-            "label": "Offer emotional support without accepting cookies",
+            "label": "Persuade the wizard to stop helping",
             "stat": "CHA",
             "risk": "safe",
-            "win": "The tower calms down. You retain control of your browsing preferences.",
-            "lose": "It offers actual cookies. They are masonry.",
+            "win": "The wizard steps aside. You finish the test without his architectural opinions.",
+            "lose": "He shouts another answer over yours. The door rejects both and slams shut.",
             "onWin": {
-              "memory": "You comforted a wizard's tower without accepting its cookies."
+              "memory": "The wizard steps aside. You finish the test without his architectural opinions."
             }
           }
         ]
@@ -1656,9 +1629,9 @@ export const STORIES: QuestStory[] = [
         "id": "wedding-seating",
         "art": "vampire-wedding",
         "text": {
-          "f": "The seating chart puts the bride's ex next to the garlic fountain. The best man says this is a coincidence, then asks if you brought a mop.",
-          "c": "The bride's ex is seated beside a garlic fountain. The best man calls this coincidence while quietly confirming your access to a mop.",
-          "x": "The bride's ex is sitting beside a garlic fountain. The best man swears it is an accident. The smug bastard has already brought a mop."
+          "f": "Someone has put the bride's ex beside the garlic dip. The groom says it was an accident. The ex has already asked for a different table.",
+          "c": "The bride's ex is seated beside the garlic dip. The groom insists this was an innocent mistake. He is having trouble suppressing a smile.",
+          "x": "The groom has seated the bride's ex beside the garlic dip. He calls it a mistake. The smug bastard has also put garlic on the place card."
         },
         "next": [
           {
@@ -1667,40 +1640,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Rearrange six centuries of grudges",
+            "label": "Rearrange the seating plan",
             "stat": "INT",
             "risk": "bold",
-            "win": "Everyone sits beside someone they have only moderately murdered.",
-            "lose": "You seat an ancestral feud beside another ancestral feud. They reconnect.",
+            "win": "You separate the ex, the groom and the garlic. Dinner can begin.",
+            "lose": "You move the ex beside another former spouse. Their argument sends a chair your way.",
             "onWin": {
               "momentum": 1,
-              "memory": "You arranged a vampire wedding by degrees of ancestral murder."
+              "memory": "You separate the ex, the groom and the garlic. Dinner can begin."
             }
           },
           {
-            "label": "Pay to replace the garlic fountain with beetroot",
+            "label": "Pay to replace the garlic dip",
             "stat": "WIS",
             "risk": "safe",
             "deal": {
               "gold": 18
             },
-            "hint": "Save the ex; gain an ally for the reception.",
-            "win": "The ex is grateful. The beetroot is delighted by its promotion.",
-            "lose": "The supplier has departed.",
+            "win": "A waiter replaces the dip with beetroot. The ex agrees to stay.",
+            "lose": "The caterer refuses the replacement order.",
             "onWin": {
               "flag": "wedding-ally",
-              "memory": "You saved the vampire bride's ex with a beetroot fountain."
+              "memory": "A waiter replaces the dip with beetroot. The ex agrees to stay."
             }
           },
           {
-            "label": "Carry the fountain into the sunlight yourself",
+            "label": "Carry the garlic outside",
             "stat": "STR",
             "risk": "reckless",
-            "win": "A clean removal. Several guests leave appreciative scorch marks.",
-            "lose": "The fountain has an aggressive splash radius.",
+            "win": "You remove the garlic before anyone starts a fight.",
+            "lose": "You spill garlic dip down your front. Several guests shove you toward the exit.",
             "onLose": {
               "momentum": -1,
-              "memory": "The garlic fountain splashed you during the vampire wedding."
+              "memory": "You spill garlic dip down your front. Several guests shove you toward the exit."
             }
           }
         ]
@@ -1709,30 +1681,30 @@ export const STORIES: QuestStory[] = [
         "id": "wedding-toast",
         "art": "vampire-wedding",
         "text": {
-          "f": "The best man's toast begins 'I remember her first husband'. There were forty-seven. He has brought slides.",
-          "c": "The best man has a slideshow about forty-seven previous husbands. The bride looks like someone mentally revising the seating plan and a will.",
-          "x": "The best man has brought slides about all forty-seven ex-husbands. Forty-seven. This speech is going to be an absolute fucking catastrophe."
+          "f": "The best man starts a slideshow of the bride's previous weddings. There are forty-seven. The groom asks how to turn the projector off.",
+          "c": "The best man's toast includes forty-seven previous husbands and a slideshow. The bride has stopped smiling. The groom is looking for the plug.",
+          "x": "The best man has brought slides of all forty-seven previous husbands. The bride wants the projector off before the bloody engagement ends."
         },
         "choices": [
           {
-            "label": "Catch the projector cable with your foot",
+            "label": "Pull the projector cable discreetly",
             "stat": "DEX",
             "risk": "safe",
-            "win": "A tactful technical failure. The bride silently names you in her will.",
-            "lose": "The cable was a guest's tail. The slideshow continues during the fight.",
+            "win": "The screen goes dark. The bride calls it a welcome technical fault.",
+            "lose": "You pull a guest’s tail instead. The slides continue while the guest pursues you.",
             "onWin": {
-              "memory": "You ended a forty-seven-husband wedding slideshow with a discreet cable tug."
+              "memory": "The screen goes dark. The bride calls it a welcome technical fault."
             }
           },
           {
-            "label": "Deliver a better toast before slide two",
+            "label": "Offer a short toast to the newlyweds",
             "stat": "CHA",
             "risk": "bold",
-            "win": "You focus on their future. This may be eternal, but you keep it to a minute.",
-            "lose": "Your opening line is 'til death do you part'. An awkward room.",
+            "win": "Your toast wins the room. The best man reluctantly puts away the slides.",
+            "lose": "You begin with “until death do you part.” The vampires are not impressed.",
             "onWin": {
               "momentum": 1,
-              "memory": "Your one-minute wedding toast displaced forty-seven dead husbands."
+              "memory": "Your toast wins the room. The best man reluctantly puts away the slides."
             }
           }
         ]
@@ -1747,9 +1719,9 @@ export const STORIES: QuestStory[] = [
         "id": "fountain-plumber",
         "art": "fountain",
         "text": {
-          "f": "The plumber has accidentally become six. His apprenticeship paperwork says he will qualify in seventeen years. His toolbox is already judging you.",
-          "c": "The plumber has become six. His apprenticeship will qualify him in seventeen years. His toolbox is treating your qualifications with entirely unwarranted scepticism.",
-          "x": "The plumber is six, his qualifications are seventeen years away, and even the toolbox thinks you are underqualified. Temporal plumbing is a bastard of a trade."
+          "f": "A splash from the Fountain of Youth has turned the plumber into a child. He remembers the repair, but cannot reach the valve. His drawing might help.",
+          "c": "The plumber is now six and cannot reach his tools. He has drawn the broken valve in crayon. His employer is disputing the call-out fee.",
+          "x": "The plumber is six years old and his boss still expects him to finish the bloody repair. He has drawn you a diagram in crayon."
         },
         "next": [
           {
@@ -1758,41 +1730,40 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Translate his finger-paint plumbing diagram",
+            "label": "Read the plumber’s crayon diagram",
             "stat": "INT",
             "risk": "bold",
-            "win": "The blue blob is a temporal valve. The green blob is his mum.",
-            "lose": "You open his mum. Metaphorically. The toolbox disapproves.",
+            "win": "You identify the leaking valve and shut it off. The plumber gives you a gold star.",
+            "lose": "You open the wrong valve. A jet of water knocks you into the tool chest.",
             "onWin": {
               "flag": "valve-map",
               "momentum": 1,
-              "memory": "A six-year-old plumber's finger painting revealed the temporal valve."
+              "memory": "You identify the leaking valve and shut it off. The plumber gives you a gold star."
             }
           },
           {
-            "label": "Hire the plumber's future qualified self",
+            "label": "Hire a plumber who has not been splashed",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 20
             },
-            "hint": "Get the valve map; create a very awkward family meeting.",
-            "win": "He arrives, grounds himself, and hands over a diagram.",
-            "lose": "His future self is unavailable.",
+            "win": "A second plumber arrives with a ladder and seals the leak.",
+            "lose": "No other plumber will take the job.",
             "onWin": {
               "flag": "valve-map",
-              "memory": "You hired a future plumber who promptly grounded his six-year-old self."
+              "memory": "A second plumber arrives with a ladder and seals the leak."
             }
           },
           {
-            "label": "Hold the pipe shut until adulthood returns",
+            "label": "Hold the pipe closed for the plumber",
             "stat": "STR",
             "risk": "reckless",
-            "win": "The leak stops. You briefly remember a retirement you have not earned.",
-            "lose": "Your arms experience puberty in opposite directions.",
+            "win": "You stop the spray while he tightens the valve.",
+            "lose": "The pipe slips from your grip and sprays you across the courtyard.",
             "onLose": {
               "momentum": -1,
-              "memory": "The Fountain of Youth gave your arms incompatible ages."
+              "memory": "The pipe slips from your grip and sprays you across the courtyard."
             }
           }
         ]
@@ -1801,30 +1772,30 @@ export const STORIES: QuestStory[] = [
         "id": "fountain-tuesday",
         "art": "fountain",
         "text": {
-          "f": "A blockage of discarded birthdays has flooded Tuesday. An elderly toddler asks whether you are here yesterday or just badly organised.",
-          "c": "Discarded birthdays have flooded Tuesday. An elderly toddler asks whether you are here yesterday or merely running late. The cake situation is becoming political.",
-          "x": "Tuesday is clogged with birthdays. An elderly toddler is questioning your timekeeping. Even the fucking cake has developed a scheduling conflict."
+          "f": "The fountain is clogged with old birthday candles. Water is spilling across the courtyard, making everyone who steps in it younger. A toddler demands his pension.",
+          "c": "Old birthday candles have blocked the fountain. The flooded courtyard is getting younger by the minute. A toddler is complaining about his pension.",
+          "x": "Birthday candles have blocked the fountain. The flooded courtyard is full of furious toddlers demanding their pensions. Somebody needs to clear the bloody drain."
         },
         "choices": [
           {
-            "label": "Sort the birthdays into chronological order",
+            "label": "Remove the candles with the drain hook",
             "stat": "WIS",
             "risk": "bold",
-            "win": "Tuesday drains. Everyone gets one appropriate-sized slice of cake.",
-            "lose": "You put Leap Day first. An extra Tuesday appears.",
+            "win": "The candles come free and the courtyard drains. The pensioners demand dry socks.",
+            "lose": "The hook slips. A spray of water sends you sprawling across the paving stones.",
             "onWin": {
               "momentum": 1,
-              "memory": "You drained Tuesday by sorting discarded birthdays."
+              "memory": "The candles come free and the courtyard drains. The pensioners demand dry socks."
             }
           },
           {
-            "label": "Wade upstream without remembering your own birth",
+            "label": "Wade in and reach the overflow valve",
             "stat": "CON",
             "risk": "safe",
-            "win": "You reach the valve before the flashback. A merciful omission.",
-            "lose": "You remember it. You were cross then, too.",
+            "win": "You open the valve before the water rises any farther.",
+            "lose": "The water makes your boots too big. You trip before reaching the valve.",
             "onWin": {
-              "memory": "You reached the time valve without witnessing your own birth."
+              "memory": "You open the valve before the water rises any farther."
             }
           }
         ]
@@ -1839,46 +1810,45 @@ export const STORIES: QuestStory[] = [
         "id": "marrow-bribe",
         "art": "marrow",
         "text": {
-          "f": "The prize marrow has slipped you a note: 'I grew myself. The farmer did nothing.' The farmer quietly offers you a smaller marrow full of coins.",
-          "c": "The prize marrow claims sole credit for its growth. Its farmer offers you a smaller marrow packed with coins. Neither has declared this a conflict of interest.",
-          "x": "The big marrow says its farmer did fuck-all. The farmer offers a smaller marrow full of money. Agricultural ethics have apparently gone straight out the window."
+          "f": "Two farmers are competing for the prize squash. One quietly offers you a smaller squash stuffed with coins. The other has brought a very large pitchfork.",
+          "c": "One farmer offers you a squash full of coins. He calls it a free sample. His rival is watching your pockets with considerable interest.",
+          "x": "One farmer offers you a squash stuffed with coins. His rival is watching with a pitchfork. These bastards take the vegetable contest seriously."
         },
         "choices": [
           {
-            "label": "Interview the marrow independently",
+            "label": "Question both farmers in public",
             "stat": "WIS",
             "risk": "bold",
-            "win": "It supplies photographic evidence, including a humiliating watering-can incident.",
-            "lose": "It demands anonymity. It is the only twenty-foot marrow in the village.",
+            "win": "Both farmers explain their methods. With witnesses watching, neither can offer another bribe.",
+            "lose": "One farmer accuses you of favoritism. The crowd pushes you off the judging platform.",
             "onWin": {
               "flag": "marrow-testimony",
               "momentum": 1,
-              "memory": "The prize marrow testified against its farmer."
+              "memory": "Both farmers explain their methods. With witnesses watching, neither can offer another bribe."
             }
           },
           {
-            "label": "Buy the coin marrow as evidence",
+            "label": "Buy the coin-filled squash as evidence",
             "stat": "INT",
             "risk": "safe",
             "deal": {
               "gold": 12
             },
-            "hint": "Keep the bribe off the judging table.",
-            "win": "Evidence secured. Lunch secured. Fiscal policy surprisingly edible.",
-            "lose": "The exhibit has been sold.",
+            "win": "You keep the coins as evidence and disqualify the farmer who offered them.",
+            "lose": "The farmer withdraws his offer.",
             "onWin": {
-              "memory": "You purchased an evidence marrow filled with attempted bribery."
+              "memory": "You keep the coins as evidence and disqualify the farmer who offered them."
             }
           },
           {
-            "label": "Lift the prize marrow to check for hidden supports",
+            "label": "Lift the giant squash onto the scales",
             "stat": "STR",
             "risk": "reckless",
-            "win": "Entirely self-supporting. It flexes a leaf, smugly.",
-            "lose": "It asks to put you down for a moment. It does so from a height.",
+            "win": "You get an honest weight. The farmer who exaggerated his entry goes very quiet.",
+            "lose": "The squash slips off the scales and pins your foot.",
             "onLose": {
               "momentum": -1,
-              "memory": "The prize marrow demonstrated its strength by dropping you."
+              "memory": "The squash slips off the scales and pins your foot."
             }
           }
         ]
@@ -1893,9 +1863,9 @@ export const STORIES: QuestStory[] = [
         "id": "kraken-shallow",
         "art": "kraken",
         "text": {
-          "f": "The kraken has booked the shallow end. It occupies the whole shallow end, most of the deep end, and the lifeguard's increasingly small office.",
-          "c": "Your student occupies the shallow end, most of the deep end and the lifeguard's personal space. Only the armbands seem professionally confident.",
-          "x": "The kraken has commandeered the pool, the lifeguard's office and most of your patience. Eight armbands, one giant embarrassment, and not a fucking stroke between them."
+          "f": "Your kraken student has booked a private swimming lesson. It is clinging to the pier and insists the water looks deeper from this close up.",
+          "c": "The kraken is clinging to the pier. It has eight armbands, but would prefer a ninth in case one of its arms gets nervous.",
+          "x": "The kraken has eight armbands and still will not let go of the pier. It says the water looks bloody deep. You can see the bottom."
         },
         "next": [
           {
@@ -1904,40 +1874,39 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Design a floatation aid for eight embarrassed arms",
+            "label": "Fit the armbands one at a time",
             "stat": "INT",
             "risk": "bold",
-            "win": "Eight armbands, one dignity-preserving cape. It relaxes.",
-            "lose": "Your prototype is technically a net. It has strong feelings about nets.",
+            "win": "The kraken relaxes as you check each armband. It agrees to try the shallow water.",
+            "lose": "You tighten a strap too far. The startled kraken knocks you off the pier.",
             "onWin": {
               "flag": "kraken-confidence",
               "momentum": 1,
-              "memory": "You designed a dignity-preserving swimming cape for a kraken."
+              "memory": "The kraken relaxes as you check each armband. It agrees to try the shallow water."
             }
           },
           {
-            "label": "Book a private lesson without spectators",
+            "label": "Pay to keep spectators off the pier",
             "stat": "CHA",
             "risk": "safe",
             "deal": {
               "gold": 16
             },
-            "hint": "Protect its confidence; earn a calmer finale approach.",
-            "win": "The lifeguard clears the pool. The pool itself thanks you.",
-            "lose": "The pool is fully booked.",
+            "win": "The lifeguard clears the pier. The kraken agrees to practice in private.",
+            "lose": "The lifeguard refuses to close the pier.",
             "onWin": {
               "flag": "kraken-confidence",
-              "memory": "You funded a private swimming lesson for an embarrassed kraken."
+              "memory": "The lifeguard clears the pier. The kraken agrees to practice in private."
             }
           },
           {
-            "label": "Demonstrate breathing without showing off",
+            "label": "Demonstrate how to float",
             "stat": "CON",
             "risk": "safe",
-            "win": "You inhale. You exhale. The kraken applauds eight times.",
-            "lose": "You swallow a mouthful. It cancels the demonstration on your behalf.",
+            "win": "You float calmly beside the pier. The kraken loosens its grip to watch.",
+            "lose": "You swallow a mouthful of water. The kraken hauls you out and loses confidence.",
             "onWin": {
-              "memory": "Your modest breathing demonstration won eight rounds of kraken applause."
+              "memory": "You float calmly beside the pier. The kraken loosens its grip to watch."
             }
           }
         ]
@@ -1946,30 +1915,30 @@ export const STORIES: QuestStory[] = [
         "id": "kraken-peer-pressure",
         "art": "kraken",
         "text": {
-          "f": "Other krakens arrive to watch. Your student tries to hide behind a pool noodle. Only one inch of it is hidden, but that inch is committed.",
-          "c": "The other krakens arrive. Your pupil hides one determined inch behind a pool noodle, which has suddenly become a very important privacy barrier.",
-          "x": "Your kraken is hiding behind a pool noodle while its mates watch. One inch concealed, several tonnes exposed. The noodle is doing its best, poor bastard."
+          "f": "Other krakens arrive to watch. Your student hides behind a pool noodle. Most of it remains visible, but you decide not to mention that.",
+          "c": "Your student tries to hide behind one pool noodle as other krakens arrive. It is a heroic effort to conceal something larger than the pier.",
+          "x": "The kraken is hiding behind a pool noodle. The other krakens can plainly see it, but you would rather not make the poor sod feel worse."
         },
         "choices": [
           {
-            "label": "Recruit the onlookers as an encouraging wave machine",
+            "label": "Ask the onlookers to encourage it",
             "stat": "CHA",
             "risk": "bold",
-            "win": "They cheer in eight-part harmony. Your student emerges from the inch.",
-            "lose": "They do a Mexican wave. It becomes a local weather event.",
+            "win": "The other krakens admit they were nervous beginners too. Your student comes out from behind the noodle.",
+            "lose": "The cheering creates a wave that sweeps you across the pier.",
             "onWin": {
               "momentum": 1,
-              "memory": "You turned mocking krakens into an eight-part cheering section."
+              "memory": "The other krakens admit they were nervous beginners too. Your student comes out from behind the noodle."
             }
           },
           {
-            "label": "Float beside the pool noodle and wait",
+            "label": "Practice beside the noodle until it relaxes",
             "stat": "WIS",
             "risk": "safe",
-            "win": "Eventually, another inch lets go. It is a start.",
-            "lose": "The pool noodle asks you to stop leaning on it emotionally.",
+            "win": "The kraken stops watching the crowd and starts copying your strokes.",
+            "lose": "The kraken grabs you for reassurance. Eight arms are considerably more reassurance than you need.",
             "onWin": {
-              "memory": "You waited quietly beside a kraken's determined pool noodle."
+              "memory": "The kraken stops watching the crowd and starts copying your strokes."
             }
           }
         ]
@@ -1977,14 +1946,14 @@ export const STORIES: QuestStory[] = [
     ],
     "finaleChoices": [
       {
-        "label": "Use the private lesson's one-arm-at-a-time routine",
+        "label": "Use the private lesson’s floating routine",
         "stat": "WIS",
         "risk": "safe",
         "requires": "kraken-confidence",
-        "win": "One arm, then two, then eight. The cape is unnecessary now. It keeps it anyway.",
+        "win": "The kraken lets go, floats, and begins to swim. It asks you to watch one more length.",
         "lose": "Eight arms choose eight directions. You are the meeting point.",
         "onWin": {
-          "memory": "The kraken learned to swim and kept its dignity cape."
+          "memory": "The kraken lets go, floats, and begins to swim. It asks you to watch one more length."
         }
       }
     ]
@@ -1997,9 +1966,9 @@ export const STORIES: QuestStory[] = [
         "id": "parade-map",
         "art": "parade",
         "text": {
-          "f": "The Parade of Snails has reached the first kerb. The marshal announces a brief six-hour pause. A snail asks you to post its resignation ahead of it.",
-          "c": "The snails have reached a kerb and declared a six-hour operational pause. One requests that its resignation be sent by a faster species.",
-          "x": "The parade has stopped at its first fucking kerb. Six-hour pause. One snail wants its resignation delivered by someone who might reach the office this century."
+          "f": "The snail parade has stopped at its first curb. The marshal has scheduled a six-hour climb. The finish line is only across the street.",
+          "c": "The first curb has stopped the snail parade. The marshal allows six hours for the climb. The band has already played its entire song twice.",
+          "x": "The snail parade has stopped at a curb. The marshal says climbing it will take six hours. You could have carried the whole bloody parade across by now."
         },
         "next": [
           {
@@ -2008,39 +1977,38 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Find a level route that avoids the salt merchant",
+            "label": "Find a route around the curb",
             "stat": "WIS",
             "risk": "bold",
-            "win": "A safe detour. The salt merchant calls you anti-business.",
-            "lose": "Your detour crosses a crisp factory's loading bay.",
+            "win": "You lead the parade down a ramp. The marshal records this as a major expedition.",
+            "lose": "The ramp ends beside a salt merchant’s stall. You slip while steering the parade away.",
             "onWin": {
               "momentum": 1,
-              "memory": "You rerouted the snail parade away from a salt merchant."
+              "memory": "You lead the parade down a ramp. The marshal records this as a major expedition."
             }
           },
           {
-            "label": "Hire a very small wagon for the first kerb",
+            "label": "Hire a tiny wagon",
             "stat": "INT",
             "risk": "safe",
             "deal": {
               "gold": 14
             },
-            "hint": "Save time; the snails insist it still counts as walking.",
-            "win": "Four hundred passengers, one modest axle. A historic ascent.",
-            "lose": "The wagon is unavailable.",
+            "win": "You lift the snails over the curb in a wagon. They insist it still counts as marching.",
+            "lose": "The wagon rental is closed.",
             "onWin": {
               "flag": "snail-wagon",
-              "memory": "A tiny wagon carried four hundred snails over their first kerb."
+              "memory": "You lift the snails over the curb in a wagon. They insist it still counts as marching."
             }
           },
           {
-            "label": "Carry the marshal until morale improves",
+            "label": "Carry the marshal to lead the way",
             "stat": "STR",
             "risk": "safe",
-            "win": "He thanks you in a speech that lasts until tomorrow.",
-            "lose": "He has a very heavy ceremonial shell.",
+            "win": "You lift the marshal onto the sidewalk. The parade follows his flag up a safer slope.",
+            "lose": "His ceremonial shell is heavier than it looks. You fall backward into the gutter.",
             "onWin": {
-              "memory": "You carried the snail marshal through his day-long thank-you speech."
+              "memory": "You lift the marshal onto the sidewalk. The parade follows his flag up a safer slope."
             }
           }
         ]
@@ -2049,30 +2017,30 @@ export const STORIES: QuestStory[] = [
         "id": "parade-weather",
         "art": "parade",
         "text": {
-          "f": "Rain arrives. The snails are delighted until they discover the puddle has organised a rival parade and is claiming the route.",
-          "c": "Rain improves morale until the puddle starts a rival procession. It now claims the route. Municipal event planning has achieved an unnecessary new depth.",
-          "x": "The snails liked the rain until the puddle organised its own parade and claimed the route. Even the fucking weather has a committee now."
+          "f": "Rain has flooded the parade route. The snails love the weather, but the marshal refuses to change course because the programs have already been printed.",
+          "c": "The parade route is underwater. The snails are delighted. The marshal says a detour is impossible because he has personally laminated the map.",
+          "x": "The street is flooded. The snails love it. The marshal refuses a detour because he has already printed the bloody programs."
         },
         "choices": [
           {
-            "label": "Merge the parades without dissolving the committee",
+            "label": "Persuade the marshal to approve a detour",
             "stat": "CHA",
             "risk": "bold",
-            "win": "Snails lead, puddle follows. The route becomes temporarily scenic.",
-            "lose": "The puddle insists on equal shell representation.",
+            "win": "He approves a dry route and announces that the change was his idea.",
+            "lose": "He orders the original route. You slip into the flooded gutter while arguing with him.",
             "onWin": {
               "momentum": 1,
-              "memory": "You negotiated a joint snail-and-puddle parade."
+              "memory": "He approves a dry route and announces that the change was his idea."
             }
           },
           {
-            "label": "Hold an umbrella over all four hundred marchers",
+            "label": "Build a bridge with your umbrella",
             "stat": "CON",
             "risk": "reckless",
-            "win": "An impossible stretch of arms. The snails chant your name very slowly.",
-            "lose": "Your umbrella is declared an unauthorised venue.",
+            "win": "The snails cross the umbrella in single file. The marshal requests a ribbon-cutting ceremony.",
+            "lose": "The umbrella folds under the wet shells. You fall into the gutter trying to hold it open.",
             "onWin": {
-              "memory": "Four hundred snails chanted your name beneath one umbrella."
+              "memory": "The snails cross the umbrella in single file. The marshal requests a ribbon-cutting ceremony."
             }
           }
         ]
@@ -2087,9 +2055,9 @@ export const STORIES: QuestStory[] = [
         "id": "showdown-backstage",
         "art": "showdown",
         "text": {
-          "f": "Backstage, your rival is rehearsing a victory speech into a hairbrush. The trophy engraver has sensibly left both names in pencil.",
-          "c": "Your rival practises a victory speech into a hairbrush. The engraver has left both names in pencil, demonstrating the most useful qualification in the room.",
-          "x": "Your rival is rehearsing a victory speech into a hairbrush. The engraver has both names in pencil because, unlike the smug bastard with the brush, they understand uncertainty."
+          "f": "Your rival is rehearsing a victory speech into a hairbrush. The trophy engraver has left the winner's name blank. Your rival has asked him to reconsider.",
+          "c": "Your rival is practicing a victory speech. The engraver refuses to add a name until the contest ends. Neither of them is enjoying the conversation.",
+          "x": "Your rival wants the trophy engraved before the contest. The engraver says no. The arrogant bastard has offered to spell the name out more slowly."
         },
         "next": [
           {
@@ -2102,44 +2070,43 @@ export const STORIES: QuestStory[] = [
         ],
         "choices": [
           {
-            "label": "Call in the truce you made on the road",
+            "label": "Honor your truce with the rival",
             "stat": "CHA",
             "risk": "safe",
             "requires": "season-rival-truce",
             "deal": {
               "gold": 0
             },
-            "hint": "Unlock a shared-trophy ending.",
-            "win": "The hairbrush lowers. For once, you are both off script.",
-            "lose": "Your rival declines.",
+            "win": "You agree to ask the Guild for a shared award. Your rival puts away the speech.",
+            "lose": "Your rival refuses to discuss the truce.",
             "onWin": {
               "flag": "shared-trophy",
-              "memory": "Your rival agreed to honour the road truce at the showdown."
+              "memory": "You agree to ask the Guild for a shared award. Your rival puts away the speech."
             }
           },
           {
-            "label": "Find the page of rules that forbids pre-written speeches",
+            "label": "Check the contest rules",
             "stat": "INT",
             "risk": "bold",
-            "win": "Rule 43. Your rival quietly eats page one.",
-            "lose": "The page is an advertisement for your rival's memoir.",
+            "win": "You find the rule requiring an unmarked trophy. The engraver thanks you.",
+            "lose": "You mistake a sponsor’s advertisement for the rules. Your rival gives you a very public shove.",
             "onWin": {
               "momentum": 1,
-              "memory": "You challenged your rival's pre-written victory speech under Rule 43."
+              "memory": "You find the rule requiring an unmarked trophy. The engraver thanks you."
             }
           },
           {
-            "label": "Warm up by lifting the entire podium",
+            "label": "Lift the podium during the warm-up",
             "stat": "STR",
             "risk": "reckless",
-            "win": "The speech becomes considerably less confident.",
-            "lose": "The podium's foundations have sponsors of their own.",
+            "win": "Your display makes the rival stop rehearsing and start paying attention.",
+            "lose": "The podium is bolted down. Your attempted warm-up ends with a strained back.",
             "onWin": {
-              "memory": "You intimidated your rival by lifting the podium."
+              "memory": "Your display makes the rival stop rehearsing and start paying attention."
             },
             "onLose": {
               "momentum": -1,
-              "memory": "A sponsored podium defeated your backstage warm-up."
+              "memory": "The podium is bolted down. Your attempted warm-up ends with a strained back."
             }
           }
         ]
@@ -2148,30 +2115,30 @@ export const STORIES: QuestStory[] = [
         "id": "showdown-truce",
         "art": "showdown",
         "text": {
-          "f": "Your rival suggests sawing the trophy in half. The engraver refuses on artistic grounds. You need a joint ending with fewer metal filings.",
-          "c": "Your rival proposes halving the trophy. The engraver proposes preserving artistic integrity. Neither has yet suggested the radical alternative of sharing a shelf.",
-          "x": "Your rival wants to saw the trophy in half. The engraver tells you both to stop being idiots. You need a happy ending with less fucking metalwork."
+          "f": "You and your rival want to share the award. The Guild wants to know who will do the work. The engraver wants to know whose name goes first.",
+          "c": "The Guild will consider a shared award if you agree on the work. The engraver has suggested alphabetical order. Your rival suddenly wants a different name.",
+          "x": "You have agreed to share the award. Now the Guild wants twice the work for one salary. Those greedy bastards have moved quickly."
         },
         "choices": [
           {
-            "label": "Pitch the Guild's first job-share hero contract",
+            "label": "Negotiate a joint hero contract",
             "stat": "INT",
             "risk": "bold",
-            "win": "Alternate weekends, shared expenses, separate memoirs. The engraver writes an ampersand.",
-            "lose": "The Guild tries to pay one salary. You both object at once.",
+            "win": "The Guild agrees to split the duties and pay both heroes. The engraver adds an ampersand.",
+            "lose": "The Guild offers one salary. Your rival kicks the chair out as negotiations collapse.",
             "onWin": {
               "momentum": 1,
-              "memory": "You designed a job-share Hero of the Year contract."
+              "memory": "The Guild agrees to split the duties and pay both heroes. The engraver adds an ampersand."
             }
           },
           {
-            "label": "Get matching signatures before anyone changes their mind",
+            "label": "Get both names on the agreement",
             "stat": "DEX",
             "risk": "safe",
-            "win": "Signed. The hairbrush serves as the official quill.",
-            "lose": "Your rival signs the hairbrush instead.",
+            "win": "You both sign a fair division of the work. The Guild accepts the agreement.",
+            "lose": "Your rival signs the wrong page. A clerk ejects you for tampering with the paperwork.",
             "onWin": {
-              "memory": "Your joint hero contract was signed with a hairbrush quill."
+              "memory": "You both sign a fair division of the work. The Guild accepts the agreement."
             }
           }
         ]
@@ -2180,30 +2147,30 @@ export const STORIES: QuestStory[] = [
         "id": "showdown-witnesses",
         "art": "showdown",
         "text": {
-          "f": "The Guild has invited everyone you helped to give character references. Someone has reserved a large seat marked 'possible soup'.",
-          "c": "The Guild invited your clients as character witnesses. An oversized chair labelled 'possible soup' suggests someone took the briefing admirably literally.",
-          "x": "Every client has been invited to discuss your professional conduct. One seat says 'possible soup'. Whatever happens, this is going to be one hell of a fucking reference."
+          "f": "The Guild has invited former clients to describe your work. Your rival has paid actors to join the line. Several are still holding their scripts.",
+          "c": "Your rival has hired actors to criticize you. They are easy to spot: your actual clients rarely carry scripts with stage directions.",
+          "x": "The rival has paid actors to complain about your work. The lazy bastards are still reading from their scripts in the witness line."
         },
         "choices": [
           {
-            "label": "Let the witnesses describe what actually happened",
+            "label": "Ask your actual clients to speak",
             "stat": "CHA",
             "risk": "bold",
-            "win": "It is not flattering. It is specific. The audience believes every word.",
-            "lose": "A witness opens with 'technically nobody died'. A difficult start.",
+            "win": "Their accounts are unpolished, but the details convince the Guild.",
+            "lose": "One client remembers only the damage. The audience starts throwing programs.",
             "onWin": {
               "momentum": 1,
-              "memory": "Your clients gave painfully specific character references at the showdown."
+              "memory": "Their accounts are unpolished, but the details convince the Guild."
             }
           },
           {
-            "label": "Check the witness queue for rival-sponsored actors",
+            "label": "Expose the actors in the witness line",
             "stat": "WIS",
             "risk": "safe",
-            "win": "Three actors admit it immediately. Their contracts include confession pay.",
-            "lose": "You eject an actual grateful client. They revise their reference.",
+            "win": "You collect three identical scripts. The Guild removes the actors.",
+            "lose": "You accuse a real client by mistake. They push you off the witness platform.",
             "onWin": {
-              "memory": "You exposed three rival-sponsored character witnesses."
+              "memory": "You collect three identical scripts. The Guild removes the actors."
             }
           }
         ]
@@ -2211,7 +2178,7 @@ export const STORIES: QuestStory[] = [
     ],
     "finaleChoices": [
       {
-        "label": "Present the joint Hero of the Year contract",
+        "label": "Offer the shared hero contract",
         "stat": "CHA",
         "risk": "safe",
         "requires": "shared-trophy",
@@ -2231,45 +2198,44 @@ export const RIVAL_SCENES: StoryScene[] = [
     "id": "rival-first-meeting",
     "art": "showdown",
     "text": {
-      "f": "Your rival is physically blocking the quest route while a painter captures their 'spontaneous act of heroism'. The painter asks you to look more rescued.",
-      "c": "Your rival blocks the route while an artist records their spontaneous heroism. You have been asked to look rescued, preferably without distracting from the jawline.",
-      "x": "Your rival has blocked the road for a heroic portrait. The painter wants you to look rescued. The vain bastard could at least pay your modelling fee."
+      "f": "Your rival has blocked the road to pose for a heroic painting. The artist asks you to stand beside them and look as though you needed rescuing.",
+      "c": "Your rival wants a painting of a spontaneous rescue. They have booked the artist, blocked the road and assigned you the role of grateful victim.",
+      "x": "Your rival has blocked the road for a painting of a heroic rescue. The vain bastard wants you to pose as the helpless victim."
     },
     "choices": [
       {
-        "label": "Charge a modelling fee and hold the pose",
+        "label": "Charge a fee for posing",
         "stat": "CHA",
         "risk": "bold",
-        "win": "You negotiate royalties. The painter titles it 'Hero With Expensive Witness'.",
-        "lose": "Your rival frames you as the problem being defeated.",
+        "win": "The artist agrees to pay you. Your rival objects to the expense but keeps the pose.",
+        "lose": "Your rival insists you are the villain and demonstrates the rescue by shoving you aside.",
         "onWin": {
           "momentum": 1,
-          "memory": "You billed your rival for posing in their heroic portrait."
+          "memory": "The artist agrees to pay you. Your rival objects to the expense but keeps the pose."
         }
       },
       {
-        "label": "Pay for a quiet truce away from the painter",
+        "label": "Pay for a quiet truce",
         "stat": "WIS",
         "risk": "safe",
         "deal": {
           "gold": 18
         },
-        "hint": "Remembered throughout this season; opens a showdown ending.",
-        "win": "A handshake behind the canvas. Neither of you is as confident off camera.",
-        "lose": "Talks fail.",
+        "win": "You agree to stop sabotaging each other. Your rival quietly admits the competition is exhausting.",
+        "lose": "Your rival declines the discussion.",
         "onWin": {
           "flag": "season-rival-truce",
-          "memory": "You made a private road truce with your rival."
+          "memory": "You agree to stop sabotaging each other. Your rival quietly admits the competition is exhausting."
         }
       },
       {
-        "label": "Duck under the canvas without entering the composition",
+        "label": "Slip behind the artist’s canvas",
         "stat": "DEX",
         "risk": "safe",
-        "win": "You pass unnoticed. Your rival rescues an empty patch of grass.",
-        "lose": "You trip into the perfect defeated-villain pose.",
+        "win": "You get past while the rival holds a heroic pose for an empty road.",
+        "lose": "You trip over the easel. The artist blames you for ruining the composition.",
         "onWin": {
-          "memory": "Your rival's heroic portrait depicts the rescue of empty grass."
+          "memory": "You get past while the rival holds a heroic pose for an empty road."
         }
       }
     ]
@@ -2278,20 +2244,20 @@ export const RIVAL_SCENES: StoryScene[] = [
     "id": "rival-middle-meeting",
     "art": "showdown",
     "text": {
-      "f": "Your rival is alone on a milestone, struggling to open a lunch tin. The great rival of your season has been defeated by a small clip.",
-      "c": "A rival capable of negotiating sponsorship has been defeated by a lunch-tin clip. The tin is declining interview requests until the humiliation is complete.",
-      "x": "Your great rival cannot open a lunch tin. All that sponsorship, all that swagger, and a fucking clip has stopped the victory tour."
+      "f": "You find your rival sitting beside the road, unable to open a lunch tin. They ask whether you have a knife, then remember you are competitors.",
+      "c": "Your rival has defeated monsters all week and is now losing a fight with a lunch-tin clip. They ask you not to tell the sponsors.",
+      "x": "Your rival cannot open a lunch tin. All that swagger, and a fucking clip has stopped the victory tour."
     },
     "choices": [
       {
-        "label": "Open it and agree never to mention this",
+        "label": "Open it and promise not to tell",
         "stat": "DEX",
         "risk": "safe",
-        "win": "The tin opens. So does a guarded conversation about the pressure to be legendary.",
-        "lose": "Now neither of you can open it. A strangely intimate defeat.",
+        "win": "You open the tin. Over lunch, you agree to stop making the contest personal.",
+        "lose": "The clip snaps on your fingers. Neither of you mentions the failed rescue.",
         "onWin": {
           "flag": "season-rival-truce",
-          "memory": "You opened your rival's lunch tin and promised discretion."
+          "memory": "You open the tin. Over lunch, you agree to stop making the contest personal."
         }
       },
       {
@@ -2301,23 +2267,22 @@ export const RIVAL_SCENES: StoryScene[] = [
         "deal": {
           "gold": 20
         },
-        "hint": "Renew or establish a truce that the showdown remembers.",
-        "win": "Two pies. No audience. It briefly feels like adventuring with a friend.",
-        "lose": "The pie shop has closed.",
+        "win": "You share two pies and agree to compete without sabotaging each other.",
+        "lose": "The pie shop is closed.",
         "onWin": {
           "flag": "season-rival-truce",
-          "memory": "You shared two quiet pies with your rival."
+          "memory": "You share two pies and agree to compete without sabotaging each other."
         }
       },
       {
-        "label": "Open it by demonstrating superior upper-body strength",
+        "label": "Force the lid open",
         "stat": "STR",
         "risk": "reckless",
-        "win": "The clip yields. The soup travels a remarkable distance.",
-        "lose": "The tin is now angry at both of you.",
+        "win": "The lid flies off. So does most of the soup. Your rival thanks you very carefully.",
+        "lose": "The tin slips and hits your knee. Your rival offers extremely unhelpful advice.",
         "onWin": {
           "momentum": 1,
-          "memory": "You launched your rival's lunch into the middle distance."
+          "memory": "The lid flies off. So does most of the soup. Your rival thanks you very carefully."
         }
       }
     ]
@@ -2326,41 +2291,41 @@ export const RIVAL_SCENES: StoryScene[] = [
     "id": "rival-last-meeting",
     "art": "showdown",
     "text": {
-      "f": "Your rival has a spare invitation to the trophy ceremony. It says '+1: formidable nemesis or equivalent'. The handwriting under 'equivalent' is hesitant.",
-      "c": "The invitation says 'formidable nemesis or equivalent'. The hesitant handwriting suggests your rival would rather be caught duelling than attempting an honest social gesture.",
-      "x": "Your rival's invitation says 'formidable nemesis or equivalent'. The poor bastard has negotiated with sponsors all year and still cannot simply ask you to come."
+      "f": "Your rival has a spare invitation to the trophy ceremony. They ask whether you would like to come, then add that a proper nemesis should really be there.",
+      "c": "Your rival offers you an invitation. They say the ceremony requires a formidable nemesis. It appears to be an awkward way of asking you to come along.",
+      "x": "Your rival wants you at the ceremony but cannot simply ask. The poor bastard has spent all year practicing threats instead of conversation."
     },
     "choices": [
       {
-        "label": "Accept as a formidable equivalent",
+        "label": "Accept the invitation politely",
         "stat": "CHA",
         "risk": "bold",
-        "win": "They smile before remembering not to. A real one, briefly.",
-        "lose": "You both deliver rehearsed threats over each other. Neither sounds convincing.",
+        "win": "Your rival smiles. You agree to keep the final contest fair.",
+        "lose": "You both speak at once, each mistaking the other’s politeness for a threat. A shove ends the conversation.",
         "onWin": {
           "flag": "season-rival-truce",
-          "memory": "You accepted your rival's ceremony invitation as a formidable equivalent."
+          "memory": "Your rival smiles. You agree to keep the final contest fair."
         }
       },
       {
-        "label": "Read the invitation for hidden disqualification clauses",
+        "label": "Check the invitation’s small print",
         "stat": "INT",
         "risk": "safe",
-        "win": "The only condition is to wear shoes. You are already ahead.",
-        "lose": "The invitation bites. Security feature.",
+        "win": "The only extra rule is to wear shoes. You confirm your invitation is valid.",
+        "lose": "You unfold the card too close to the rival’s face. They swat it, and your nose, aside.",
         "onWin": {
           "momentum": 1,
-          "memory": "You checked the ceremony rules and confirmed shoes were compulsory."
+          "memory": "The only extra rule is to wear shoes. You confirm your invitation is valid."
         }
       },
       {
-        "label": "Put the invitation somewhere nobody can steal it",
+        "label": "Keep the invitation inside your boot",
         "stat": "DEX",
         "risk": "bold",
-        "win": "Safe inside your boot. The trophy ceremony now smells like determination.",
-        "lose": "You hide it so well the Guild briefly disqualifies you both.",
+        "win": "The invitation is safe. You may need to air it out before the ceremony.",
+        "lose": "You lose your balance while removing the boot. The invitation lands in a puddle.",
         "onWin": {
-          "memory": "You stored your trophy-ceremony invitation inside your boot."
+          "memory": "The invitation is safe. You may need to air it out before the ceremony."
         }
       }
     ]
@@ -2371,40 +2336,40 @@ export const EXTRA_OBJECTIVES: Objective[] = [
   {
     "id": "goose-lawyer",
     "title": "Represent a Goose in Court",
-    "task": "defend a goose accused of impersonating the mayor",
+    "task": "defend a goose accused of stealing the mayor’s campaign hats",
     "art": "showdown",
     "climax": {
       "id": "x-goose-lawyer",
-      "text": "The judge asks your client to confirm it is not the mayor. The goose produces a sash, a manifesto, and excellent polling numbers.",
+      "text": "The judge asks whether the hats were stolen or given away. The goose has arrived wearing all seventeen. The mayor insists this proves something.",
       "choices": [
         {
-          "label": "Establish that the mayor was always a goose",
+          "label": "Prove the hats were campaign gifts",
           "stat": "INT",
           "risk": "bold",
-          "win": "The old portraits are conclusive. Three generations of honking public service.",
-          "lose": "The judge is also in the portraits. He requests a recess and a weapon.",
+          "win": "You show the gift labels. The judge dismisses the theft charge.",
+          "lose": "The mayor disputes a missing label. The goose objects by biting you.",
           "onWin": {
-            "memory": "You proved the mayoral office had been hereditary goose territory for generations."
+            "memory": "You show the gift labels. The judge dismisses the theft charge."
           }
         },
         {
-          "label": "Campaign for immediate electoral legitimacy",
+          "label": "Ask the crowd to confirm the giveaway",
           "stat": "CHA",
           "risk": "reckless",
-          "win": "A snap election. The goose wins on lower bread prices. Democracy survives, noisily.",
-          "lose": "The goose eats the ballots. The opposition has questions.",
+          "win": "The crowd remembers the giveaway. The mayor withdraws the charge rather than lose their votes.",
+          "lose": "The mayor calls his own supporters. The crowd jostles you away from the stand.",
           "onWin": {
-            "memory": "Your goose client won a snap election on lower bread prices."
+            "memory": "The crowd remembers the giveaway. The mayor withdraws the charge rather than lose their votes."
           }
         },
         {
-          "label": "Keep the client from eating the verdict",
+          "label": "Keep the goose still for the verdict",
           "stat": "DEX",
           "risk": "safe",
-          "win": "The verdict remains legible long enough to acquit. The goose eats the gavel instead.",
-          "lose": "Your client swallows the acquittal. You are held in contempt of goose.",
+          "win": "The goose stays quiet long enough for the judge to acquit it. Then it steals the gavel.",
+          "lose": "The goose grabs the verdict before it is read. You are knocked over trying to retrieve it.",
           "onWin": {
-            "memory": "You saved the goose's acquittal at the cost of the judge's gavel."
+            "memory": "The goose stays quiet long enough for the judge to acquit it. Then it steals the gavel."
           }
         }
       ]
@@ -2413,40 +2378,40 @@ export const EXTRA_OBJECTIVES: Objective[] = [
   {
     "id": "checkout-haunting",
     "title": "Exorcise the Self-Checkout",
-    "task": "remove a ghost from a shop till that keeps demanding an unexpected item in the bagging area",
+    "task": "settle a ghost’s unfinished purchase at a grocery checkout",
     "art": "lich-eviction",
     "climax": {
       "id": "x-checkout-haunting",
-      "text": "The till announces: 'Unexpected soul in bagging area.' It means yours. The ghost asks whether you have a loyalty card for the afterlife.",
+      "text": "The ghost has its receipt, but the checkout still announces an unexpected customer in the bagging area. You need to clear the final transaction so it can leave.",
       "choices": [
         {
-          "label": "Process the ghost as a return with no receipt",
+          "label": "Convince the register the sale is complete",
           "stat": "CHA",
           "risk": "bold",
-          "win": "Store credit in the afterlife. The ghost accepts. It always wanted options.",
-          "lose": "The till calls a supervisor. The supervisor is a much older ghost.",
+          "win": "The register closes the transaction. The ghost takes its milk and finally moves on.",
+          "lose": "The register demands another supervisor. Its alarm sends you staggering into the carts.",
           "onWin": {
-            "memory": "You exorcised a checkout by refunding its ghost in afterlife store credit."
+            "memory": "The register closes the transaction. The ghost takes its milk and finally moves on."
           }
         },
         {
-          "label": "Perform the sacred reboot sequence",
+          "label": "Reset the checkout safely",
           "stat": "INT",
           "risk": "safe",
-          "win": "Off. On. Peace. A priest watching through the window changes careers.",
-          "lose": "The reboot requires a supervisor's fingerprint. The supervisor has been dead since 1842.",
+          "win": "You finish the transaction and restart the register. The ghost departs through a pleasantly quiet wall.",
+          "lose": "The register rejects the reset and shocks your fingers.",
           "onWin": {
-            "memory": "A sacred reboot ended the checkout haunting and unsettled a priest."
+            "memory": "You finish the transaction and restart the register. The ghost departs through a pleasantly quiet wall."
           }
         },
         {
-          "label": "Wrestle your soul out of the plastic carrier bag",
+          "label": "Pull the stuck receipt free",
           "stat": "STR",
           "risk": "reckless",
-          "win": "Your soul is free. The bag tears. The shop charges you for two bags.",
-          "lose": "Your soul has developed handles. The till asks if you need help carrying it.",
+          "win": "The last piece of receipt comes loose. The ghost leaves with its proof of purchase.",
+          "lose": "The receipt tangles around your boot. The ghost pulls harder and topples you into the baskets.",
           "onWin": {
-            "memory": "You recovered your soul from a carrier bag and were charged double for packaging."
+            "memory": "The last piece of receipt comes loose. The ghost leaves with its proof of purchase."
           }
         }
       ]

@@ -21,6 +21,9 @@ const paper = shape('M60 72 L92 66 L98 102 L66 108z', BONE) + line('M68 80 L86 7
 const crown = shape('M44 25 L42 10 L52 18 L60 5 L68 18 L78 10 L76 25z', MUSTARD);
 const chefHat = shape('M42 32 L38 18 L46 9 L55 14 L61 6 L72 13 L80 10 L84 23 L76 32z', BONE);
 
+export const CHEF_ART = portrait(person(BONE, line('M78 84 L91 53', INK, 4) + shape('M88 41 L98 42 L100 53 L92 58 L85 51z', STEEL) + line('M36 66 L45 99', INK, 2.5), chefHat), 'The chef with a raised ladle');
+export const PLUMBER_ART = portrait(person(DUSK, shape('M75 83 L81 61 L76 53 L77 42 L83 38 L83 50 L90 52 L94 41 L98 48 L96 58 L89 62 L83 87z', STEEL)), 'The plumber and an oversized wrench');
+
 export const GIVER_ART: Record<string, InkFigure> = {
   baker: portrait(person(BONE,
     shape('M30 80 L60 68 L72 82 L40 96z', RUST) + line('M40 78 L48 85 M51 74 L59 81', INK, 2), chefHat,

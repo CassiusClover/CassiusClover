@@ -125,3 +125,13 @@ You can also edit the on-device narrator's directions in `src/services/dmPrompt.
 ## Troubleshooting
 
 `npm run stories:build` names the source file and entry for duplicate ids, missing text, unsupported stats, negative prices, impossible branches, missing fallbacks and loops. `npm test` also checks objective coverage, art references, costs, branch transitions, old-save compatibility and balance across all eight classes. Fix these errors before building for phones.
+
+## Editorial rules for phone screens
+
+Use American spelling in quest prose and UI: curb, armor, center, and neighbor. Keep the Dungeon Master British in voice and phrasing.
+
+Give each quest one clear absurd premise and a practical problem. State who wants what, show the obstacle, and offer concrete actions. Each outcome must follow from the selected action. Carry established facts into the next scene and finale; do not invent a new talking object to rescue an unfinished joke. Language variants should describe the same situation at different levels of rudeness.
+
+Aim for 20–35 words per scene; the editorial checks cap authored scene bodies at 45 words and 280 characters. Keep choice labels below 62 characters and outcomes to one or two short, complete sentences. Save mechanical notes and long callbacks for the details sheet. The interface pins choices and continuation actions below a separately bounded story area, with a compact layout on short screens.
+
+The model prompt asks for one natural English sentence grounded in the supplied facts. Obvious fragments, unfinished sentences and repeated phrases fall back to authored narration. This guard does not prove semantic coherence or comic quality; native model output still needs device review.

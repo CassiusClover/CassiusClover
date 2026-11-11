@@ -52,11 +52,11 @@ const BASE_LINES: Record<DmEvent, Txt[]> = {
     'The board holds a single notice, and it has your name on it. And {rival}\'s. Mostly {rival}\'s.',
   ],
   questStart: [
-    'So: "{quest}". I wrote this one on a train. Off you go.',
-    'You accept "{quest}". The client looks relieved, which should worry you.',
-    '"{quest}". Simple, in the way that falling is simple.',
-    'And so {hero} sets out on "{quest}", with confidence I can only describe as unearned.',
-    'I will be honest, I did not expect anyone to take "{quest}". Give me a moment to find my notes.',
+    'The client has been waiting for a hero. Evidently, you will have to do.',
+    'The client looks relieved. I suggest you find out why.',
+    'It sounds simple. So does falling down a well.',
+    'Off you go. I admire the confidence, if nothing else.',
+    'Give me a moment to find my notes. I was rather hoping nobody would accept this one.',
   ],
   bridgeGood: [
     'Emboldened, you press on. Then:',

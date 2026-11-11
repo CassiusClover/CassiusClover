@@ -48,9 +48,9 @@ export const Shake = ({ children, trigger }: { children: React.ReactNode; trigge
 };
 
 /** The Dungeon Master's speech, typed out. Tap to finish the line at once. */
-export const DmSays = (props: { text: string; live?: boolean }) => <DmLine key={props.text} {...props} />;
+export const DmSays = (props: { text: string; live?: boolean; compact?: boolean }) => <DmLine key={props.text} {...props} />;
 
-const DmLine = ({ text, live = false }: { text: string; live?: boolean }) => {
+const DmLine = ({ text, live = false, compact = false }: { text: string; live?: boolean; compact?: boolean }) => {
   const [n, setN] = useState(0);
   useEffect(() => {
     if (!text) return;
@@ -59,11 +59,12 @@ const DmLine = ({ text, live = false }: { text: string; live?: boolean }) => {
   }, [text]);
   if (!text) return null;
   return (
-    <Pressable onPress={() => setN(text.length)} accessibilityRole="text" accessibilityLabel={`Dungeon Master: ${text}`} style={st.dm}>
-      <Art art={ART.dm} size={52} />
+    <Pressable onPress={() => setN(text.length)} accessibilityRole="text" accessibilityLabel={`Dungeon Master: ${text}`} style={[st.dm, compact && { padding: 0, paddingHorizontal: 2, borderWidth: 0, backgroundColor: 'transparent' }]}>
+      {!compact ? <Art art={ART.dm} size={52} /> : null}
       <View style={{ flex: 1 }}>
-        <Text style={st.dmCap}>THE DUNGEON MASTER{live ? '   IMPROVISING' : ''}</Text>
-        <Text style={st.dmText}>
+        {!compact ? <Text style={st.dmCap}>THE DUNGEON MASTER{live ? '   IMPROVISING' : ''}</Text> : null}
+        <Text style={[st.dmText, compact && { fontSize: 13, lineHeight: 18 }]}>
+          {compact ? <Text style={{ color: C.gold, fontStyle: 'normal', fontWeight: '700' }}>DM: </Text> : null}
           {text.slice(0, n)}
           <Text style={{ color: 'transparent' }}>{text.slice(n)}</Text>
         </Text>

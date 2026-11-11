@@ -1,4 +1,5 @@
-import { BLOOD, BONE, DUSK, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, figure, flat, glare, line, shape, slit, type InkFigure } from './ink';
+import { BLOOD, BONE, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, figure, flat, glare, line, shape, slit, type InkFigure } from './ink';
+import { STORY_ACTORS } from './storyActors';
 import { EXTRA_OBJECTIVES } from '../game/content/stories.generated';
 
 /**
@@ -52,15 +53,6 @@ export const ART: Record<string, InkFigure> = {
       shape('M40 32 L58 2 L72 32z', PLUM) + black('M40 32 L58 2 L56 32z') + line('M32 33 L80 31', INK, 4) +
       shape('M70 35 L100 40 L72 45z', MUSTARD) + slit(62, 38, -1, BLOOD, 9) + flat('M60 14 l2 4 l4 1 l-4 1 l-2 4 l-2 -4 l-4 -1 l4 -1z', MUSTARD) +
       glare(38, 88, 4, BONE, 5) + flat('M36 93 L42 95 L36 97z', MUSTARD) + glare(74, 88, 4, BONE, 5) + flat('M72 93 L78 95 L72 97z', MUSTARD),
-  }),
-  soup: piece({
-    bg: SOOT, back: '#c9762a', disc: [60, 44, 36],
-    under: line('M40 20 L36 10 L42 4 M60 16 L56 6 L62 0 M80 20 L76 10 L82 4', BONE, 2),
-    sil: 'M18 52 L102 52 L96 94 L80 108 L40 108 L24 94z',
-    fill: '#4a5055',
-    over: shape('M20 52 L100 52 L96 60 L24 60z', '#c9762a') + shape('M38 52 L42 34 L54 26 L70 28 L80 40 L82 52z', '#c9762a') + black('M62 27 L70 28 L80 40 L82 52 L60 52z') +
-      glare(60, 38, 8, BONE, 9) + line('M50 47 L58 44 L66 47', INK, 2) + flat('M30 54 h4 v3 h-4z', BLOOD) + flat('M86 55 h4 v3 h-4z', MOSS) +
-      line('M10 60 L18 64 M110 60 L102 64', INK, 4) + line('M30 70 L34 92', '#6a7278', 2),
   }),
   skeleton: piece({
     bg: '#2a2030', back: BLOOD, disc: [62, 48, 38],
@@ -296,15 +288,6 @@ export const ART: Record<string, InkFigure> = {
       line('M28 32 L80 24 M30 92 L84 86', MUSTARD, 2) + shape('M40 70 L72 66 L74 78 L42 82z', MUSTARD) + line('M46 76 L68 73', INK, 2) +
       shape('M30 100 L30 116 L36 110 L42 116 L42 100z', MOSS),
   }),
-  sock: piece({
-    bg: '#22313d', back: MUSTARD, disc: [60, 52, 40],
-    under: line('M16 44 L10 34 L18 26 L12 16 M100 48 L94 38 L102 30 L96 20 M26 30 L22 22', '#86a548', 2.5),
-    sil: 'M40 14 L74 10 L76 60 L100 78 L106 96 L92 108 L60 106 L40 90z',
-    fill: BLOOD,
-    over: shape('M38 12 L76 8 L76 24 L40 28z', BONE) + flat('M41 40 L75 37 L75 44 L41 47z M41 56 L76 53 L77 60 L41 63z', MUSTARD) +
-      shape('M48 12 L52 0 L58 8 L62 -2 L66 8 L72 2 L72 10z', MUSTARD) + glare(58, 74, 7, BONE, 7) + line('M50 86 L58 84 L66 87', INK, 2) +
-      shape('M84 92 L96 88 L100 98 L90 102z', '#7a8c96') + line('M86 96 L98 93 M90 90 L94 100', INK, 1.2),
-  }),
   hellhound: piece({
     bg: WINE, back: MUSTARD, disc: [60, 44, 38],
     under: flat('M40 108 L36 96 L44 100 L46 88 L54 98 L60 84 L66 98 L74 88 L76 100 L84 96 L80 108z', MUSTARD),
@@ -313,15 +296,6 @@ export const ART: Record<string, InkFigure> = {
     over: glare(22, 50, 6, MUSTARD, 7) + flat('M14 62 L18 70 L22 62 L26 70 L30 62z', BONE) + glare(60, 38, 7, MUSTARD, 8) +
       flat('M50 52 L54 62 L58 52 L62 62 L66 52 L70 62 L72 52z', BONE) + black('M56 44 L64 44 L62 50 L58 50z') +
       glare(98, 50, 6, MUSTARD, 7) + flat('M90 62 L94 70 L98 62 L102 70 L106 62z', BONE) + line('M30 80 L90 80', STEEL, 4) + flat('M40 76 L44 70 L48 76z M56 76 L60 70 L64 76z M72 76 L76 70 L80 76z', BONE),
-  }),
-  wardrobe: piece({
-    bg: SOOT, back: '#7a8c96', disc: [60, 50, 44],
-    under: shape('M4 96 L14 90 L18 96 L8 102z', BONE) + shape('M100 106 L114 96 L118 102 L104 112z', BONE) + line('M108 20 L116 12 L112 4', STEEL, 3),
-    sil: 'M22 108 L16 18 L98 8 L104 106z',
-    fill: RUST,
-    over: line('M57 14 L62 107', INK, 2.5) + line('M34 34 L50 40 M84 30 L68 38', INK, 3) + glare(60, 46, 15, MUSTARD, 11) +
-      black('M56 60 L64 60 L66 96 L60 102 L56 96z') + flat('M57 62 L60 70 L63 62z M58 94 L60 88 L63 94z', BONE) +
-      flat('M48 72 h5 v8 h-5z', MUSTARD) + flat('M68 71 h5 v8 h-5z', '#8a6a1e') + line('M22 24 L26 100', '#b8733c', 1.6),
   }),
   imp: piece({
     bg: '#2a2030', back: BLOOD, disc: [60, 30, 30],
@@ -351,35 +325,6 @@ export const ART: Record<string, InkFigure> = {
       shape('M26 78 L24 62 L28 66 L30 56 L33 66 L36 58 L38 66 L42 62 L40 78z', BONE) + glare(60, 94, 7, MUSTARD, 7) +
       flat('M14 16 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z M104 20 l2 5 l5 2 l-5 2 l-2 5 l-2 -5 l-5 -2 l5 -2z', MUSTARD),
   }),
-  marrow: piece({
-    bg: '#262b1c', back: BLOOD, disc: [60, 44, 36],
-    under: line('M18 70 L14 10 M8 12 L8 26 L20 26 L20 10 M100 70 L106 10 M100 12 L100 26 L112 26 L112 10 M14 26 L14 12 M106 26 L106 12', INK, 3),
-    sil: 'M6 88 L14 66 L40 54 L80 54 L106 66 L114 88 L102 106 L18 106z',
-    fill: '#55803c',
-    over: line('M28 62 L22 100 M46 56 L42 104 M74 56 L78 104', '#3d6028', 2) + line('M92 62 L98 100', '#1f3314', 2) +
-      line('M38 70 L52 75 M82 70 L68 75', INK, 3) + glare(60, 78, 11, MUSTARD, 10) + line('M46 92 L60 96 L74 92', INK, 2.5) +
-      shape('M22 40 L30 32 L40 34 L44 44 L38 52 L28 52z', DUSK) + shape('M26 50 L22 68 L30 62 L34 70 L38 52z', DUSK) + flat('M30 38 h6 v8 h-6z', BONE),
-  }),
-  kraken: piece({
-    bg: '#16242e', back: '#6fa8b8', disc: [60, 40, 36],
-    under: shape('M26 100 L8 70 L6 44 L18 34 L24 46 L16 52 L22 70 L34 86z', '#a8477a') + shape('M94 100 L112 70 L114 44 L102 34 L96 46 L104 52 L98 70 L86 86z', '#7a3058') +
-      flat('M8 58 L22 54 L24 62 L10 66z', MUSTARD) + flat('M98 54 L112 58 L110 66 L96 62z', MUSTARD),
-    sil: 'M34 104 L30 62 L38 36 L52 18 L68 18 L82 36 L90 62 L86 104z',
-    fill: '#a8477a',
-    over: line('M42 46 L54 50 M78 46 L66 50', INK, 3) + glare(60, 56, 11, BONE, 12) + line('M52 74 L57 71 L62 75 L68 71', INK, 2.5) +
-      flat('M-2 98 L12 92 L26 98 L40 92 L54 98 L68 92 L82 98 L96 92 L110 98 L122 94 L122 122 L-2 122z', DUSK) +
-      line('M0 98 L12 92 L26 98 L40 92 L54 98 L68 92 L82 98 L96 92 L110 98 L120 94', BONE, 2) + line('M40 30 L46 24', '#c96a9a', 2),
-  }),
-  snail: piece({
-    bg: '#262b1c', back: BONE, disc: [56, 56, 40],
-    under: line('M34 44 L30 6', INK, 3) + flat('M31 6 L50 12 L32 18z', BLOOD) + line('M100 58 L94 30 M108 58 L112 30', INK, 3),
-    sil: 'M6 106 L14 92 L30 90 L28 66 L40 44 L62 36 L84 46 L92 68 L90 86 L96 84 L96 56 L112 56 L114 92 L102 106z',
-    fill: '#b0762a',
-    over: flat('M6 106 L14 92 L30 90 L90 86 L96 84 L96 56 L112 56 L114 92 L102 106z', '#c9a37a') + black('M100 56 L112 56 L114 92 L102 106 L98 106z') +
-      line('M30 90 L90 86', INK, 2.5) + line('M60 62 L52 56 L44 66 L50 80 L66 82 L78 70 L72 50 L54 44', INK, 2.5) +
-      flat('M40 44 L44 34 L48 42z M60 36 L64 26 L68 38z M82 46 L90 38 L88 50z', BONE) +
-      shape('M90 24 L98 24 L98 32 L90 32z', BONE) + black('M93 26 h3 v4 h-3z') + shape('M108 24 L116 24 L116 32 L108 32z', BONE) + black('M111 26 h3 v4 h-3z'),
-  }),
   dm: piece({
     bg: '#1c1622', back: MUSTARD, disc: [60, 40, 34],
     sil: 'M20 108 L30 62 L38 40 L50 18 L70 18 L82 40 L90 62 L100 108z',
@@ -389,6 +334,7 @@ export const ART: Record<string, InkFigure> = {
       line('M18 82 L36 86 M18 92 L36 95 M48 88 L72 88 M48 97 L66 97', '#c9762a', 1.6) +
       shape('M52 66 L60 60 L68 66 L66 76 L54 76z', BONE) + line('M57 67 L60 72 L63 67', INK, 1.4),
   }),
+  ...STORY_ACTORS,
 };
 
 /** Which drawing illustrates each card. */

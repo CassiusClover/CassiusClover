@@ -1,6 +1,7 @@
 import { CARDS } from './content/cards';
 import { ANCESTRIES, CLASSES, EPITHETS, FIRST_NAMES, QUIRKS, RELICS } from './content/heroes';
 import { DM_LINES, RIVALS, type DmEvent } from './content/dm';
+import { readableDmLine } from '../services/dmReadability';
 import { GIVERS, OBJECTIVES, TWISTS } from './content/quests';
 import { RIVAL_SCENES } from './content/stories.generated';
 import { allowsModelLine, contentText, injuryDescription, VIOLENCE_NAMES } from './contentSettings';
@@ -108,7 +109,7 @@ const scriptEvent = (run: RunState): DmEvent => {
 };
 
 export const isLiveNarration = (run: RunState, tone: Tone, violence: Violence = 0) =>
-  run.liveNarrationKey === narrationKey(run) && run.liveNarrationSettings?.tone === tone && run.liveNarrationSettings?.violence === violence;
+  run.liveNarrationKey === narrationKey(run) && run.liveNarrationSettings?.tone === tone && run.liveNarrationSettings?.violence === violence && readableDmLine(run.narration);
 
 /** Render saved source text, including on an old save, with the CURRENT preferences. */
 export const narrationFor = (run: RunState, tone: Tone, violence: Violence = 0): string => {
@@ -229,6 +230,7 @@ export const applyAiNarration = (prev: RunState, key: string, raw: unknown, tone
   if (typeof value !== 'string') return prev;
   const line = value.replace(/\s+/g, ' ').trim();
   if (line.length < 8 || line.length > 240 || /[{}<>]|```/.test(line)) return prev;
+  if (!readableDmLine(line)) return prev;
   if (!allowsModelLine(line, { tone, violence })) return prev;
   return { ...prev, narration: line, liveNarrationKey: key, liveNarrationSettings: { tone, violence } };
 };

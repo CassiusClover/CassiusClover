@@ -154,7 +154,7 @@ describe('authored stories', () => {
 describe('reactive dungeon master', () => {
   it('clears a saved AI reply on tone/model changes without changing the adventure', () => {
     const run = quest();
-    const narrated = applyAiNarration(run, narrationKey(run), { line: 'A deliberately opinionated line about the biscuit tin.' });
+    const narrated = applyAiNarration(run, narrationKey(run), { line: 'The accountant has strong opinions about your biscuit tin.' });
     const cleared = clearAiNarration(narrated);
     expect(cleared.liveNarrationKey).toBeUndefined();
     expect(cleared.ai).toBeNull();

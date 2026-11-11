@@ -1,5 +1,5 @@
 import { STORIES } from '../game/content/stories.generated';
-import { artForRival, GIVER_ART } from './cast';
+import { artForRival, CHEF_ART, GIVER_ART, PLUMBER_ART } from './cast';
 import { ART } from './creatures';
 import { BLOOD, BONE, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, flat, glare, instance, line, shape, type InkArt, type InkFigure } from './ink';
 
@@ -36,14 +36,23 @@ const tax = (audit = false) => panel(audit ? 'Two dragons disagree over one very
   actor('dragon', -2, 5, 122) + (audit ? actor('dragon', 145, 39, 78, true) : giver('guild', 145, 44, 77)) +
   forms(117, 65) + desk() + form(165, 72, .62, -7) + coins(204, 79));
 const soup = (escape = false) => panel(escape ? 'The soup flees on tiny legs while the chef brandishes a ladle' : 'A very small chef threatens a very large, very unwilling soup', '#33241a', RUST,
-  giver('baker', 157, 28, 91) + actor('soup', escape ? 18 : 14, 17, escape ? 104 : 116, false, escape ? -9 : 0) +
+  place(CHEF_ART, 157, 28, 91) + actor('soup', escape ? 18 : 14, 17, escape ? 104 : 116, false, escape ? -9 : 0) +
   (escape ? line('M54 105 L40 113 M76 104 L91 113 M8 67 L20 65 M5 79 L16 77', BONE, 3) : '') +
   line('M184 69 L148 19', INK, 5) + shape('M136 9 L150 7 L160 20 L155 31 L144 29z', STEEL));
-const goose = (evidence = false) => panel(evidence ? 'The goose presents a feather as evidence; the judge has questions' : 'A goose in a legal wig bangs a gavel from a ludicrously tall bench', '#22313d', MUSTARD,
-  actor('goose', 16, 5, 113) + shape('M52 34 L48 22 L57 25 L63 18 L71 24 L82 21 L91 34z', BONE) +
-  desk(7, 86, 127) + gavel(114, 56, -25) +
-  (evidence ? form(159, 53, 1.1, 8) + shape('M182 54 L207 29 L200 54 L181 66z', BONE) + line('M177 69 L202 37', INK, 2) : giver('guild', 153, 39, 80)) +
-  flat('M140 15 L144 8 L148 17 L144 22z', BONE));
+const hat = (x: number, y: number) => `<g transform="translate(${x} ${y})">${shape('M0 15 L5 8 L8 -4 L26 -4 L28 8 L36 15z', INK)}${flat('M8 4 L27 4 L28 9 L7 9z', BLOOD)}${shape('M27 7 L37 7 L37 18 L27 18z', BONE)}</g>`;
+const goose = (evidence = false) => panel(evidence ? 'The goose presents a pile of free campaign hats to a skeptical judge' : 'A small goose faces a human judge; its pile of stolen hats is larger than it is', '#22313d', MUSTARD,
+  actor('court-goose', 16, 28, 85) + giver('guild', 148, 7, 100) + desk(133, 83, 103) + gavel(215, 60, -25) +
+  hat(evidence ? 99 : 91, 94) + hat(evidence ? 102 : 94, 79) + hat(evidence ? 96 : 88, 64) + form(159, 72, .5));
+const parade = (stage: 'curb' | 'rain' | 'finish') => {
+  const snails = actor('snail', 10, 40, 77) + actor('snail', 1, 76, 37) + actor('snail', 42, 77, 40);
+  const flag = line('M66 72 L62 30', INK, 2.5) + shape('M62 29 L88 34 L64 43z', BLOOD);
+  return panel(stage === 'curb' ? 'Three snails queue behind their marshal at an absurdly large curb' : stage === 'rain' ? 'Rain floods the route as the snail marshal refuses to abandon the printed map' : 'A duck waits beyond the finish line while the snail parade inches closer', '#262b1c', MOSS,
+    (stage === 'rain' ? flat('M0 99 L240 99 L240 117 L0 117z', '#3c5468') + line('M22 8 L18 20 M52 12 L48 24 M110 8 L106 20 M165 18 L161 30 M217 8 L213 20', STEEL, 2) : '') + snails + flag +
+    (stage === 'curb' ? shape('M101 108 L101 73 L239 73 L239 118 L101 118z', STEEL) + black('M102 87 L239 87 L239 118 L102 118z') +
+      form(159, 30, .85, -8) + line('M165 41 L173 42 L179 36', BLOOD, 2.5)
+      : stage === 'rain' ? form(142, 46, 1.35, -7) + line('M152 69 L162 62 L173 71', BLOOD, 2.5)
+      : line('M123 20 L123 112', INK, 3) + shape('M123 20 L165 20 L165 44 L123 44z', BONE) + flat('M124 21 h13 v11 h-13z M150 21 h14 v11 h-14z M137 32 h13 v11 h-13z', INK) + actor('duck', 169, 38, 76, true)));
+};
 const checkout = (supervisor = false) => panel(supervisor ? 'A haunted checkout summons an even larger ghostly supervisor' : 'A ghost waits at a checkout whose receipt has reached the floor', '#1e2a33', STEEL,
   actor('ghost', supervisor ? 2 : 7, supervisor ? -8 : 16, supervisor ? 126 : 100) +
   shape('M139 34 L213 34 L213 75 L139 75z M150 75 L206 75 L218 100 L136 100z', MOSS) +
@@ -56,7 +65,7 @@ export const QUEST_PANELS: Record<string, InkArt> = {
     actor('lich', 4, 11, 110) + actor('door', 142, 15, 108) + form(144, 57, 1.3, -8) + shape('M114 91 L143 91 L140 108 L117 108z', RUST)),
   'kings-sock': panel('The king gives one solitary sock the protection of a royal portrait', '#33241a', MUSTARD,
     giver('king', 8, 15, 108) + shape('M138 15 L220 18 L216 106 L134 103z', MUSTARD) + black('M145 23 L212 26 L208 98 L142 95z') + actor('sock', 148, 28, 61)),
-  sandwich: panel('Two armies face off over one completely unarmoured sandwich', '#4a1c14', MUSTARD,
+  sandwich: panel('Two armies face off over one completely unarmored sandwich', '#4a1c14', MUSTARD,
     actor('blackknight', -6, 21, 94) + actor('knight', 151, 21, 94, true) + actor('sandwich', 80, 30, 82) +
     line('M73 21 L96 38 M167 21 L145 38', BONE, 2.5) + flat('M96 38 L86 35 L92 30z M145 38 L149 29 L155 34z', BONE)),
   soup: soup(),
@@ -80,16 +89,14 @@ export const QUEST_PANELS: Record<string, InkArt> = {
     actor('vampire', 3, 10, 112) + desk(121, 88, 110) + shape('M129 65 L221 65 L208 88 L144 88z', BONE) +
     shape('M159 61 L161 43 L175 31 L184 42 L193 50 L196 64z', BONE) + line('M175 34 L169 62 M181 41 L184 62 M175 31 L179 20', INK, 2.5)),
   fountain: panel('The fountain has reduced its plumber to a suspiciously tiny apprentice', '#22313d', STEEL,
-    actor('fountain', 3, 7, 127) + giver('wizard', 173, 71, 43) + line('M166 108 L166 54', RUST, 4) + shape('M151 107 L156 95 L176 95 L182 107z', BLOOD) +
+    actor('fountain', 3, 7, 127) + place(PLUMBER_ART, 173, 71, 43) + line('M166 108 L166 54', RUST, 4) + shape('M151 107 L156 95 L176 95 L182 107z', BLOOD) +
     shape('M167 15 L193 15 L179 34 L193 51 L167 51 L180 34z', BONE) + flat('M171 20 L189 20 L180 31z M171 47 L180 38 L189 47z', MUSTARD)),
-  marrow: panel('Two enormous suspicious marrows compete for a pathetically small trophy', '#262b1c', BLOOD,
+  marrow: panel('Two giant squashes compete for a small trophy while pitchforks wait behind the judging table', '#262b1c', BLOOD,
     actor('marrow', -7, 12, 118) + actor('marrow', 128, 12, 118, true) + trophy(109, 83, .53)),
   kraken: panel('The kraken clings to swimming aids while the instructor demonstrates from dry land', '#16242e', STEEL,
     actor('kraken', 0, 1, 130) + giver('intern', 164, 24, 78) + shape('M141 88 L238 88 L238 98 L141 98z', RUST) + line('M155 99 L155 120 M219 99 L219 120', INK, 5) +
     line('M145 112 L156 108 L167 112 L178 108 L189 112 L200 108 L211 112 L222 108 L234 112', BONE, 2)),
-  parade: panel('The snail parade is almost at the finish; a hungry bird is already waiting', '#262b1c', MOSS,
-    actor('snail', 2, 19, 110) + line('M125 22 L125 111', INK, 4) + shape('M125 22 L167 22 L167 47 L125 47z', BONE) + flat('M126 23 h13 v11 h-13z M152 23 h14 v11 h-14z M139 34 h13 v12 h-13z', INK) +
-    giver('pigeon', 171, 30, 84)),
+  parade: parade('finish'),
   showdown: panel('Two grand heroes and one trophy with room for only one name', '#2a2030', BLOOD,
     actor('knight', 0, 16, 98) + actor('blackknight', 144, 16, 98, true) + trophy(96, 47, 1.2)),
   'goose-lawyer': goose(),
@@ -97,7 +104,15 @@ export const QUEST_PANELS: Record<string, InkArt> = {
 };
 
 const SCENE_PANELS: Record<string, InkArt> = {
-  'tax-auditor': tax(true), 'tax-ashes': tax(true),
+  'lich-flatshare': panel('The lich needs a pet reference for an undead goldfish in a very ordinary bowl', '#2a2030', MOSS,
+    actor('lich', 6, 10, 107) + shape('M141 57 L218 57 Q229 110 179 110 Q130 110 141 57z', STEEL) + flat('M144 74 L216 74 Q216 104 181 106 Q144 104 144 74z', '#3c5468') +
+    shape('M159 88 Q176 72 191 88 Q177 100 159 88z M191 88 L204 77 L204 98z', MUSTARD) + line('M168 83 L174 89 M174 83 L168 89', INK, 1.5) + line('M144 62 L215 62', BONE, 2)),
+  'tax-ashes': panel('A knight presents the dragon with the repair bill for a scorched suit of armor', '#33241a', BLOOD,
+    actor('dragon', 0, 8, 118) + actor('knight', 142, 22, 96) + form(118, 49, 1.1, 8)),
+  'kraken-peer-pressure': panel('A nervous kraken hides behind a pool noodle while another kraken watches', '#16242e', STEEL,
+    actor('kraken', 0, 6, 127) + actor('kraken', 170, 47, 69, true) + shape('M112 43 L126 43 L126 111 L112 111z', MUSTARD)),
+  'parade-map': parade('curb'), 'parade-weather': parade('rain'),
+  'tax-auditor': tax(true),
   'soup-escape': soup(true), 'soup-manifesto': soup(true),
   'goose-evidence': goose(true), 'checkout-supervisor': checkout(true),
 };

@@ -132,13 +132,9 @@ export type HeroMood = 'neutral' | 'triumphant' | 'disaster';
 /** Reactions use the same few flat marks as the original faces. Beards keep their shape. */
 const reaction = (ancestry: string, mood: HeroMood): string => {
   if (mood === 'neutral') return '';
-  const eyeY = ancestry === 'elf' ? 32 : ancestry === 'human' || ancestry === 'goblin' ? 33 : ancestry === 'dwarf' ? 34 : 36;
-  const eyes = mood === 'triumphant'
-    ? line(`M52 ${eyeY + 2} L56 ${eyeY} L58 ${eyeY + 2} M62 ${eyeY + 2} L66 ${eyeY} L68 ${eyeY + 2}`, BONE, 2)
-    : flat(`M52 ${eyeY - 1} h6 v6 h-6z M62 ${eyeY - 1} h6 v6 h-6z`, BONE) + black(`M54 ${eyeY} h2 v4 h-2z M64 ${eyeY} h2 v4 h-2z`);
   const bearded = ancestry === 'dwarf' || ancestry === 'gnome';
   const mouthY = ancestry === 'orc' ? 50 : ancestry === 'goblin' ? 47 : 44;
-  return eyes + (bearded ? '' : mood === 'triumphant'
+  return (bearded ? '' : mood === 'triumphant'
     ? black(`M54 ${mouthY - 2} L67 ${mouthY - 3} L63 ${mouthY + 3} L57 ${mouthY + 2}z`) + flat(`M55 ${mouthY - 2} L66 ${mouthY - 3} L64 ${mouthY} L57 ${mouthY}z`, BONE)
     : black(`M57 ${mouthY - 3} L63 ${mouthY - 3} L65 ${mouthY + 3} L56 ${mouthY + 3}z`));
 };

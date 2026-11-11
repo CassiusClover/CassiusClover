@@ -110,9 +110,17 @@ context. Common violations are rejected in favour of authored narration; the wor
 not a complete semantic content filter. AI writing quality and device performance still
 need phone testing. These controls also work in the browser with the AI switched off.
 
+## Reading and pacing
+
+Quest, result, reward and end-of-run actions stay in a fixed area above the home indicator.
+Stats and detailed callbacks open in sheets. Short screens use compact art and a grid for
+crowded finales. Quest prose and UI use American English; the Dungeon Master keeps his
+British voice. See the [rewriting guide](docs/STORY_GUIDE.md) and
+[phone layout checks](docs/compact-layout-check.json).
+
 ## Artwork
 
-The original angular SVG figures now stage 19 quest comic panels, six extra scene variants
+The original angular SVG figures now stage 19 quest comic panels, ten extra scene variants
 and rival encounters. Quest givers and rivals have recurring portraits; heroes react to
 triumphs and disasters. Flat colours, heavy shadows and simple props keep the original look.
 See [the art guide](docs/ART_GUIDE.md) and [art samples](docs/artwork-preview.png).

@@ -13,7 +13,7 @@ const GOLD_DARK = '#7a5a17';
  * The season at a glance: ten quest markers, where the rival has got to, and the step you
  * are on within the current quest. Tap it for the full season log.
  */
-export const Tracker = ({ run, tone, violence = 0 }: { run: RunState; tone: Tone; violence?: Violence }) => {
+export const Tracker = ({ run, tone, violence = 0, compact = false }: { run: RunState; tone: Tone; violence?: Violence; compact?: boolean }) => {
   const [open, setOpen] = useState(false);
   const rival = rivalProgress(run);
   const q = run.quest;
@@ -25,9 +25,9 @@ export const Tracker = ({ run, tone, violence = 0 }: { run: RunState; tone: Tone
         onPress={() => setOpen(true)}
         accessibilityRole="button"
         accessibilityLabel={`Quest tracker. You have finished ${run.questsDone} of ${QUESTS_TO_WIN} quests. ${run.rival} has finished ${rival}. Opens the season log.`}
-        style={({ pressed }) => [st.wrap, pressed && { opacity: 0.8 }]}
+        style={({ pressed }) => [st.wrap, compact && { paddingVertical: 4 }, pressed && { opacity: 0.8 }]}
       >
-        <View style={st.track}>
+        {!compact ? <View style={st.track}>
           <View style={st.rail} />
           {nodes.map((i) => {
             const rec = run.history[i];
@@ -47,10 +47,10 @@ export const Tracker = ({ run, tone, violence = 0 }: { run: RunState; tone: Tone
               </View>
             );
           })}
-        </View>
+        </View> : null}
         <View style={st.captionRow}>
           <Text style={st.caption} numberOfLines={1}>
-            You {run.questsDone}/{QUESTS_TO_WIN}   <Text style={{ color: '#eb9a88' }}>{run.rival} {rival}/{QUESTS_TO_WIN}</Text>
+            {compact ? `Season ${run.questsDone}/${QUESTS_TO_WIN}` : `You ${run.questsDone}/${QUESTS_TO_WIN}`}   <Text style={{ color: '#eb9a88' }}>{compact ? 'Rival' : run.rival} {rival}/{QUESTS_TO_WIN}</Text>
           </Text>
           {q ? (
             <View style={st.steps}>

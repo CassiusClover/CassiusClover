@@ -34,6 +34,21 @@ export const Screen = ({ children, scroll = true }: { children: React.ReactNode;
   </SafeAreaView>
 );
 
+/** Gameplay actions stay above the home indicator; only unusually long content scrolls. */
+export const PlayScreen = ({ header, children, actions, contentKey, compact = false }: {
+  header?: React.ReactNode; children: React.ReactNode; actions: React.ReactNode; contentKey?: string; compact?: boolean;
+}) => (
+  <SafeAreaView style={s.screen}>
+    <View style={s.column}>
+      {header ? <View style={{ paddingHorizontal: 12, paddingTop: 6, gap: 5 }}>{header}</View> : null}
+      <ScrollView key={contentKey} testID="play-content" style={{ flex: 1, minHeight: 0 }} contentContainerStyle={{ padding: compact ? 10 : 12, gap: compact ? 6 : 8, flexGrow: 1 }} showsVerticalScrollIndicator>
+        {children}
+      </ScrollView>
+      <View testID="action-dock" style={{ padding: 12, paddingTop: 8, gap: 6, backgroundColor: C.wood, borderTopWidth: 1, borderTopColor: '#5a4330' }}>{actions}</View>
+    </View>
+  </SafeAreaView>
+);
+
 export const Paper = ({ children, style }: { children: React.ReactNode; style?: StyleProp<ViewStyle> }) => (
   <View style={[s.paper, style]}>{children}</View>
 );
@@ -58,18 +73,18 @@ export const OnWood = ({ children, style }: { children: React.ReactNode; style?:
 type Kind = 'primary' | 'plain' | 'ad' | 'ghost';
 
 export const Button = ({
-  label, sub, onPress, kind = 'plain', disabled, testID,
-}: { label: string; sub?: string; onPress: () => void; kind?: Kind; disabled?: boolean; testID?: string }) => (
+  label, sub, onPress, kind = 'plain', disabled, testID, compact = false,
+}: { label: string; sub?: string; onPress: () => void; kind?: Kind; disabled?: boolean; testID?: string; compact?: boolean }) => (
   <Pressable
     testID={testID}
     accessibilityRole="button"
     accessibilityLabel={sub ? `${label}. ${sub}` : label}
     disabled={disabled}
     onPress={onPress}
-    style={({ pressed }) => [s.btn, s[`btn_${kind}`], pressed && s.pressed, disabled && s.disabled]}
+    style={({ pressed }) => [s.btn, s[`btn_${kind}`], compact && { paddingVertical: 8, paddingHorizontal: 12, minHeight: 48 }, pressed && s.pressed, disabled && s.disabled]}
   >
-    <Text style={[s.btnLabel, kind !== 'plain' && { color: C.cream }, kind === 'ghost' && { color: C.parchment }]}>{label}</Text>
-    {sub ? <Text style={[s.btnSub, kind !== 'plain' && { color: C.parchmentDim }]}>{sub}</Text> : null}
+    <Text style={[s.btnLabel, compact && { fontSize: 15, lineHeight: 19 }, kind !== 'plain' && { color: C.cream }, kind === 'ghost' && { color: C.parchment }]}>{label}</Text>
+    {sub ? <Text style={[s.btnSub, compact && { fontSize: 11, lineHeight: 14 }, kind !== 'plain' && { color: C.parchmentDim }]}>{sub}</Text> : null}
   </Pressable>
 );
 

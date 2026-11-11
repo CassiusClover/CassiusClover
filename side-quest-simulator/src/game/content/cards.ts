@@ -9,7 +9,7 @@ export const CARDS: Card[] = [
     choices: [
       ch('Pay him in compliments', 'CHA', 'safe', 'He blushes moss-green and waves you through.', 'He has heard "nice bridge" before. He bills you in bruises.'),
       ch('Jump the puddle', 'DEX', 'bold', 'A graceful hop. The troll reconsiders his business model.', 'It was deeper than it looked. So was the troll.'),
-      ch('Arm-wrestle him for it', 'STR', 'reckless', 'You win. He pays YOU a toll. He seems relieved.', 'Your arm now bends in a new and exciting place.'),
+      ch('Arm-wrestle him for it', 'STR', 'reckless', 'You win. He pays YOU a toll. He seems relieved.', 'The troll wins and drops you into the puddle.'),
     ],
   },
   {
@@ -45,7 +45,7 @@ export const CARDS: Card[] = [
     choices: [
       ch('Negotiate your way across', 'CHA', 'bold', 'You promise to mention calcium to management. They part.', 'They chant about you now. It is catchy and it hurts.'),
       ch('Sneak past', 'DEX', 'bold', 'Not a bone disturbed.', 'You step on a foot. It was somebody\'s. They want it back.'),
-      ch('Read their 400-page collective agreement', 'INT', 'safe', 'Clause 9 permits "one (1) adventurer". That is you.', 'You fall asleep on page 12 and wake up as a picket sign.'),
+      ch('Read their 400-page collective agreement', 'INT', 'safe', 'Clause 9 permits "one (1) adventurer". That is you.', 'You fall asleep on page twelve. The skeletons drag you out of the line.'),
     ],
   },
   {
@@ -62,7 +62,7 @@ export const CARDS: Card[] = [
     text: 'A ghostly innkeeper insists you complete Form 27-B before you may be haunted.',
     choices: [
       ch('Fill it in properly', 'INT', 'safe', 'Flawless paperwork. The ghost upgrades you to a nicer haunting.', 'You ticked "deceased" by mistake. Processing begins.'),
-      ch('Forge a signature and move on', 'DEX', 'bold', 'A perfect forgery of a man dead two hundred years.', 'He recognises his own handwriting. Awkward. Then cold.'),
+      ch('Forge a signature and move on', 'DEX', 'bold', 'A perfect forgery of a man dead two hundred years.', 'He recognizes his own handwriting. Awkward. Then cold.'),
       ch('Endure an unlicensed haunting', 'CON', 'reckless', 'You sleep through it. The ghost leaves a tip out of pity.', 'Unlicensed hauntings have no safety limits.'),
     ],
   },
@@ -72,7 +72,7 @@ export const CARDS: Card[] = [
     choices: [
       ch('Answer honestly', 'WIS', 'safe', 'Your feedback is "actionable". They give you a voucher.', 'You rate the ambush 2 out of 5. They take it personally.'),
       ch('Run while they find a quill', 'DEX', 'bold', 'Gone before question one.', 'They are bandits. Chasing is the one thing they trained for.'),
-      ch('Demand to speak to their manager', 'CHA', 'reckless', 'The manager apologises and refunds a robbery you never had.', 'The manager is larger. Much larger.'),
+      ch('Demand to speak to their manager', 'CHA', 'reckless', 'The manager apologizes and refunds a robbery you never had.', 'The manager is larger. Much larger.'),
     ],
   },
   {
@@ -99,7 +99,7 @@ export const CARDS: Card[] = [
     choices: [
       ch('Agree with every plank', 'CHA', 'bold', 'You cross on a wave of approval.', 'Plank nine catches you agreeing with plank eight. It drops you.'),
       ch('Run before they finish their sentences', 'DEX', 'safe', 'You are across before the first "well, actually".', 'One plank had a very short opinion.'),
-      ch('Win the debate', 'INT', 'reckless', 'The bridge forms a republic in your honour. And pays you.', 'You are ratioed by a bridge.'),
+      ch('Win the debate', 'INT', 'reckless', 'The bridge concedes your point and lowers itself to let you cross.', 'The bridge wins the argument and tips you into the ditch.'),
     ],
   },
   {
@@ -135,7 +135,7 @@ export const CARDS: Card[] = [
     choices: [
       ch('Read the fine print', 'INT', 'bold', 'You find the clause about firstborns and strike it. She pays up, sulking.', 'You miss the clause about elbows. You will miss your elbows.'),
       ch('Decline politely', 'WIS', 'safe', 'So politely that she tips you for the manners.', 'There is no polite way. She takes offence, and a tooth.'),
-      ch('Renegotiate in your favour', 'CHA', 'reckless', 'She leaves owing YOU a favour. Unprecedented.', 'You now owe her your name. People call you "Hey".'),
+      ch('Renegotiate in your favor', 'CHA', 'reckless', 'She leaves owing YOU a favor. Unprecedented.', 'You now owe her your name. People call you "Hey".'),
     ],
   },
   {

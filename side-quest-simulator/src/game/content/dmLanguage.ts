@@ -31,9 +31,9 @@ export const DM_LANGUAGE: Record<DmEvent, { c: string; x: string }[]> = {
     { c: '{rival} brought an audience and a prepared speech. You brought an actual work record. Awfully vulgar of you.', x: '{rival} has a speech. You have nine jobs worth of evidence. Time to find out which one the Guild gives a shit about.' },
   ],
   questStart: [
-    { c: '"{quest}". The client describes it as straightforward. The client has also declined to make eye contact.', x: '"{quest}". The client says there is no catch. That is generally where the bullshit starts.' },
-    { c: 'You accept "{quest}". Somewhere a Guild clerk quietly moves a folder from pending to entertaining.', x: '"{quest}". Right. Let us see which bastard left the important part out of the job description.' },
-    { c: '"{quest}". Your confidence has arrived ahead of your qualifications, as usual.', x: 'Off you go to "{quest}", {hero}. Your confidence has no evidence behind it, but fuck me, it is persistent.' },
+    { c: 'The client insists this is straightforward. I notice they are not offering to help.', x: 'The client says there is no catch. That is usually where the bullshit starts.' },
+    { c: 'Another brave volunteer. I do hope you asked about expenses.', x: 'Right. Let us find the bit those bastards left out of the job description.' },
+    { c: 'Your confidence is impressive. I see it has arrived without supporting evidence.', x: 'Off you go. I admire your confidence, though fuck knows what it is based on.' },
   ],
   bridgeGood: [
     { c: 'Onward, buoyed by the dangerous belief that competence is a renewable resource.', x: 'That actually worked. Try not to let one good decision turn the next one into complete bollocks.' },
