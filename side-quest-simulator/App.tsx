@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
-  applyAiNarration, bribe, buyPotion, choose, clearAiNarration, dmMomentContext, narrationKey, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
+  applyAiNarration, bribe, buyPotion, choose, clearAiNarration, dmMomentContext, isLiveNarration, narrationKey, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
 } from './src/game/engine';
 import { buyUpgrade, defaultMeta, finishRun, unlockClass } from './src/game/meta';
 import type { Meta, RunState } from './src/game/types';
@@ -71,19 +71,19 @@ export default function App() {
     if (!meta?.liveDm || !run?.quest || screen !== 'run' || !localDmSupported || !isModelDownloaded(meta.dmModel) ||
       !['card', 'result', 'boon'].includes(run.phase)) return;
     const key = narrationKey(run);
-    if (run.liveNarrationKey === key) return;
+    if (isLiveNarration(run, meta.tone, meta.violence)) return;
     let cancelled = false;
-    generateMomentLine(meta.dmModel, dmMomentContext(run, meta.tone)).then((line) => {
+    generateMomentLine(meta.dmModel, dmMomentContext(run, meta.tone, meta.violence)).then((line) => {
       if (cancelled || !line) return;
       setRunState((current) => {
         if (!current) return current;
-        const merged = applyAiNarration(current, key, line);
+        const merged = applyAiNarration(current, key, line, meta.tone, meta.violence);
         if (merged !== current) saveRun(merged);
         return merged;
       });
     });
     return () => { cancelled = true; cancelMomentLine(); };
-  }, [run, meta?.liveDm, meta?.dmModel, meta?.tone, screen]);
+  }, [run, meta?.liveDm, meta?.dmModel, meta?.tone, meta?.violence, screen]);
 
   if (!meta) {
     return (
@@ -117,9 +117,9 @@ export default function App() {
 
   const body = () => {
     if (!meta.toneChosen) {
-      const pick = (tone: Meta['tone']) => {
+      const pick = (tone: Meta['tone'], violence: Meta['violence'] = 0) => {
         setAdTone(tone);
-        setMeta({ ...meta, tone, toneChosen: true });
+        setMeta({ ...meta, tone, violence, toneChosen: true });
       };
       return <ToneScreen onPick={pick} onSkip={() => pick(0)} />;
     }
@@ -140,13 +140,17 @@ export default function App() {
             if (run) setRun(clearAiNarration(run));
           }}
           onHaptics={(haptics) => setMeta({ ...meta, haptics })}
+          onViolence={(violence) => {
+            setMeta({ ...meta, violence });
+            if (run) setRun(clearAiNarration(run));
+          }}
           onDm={(patch) => {
             setMeta({ ...meta, ...patch });
             if (run) setRun(clearAiNarration(run));
           }}
           onReset={() => {
             setRun(null);
-            setMeta({ ...defaultMeta(), tone: meta.tone, toneChosen: true, haptics: meta.haptics });
+            setMeta({ ...defaultMeta(), tone: meta.tone, violence: meta.violence, toneChosen: true, haptics: meta.haptics });
           }}
           onBack={() => go('home')}
         />
@@ -164,17 +168,17 @@ export default function App() {
     if (run && screen === 'run') {
       switch (run.phase) {
         case 'board':
-          return <BoardScreen run={run} tone={meta.tone} onPick={startQuest} onQuit={() => go('home')} />;
+          return <BoardScreen run={run} tone={meta.tone} violence={meta.violence} onPick={startQuest} onQuit={() => go('home')} />;
         case 'card':
-          return <CardScreen run={run} tone={meta.tone} onChoose={(i) => setRun(choose(run, i))} onBribe={() => setRun(bribe(run))} onQuit={() => go('home')} />;
+          return <CardScreen run={run} tone={meta.tone} violence={meta.violence} onChoose={(i) => setRun(choose(run, i))} onBribe={() => setRun(bribe(run))} onQuit={() => go('home')} />;
         case 'result':
-          return <ResultScreen run={run} tone={meta.tone} onProceed={() => setRun(proceed(run))} onReroll={() => setRun(reroll(run))} onRevealed={buzz} />;
+          return <ResultScreen run={run} tone={meta.tone} violence={meta.violence} onProceed={() => setRun(proceed(run))} onReroll={() => setRun(reroll(run))} onRevealed={buzz} />;
         case 'boon':
-          return <BoonScreen run={run} tone={meta.tone} onPick={(i) => setRun(pickBoon(run, i))} onPotion={() => setRun(buyPotion(run))} />;
+          return <BoonScreen run={run} tone={meta.tone} violence={meta.violence} onPick={(i) => setRun(pickBoon(run, i))} onPotion={() => setRun(buyPotion(run))} />;
         case 'dead':
           return (
             <DeadScreen
-              run={run} busy={busy} notice={notice} simulated={adsAreSimulated}
+              run={run} tone={meta.tone} violence={meta.violence} busy={busy} notice={notice} simulated={adsAreSimulated}
               onRevive={() => withAd('revive', () => setRun(revive(run)))}
               onAccept={() => go('summary')}
             />

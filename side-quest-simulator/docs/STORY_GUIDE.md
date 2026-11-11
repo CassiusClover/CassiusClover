@@ -51,7 +51,7 @@ Replace the empty `scenes` with your actual scenes. The engine picks between ver
 | Field | Meaning |
 | --- | --- |
 | `id` | Unique lowercase slug, such as `invoice-interview`. |
-| `text` | What the player sees before choosing. |
+| `text` | What the player sees before choosing. Scene bodies require distinct `f`, `c`, `x` language versions. |
 | `art` | Existing objective illustration to reuse. |
 | `choices` | Two to five approaches, with at least one affordable, unconditional roll. |
 | `next` | Optional list of conditional next scenes. No `next` means proceed to the finale. |
@@ -81,19 +81,44 @@ The first matching condition wins. Always put exactly one unconditional fallback
 
 Use `finaleChoices` on the story for earned approaches. The template demonstrates a receipt flag unlocking an evidence-based ending. Keep at least one unconditional finale approach so every route remains playable.
 
-## Tone
+## Language and violence
 
-Any `text`, `label`, `win`, `lose`, `title`, `task` or `memory` can be a plain string or:
+Settings offer two independent controls: Clean/Cheeky/Crude language and Cartoon/Gritty/Brutal violence descriptions. All 50 shipped quest and rival scene bodies have authored language alternatives. The scripted narrator also has alternatives for every event, including saved adventures and the final showdown.
+
+Scene `text` must have distinct versions:
 
 ```json
-{"f":"The clerk is deeply unhelpful.","c":"The clerk is a professionally unhelpful little toad.","x":"The clerk is a professionally unhelpful little sod."}
+{"f":"The clerk is deeply unhelpful.","c":"The clerk has made obstruction a remarkably confident career choice.","x":"The clerk is a professionally unhelpful bastard and knows it."}
 ```
 
-`f` is required. Missing stronger variants fall back to the gentler text. A tone setting is a writing preference; it does not change the store's age rating.
+Other fields (`label`, `win`, `lose`, `title`, `task`, `memory`) may still use a plain string for a fact or an action that does not need different language. `f` means Clean; the old key is retained for compatibility. Missing stronger variants on these optional fields fall back to gentler text. Do not add profanity to every label merely to make a button change.
+
+When a passage itself describes blood or wounds, use `v` overrides. Each override can be plain text or its own `{ f, c, x }` object, so Clean + Brutal and Crude + Cartoon both work:
+
+```json
+{
+  "f": "The clerk stamps your form. The stamp is ominously red.",
+  "c": "The clerk stamps your form with enough force to suggest a personal grievance.",
+  "x": "The bastard stamps your form like the desk owes him money.",
+  "v": {
+    "gritty": {
+      "f": "The clerk presses a bleeding thumb to the form.",
+      "c": "The clerk uses a bleeding thumbprint and calls this premium stationery.",
+      "x": "The bastard signs in blood and still charges you for the ink."
+    }
+  }
+}
+```
+
+Supported `v` keys are `cartoon`, `gritty` and `brutal`. The selected override is used first, then its language variant is selected. A missing violence override uses the base text. Keep the base Cartoon text non-graphic. No need to write nine identical versions of neutral dialogue.
+
+The engine supplies level-specific injury descriptions after actual HP damage and level-specific defeat wording. Successes and paid deals do not acquire injuries. These controls change presentation, not hit points, dice, costs, rewards or quest flags. Settings include a live preview and apply immediately to an existing adventure; old saves default to Cartoon while keeping their selected language and all progress.
+
+The on-device narrator gets both controls and the same rendered scene, consequence, injury and memory text the player receives. Obvious profanity and graphic-detail violations are rejected and leave the authored fallback in place. The local word guard is conservative and cannot guarantee every possible model sentence meets the requested tone; native model output still needs phone testing.
 
 ## A prompt for drafting another story
 
-> Write a Side Quest Simulator story pack as JSON, using the complete attached TEMPLATE.json.example as the schema. Set the job to [YOUR IDEA]. Use a concrete ordinary problem inside an absurd fantasy situation. Write two distinct approaches and one meaningful bargain, never three synonyms for the same roll. Make one earlier decision change a later scene and unlock a finale option. Use one to three scenes per route, a final unconditional fallback in every `next` list, unique slug ids, and at least one unconditional roll in every scene. Reuse an existing art id. Write specific win/lose consequences and factual memory callbacks. Keep family text clean. Return JSON only; do not add unsupported fields, stats or effects.
+> Write a Side Quest Simulator story pack as JSON, using the complete attached TEMPLATE.json.example as the schema. Set the job to [YOUR IDEA]. Use a concrete ordinary problem inside an absurd fantasy situation. Write two distinct approaches and one meaningful bargain, never three synonyms for the same roll. Make one earlier decision change a later scene and unlock a finale option. Use one to three scenes per route, a final unconditional fallback in every `next` list, unique slug ids, and at least one unconditional roll in every scene. Reuse an existing art id. Every scene body needs distinct f/c/x versions: clean, cheeky and crude. Write specific win/lose consequences and factual memory callbacks. Keep base violence cartoon-like; use v.gritty and v.brutal for injury detail, with independent language variants where needed. Return JSON only; do not add unsupported fields, stats or effects.
 
 You can also edit the on-device narrator's directions in `src/services/dmPrompt.ts`. It gets the current scene, actual selected action, resolved consequence and recent accepted decisions. It writes one short reaction, while the engine owns story branches, costs and rules. It cannot invent new playable mechanics. Model humour and speed still need testing on a phone.
 

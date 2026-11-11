@@ -43,7 +43,7 @@ const BASE_OBJECTIVES: Objective[] = [
       id: 'x-lich-eviction',
       text: 'The lich answers the crypt door in a dressing gown. He claims he has "tenant rights" and "never dies".',
       choices: [
-        ch('Cite the lease, clause by clause', 'INT', 'bold', 'Clause 14: "No phylacteries in communal areas." He packs.', 'He wrote the lease. In 1204. In blood. He reads you his clauses.'),
+        ch('Cite the lease, clause by clause', 'INT', 'bold', 'Clause 14: "No phylacteries in communal areas." He packs.', {"f": "He wrote the lease. In 1204. In ominous ink. He reads you his clauses.", "v": {"gritty": "He wrote the lease. In 1204. In blood. He reads you his clauses.", "brutal": "He wrote the lease. In 1204. In blood. He reads you every last threatening clause."}}),
         ch('Appeal to his better nature', 'WIS', 'safe', 'You suggest a nice seaside tomb. His eye sockets light up.', 'He has no better nature. He checked. He hexes your knees.'),
         ch('Carry him out bodily', 'STR', 'reckless', 'He is mostly robe. You deposit him on the kerb with his urns.', 'He is mostly curses. Several of them land.'),
       ],
@@ -206,7 +206,7 @@ const BASE_OBJECTIVES: Objective[] = [
   {
     id: 'marrow',
     title: 'Judge the Village Vegetable Contest',
-    task: 'judge a village vegetable contest that has ended in bloodshed four years running',
+    task: {"f": "judge a village vegetable contest that has ended in a spectacular brawl four years running", "v": {"gritty": "judge a village vegetable contest that has ended in bloodshed four years running", "brutal": "judge a village vegetable contest whose last four prize ceremonies ended with blood on the judging table"}},
     climax: {
       id: 'x-marrow',
       text: 'Two marrows remain. Their growers stare at you with the calm of people who own pitchforks.',

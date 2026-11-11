@@ -8,8 +8,12 @@ export function validatePacks(packs) {
   const stories = [], rivals = [], extraObjectives = [], errors = [], ids = new Set(), storyIds = new Set(), objectiveIds = new Set();
   const check = (ok, at, message) => { if (!ok) errors.push(`${at}: ${message}`); };
   const text = (v, at) => {
-    check(typeof v === 'string' ? !!v.trim() && v.length <= 1200 : object(v) && typeof v.f === 'string' && !!v.f.trim() &&
-      Object.entries(v).every(([key, val]) => ['f', 'c', 'x'].includes(key) && typeof val === 'string' && !!val.trim() && val.length <= 1200), at, 'use non-empty text or { "f": "family text", "c": "cheeky text", "x": "crude text" }');
+    const plain = (val) => typeof val === 'string' && !!val.trim() && val.length <= 1200;
+    const language = (val) => plain(val) || object(val) && plain(val.f) &&
+      Object.entries(val).every(([key, line]) => ['f', 'c', 'x'].includes(key) && plain(line));
+    const valid = language(v) || object(v) && plain(v.f) && Object.entries(v).every(([key, val]) =>
+      key === 'v' ? object(val) && Object.entries(val).every(([level, words]) => ['cartoon', 'gritty', 'brutal'].includes(level) && language(words)) : ['f', 'c', 'x'].includes(key) && plain(val));
+    check(valid, at, 'use text or { f, c, x }, with optional v: { cartoon, gritty, brutal } text variants');
   };
   const effect = (v, at) => {
     if (v === undefined) return;
@@ -42,6 +46,8 @@ export function validatePacks(packs) {
     check(id(s.id) && !s.id.startsWith('x-'), at, 'scene id must be a lowercase slug, without the reserved x- prefix');
     check(!ids.has(s.id), at, `duplicate scene id ${s.id}`); ids.add(s.id);
     text(s.text, `${at}.text`);
+    check(object(s.text) && ['f', 'c', 'x'].every((key) => typeof s.text[key] === 'string') &&
+      new Set([s.text.f, s.text.c, s.text.x]).size === 3, `${at}.text`, 'scene text needs distinct f, c and x language versions');
     check(typeof s.art === 'string' && !!s.art, at, 'art must name an existing card or objective id');
     choices(s.choices, `${at}.choices`);
     check(Array.isArray(s.choices) && s.choices.filter((c) => c && !c.requires && !c.deal).length >= 1, at, 'keep at least one unconditional roll so a broke hero can continue');

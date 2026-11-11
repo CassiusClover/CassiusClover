@@ -2,11 +2,16 @@ export type Stat = 'STR' | 'DEX' | 'CON' | 'INT' | 'WIS' | 'CHA';
 export const STATS: Stat[] = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
 export type Stats = Record<Stat, number>;
 
-/** 0 = family friendly, 1 = cheeky, 2 = crude. */
+/** Language: 0 = clean, 1 = cheeky, 2 = crude. */
 export type Tone = 0 | 1 | 2;
+/** Injury prose: 0 = cartoon, 1 = gritty, 2 = brutal. */
+export type Violence = 0 | 1 | 2;
+export type ViolenceName = 'cartoon' | 'gritty' | 'brutal';
+export interface ContentSettings { tone: Tone; violence: Violence }
 
-/** Text with optional per-tone variants. Falls back towards the family version. */
-export type Txt = string | { f: string; c?: string; x?: string };
+/** Independent language and violence variants. Missing language falls back towards clean. */
+export type ToneText = string | { f: string; c?: string; x?: string };
+export type Txt = string | { f: string; c?: string; x?: string; v?: Partial<Record<ViolenceName, ToneText>> };
 
 export type Risk = 'safe' | 'bold' | 'reckless';
 
@@ -240,6 +245,8 @@ export interface RunState {
   /** The season's rival, and the Dungeon Master's current line. */
   rival: string;
   narration: string;
+  /** Preserve source text so saved narration can be re-rendered with new preferences. */
+  scriptedNarration?: { text: Txt; choice: string };
   said: number;
   /** Consecutive successes (positive) or failures (negative). */
   streak: number;
@@ -249,6 +256,7 @@ export interface RunState {
   id?: string;
   decisions?: StoryDecision[];
   liveNarrationKey?: string;
+  liveNarrationSettings?: ContentSettings;
   storyFlags?: string[];
 }
 
@@ -263,6 +271,7 @@ export interface Meta {
   version: 1;
   tips: number;
   tone: Tone;
+  violence: Violence;
   toneChosen: boolean;
   haptics: boolean;
   /** Use the on-device AI Dungeon Master (needs a downloaded model). */

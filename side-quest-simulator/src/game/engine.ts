@@ -3,9 +3,10 @@ import { ANCESTRIES, CLASSES, EPITHETS, FIRST_NAMES, QUIRKS, RELICS } from './co
 import { DM_LINES, RIVALS, type DmEvent } from './content/dm';
 import { GIVERS, OBJECTIVES, TWISTS } from './content/quests';
 import { RIVAL_SCENES } from './content/stories.generated';
+import { allowsModelLine, contentText, injuryDescription, VIOLENCE_NAMES } from './contentSettings';
 import { canChoose, nextScene, storyCard, storiesFor, storyOf, storyRoute } from './stories';
 import type {
-  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stats, Tier, Tone, Txt,
+  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stats, Tier, Tone, Txt, Violence,
 } from './types';
 import { STATS } from './types';
 
@@ -44,15 +45,10 @@ export const cardOf = (id: string, storyId?: string): Card => {
   return { ...objective.climax, choices: [...objective.climax.choices, ...(storyOf(objective.id, storyId)?.finaleChoices ?? [])] };
 };
 
-export const t = (txt: Txt, tone: Tone): string => {
-  if (typeof txt === 'string') return txt;
-  if (tone >= 2 && txt.x) return txt.x;
-  if (tone >= 1 && txt.c) return txt.c;
-  return txt.f;
-};
+export const t = contentText;
 
 export const modOf = (score: number) => Math.floor((score - 10) / 2);
-export const textFor = (run: RunState, txt: Txt, tone: Tone) => t(txt, tone).replace(/\{rival\}/g, run.rival).replace(/\{hero\}/g, run.hero.name);
+export const textFor = (run: RunState, txt: Txt, tone: Tone, violence: Violence = 0) => t(txt, tone, violence).replace(/\{rival\}/g, run.rival).replace(/\{hero\}/g, run.hero.name);
 
 // --- RNG (mulberry32, state carried in the run so saves are deterministic) ---
 const rand = (run: { rng: number }): number => {
@@ -77,22 +73,57 @@ const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 /** Sets the DM's current line. Picks deterministically without disturbing the run's dice. */
 const say = (run: RunState, event: DmEvent, choice = '') => {
   run.liveNarrationKey = undefined;
+  run.liveNarrationSettings = undefined;
+  const pool = DM_LINES[event];
+  const line = pool[((run.rng >>> 5) + run.said * 7) % pool.length];
+  run.scriptedNarration = { text: line, choice };
   const live = liveLine(run, event);
   if (live) {
     run.said += 1;
     run.narration = live;
     return;
   }
-  const pool = DM_LINES[event];
-  const line = pool[((run.rng >>> 5) + run.said * 7) % pool.length];
   run.said += 1;
-  const q = run.quest;
-  run.narration = t(line, 0)
+  run.narration = renderNarration(run, line, choice, 0, 0);
+};
+
+const renderNarration = (run: RunState, line: Txt, choice: string, tone: Tone, violence: Violence) =>
+  t(line, tone, violence)
     .replace(/\{hero\}/g, run.hero.name)
     .replace(/\{rival\}/g, run.rival)
     .replace(/\{class\}/g, classOf(run.hero.classId).name.toLowerCase())
-    .replace(/\{quest\}/g, q ? t(objectiveOf(q.offer.objectiveId).title, 0) : '')
+    .replace(/\{quest\}/g, run.quest ? t(objectiveOf(run.quest.offer.objectiveId).title, tone, violence) : '')
     .replace(/\{choice\}/g, choice);
+
+const scriptEvent = (run: RunState): DmEvent => {
+  if (run.phase === 'dead') return 'dead';
+  if (run.phase === 'victory') return 'victory';
+  if (run.phase === 'boon') return run.quest?.climaxFailed ? 'questDoneBadly' : 'questDone';
+  if (run.phase === 'result') {
+    const outcome = run.result?.outcome;
+    return outcome === 'deal' || outcome === 'bribe' ? 'bribe' : outcome === 'fail' || outcome === 'fumble' || outcome === 'crit' ? outcome : 'success';
+  }
+  if (run.phase === 'card') return isClimax(run) ? 'climaxGood' : 'questStart';
+  return run.questIndex === 0 ? 'intro' : 'board';
+};
+
+export const isLiveNarration = (run: RunState, tone: Tone, violence: Violence = 0) =>
+  run.liveNarrationKey === narrationKey(run) && run.liveNarrationSettings?.tone === tone && run.liveNarrationSettings?.violence === violence;
+
+/** Render saved source text, including on an old save, with the CURRENT preferences. */
+export const narrationFor = (run: RunState, tone: Tone, violence: Violence = 0): string => {
+  if (isLiveNarration(run, tone, violence)) return run.narration;
+  const pool = DM_LINES[scriptEvent(run)];
+  const fallback = pool[((run.rng >>> 5) + Math.max(0, run.said - 1) * 7) % pool.length];
+  const source = run.scriptedNarration ?? { text: fallback, choice: '' };
+  return renderNarration(run, source.text, source.choice, tone, violence);
+};
+
+const narrate = (run: RunState, text: Txt) => {
+  run.scriptedNarration = { text, choice: '' };
+  run.liveNarrationKey = undefined;
+  run.liveNarrationSettings = undefined;
+  run.narration = renderNarration(run, text, '', 0, 0);
 };
 /** The live Dungeon Master's line for this moment, if one has arrived for the current quest. */
 const liveLine = (run: RunState, event: DmEvent): string => {
@@ -132,26 +163,27 @@ export const applyAiLines = (prev: RunState, questIndex: number, raw: unknown): 
 };
 
 /** Everything the live Dungeon Master needs to know to write lines for the quest just accepted. */
-export const dmContext = (run: RunState, tone: Tone) => {
+export const dmContext = (run: RunState, tone: Tone, violence: Violence = 0) => {
   const q = run.quest!;
   const twist = twistOf(q.offer.twistId);
   return {
     tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    violence: VIOLENCE_NAMES[violence],
     hero: { name: run.hero.name, class: classOf(run.hero.classId).name, ancestry: ancestryOf(run.hero.ancestryId).name, quirk: quirkOf(run.hero.quirkId).name },
     rival: run.rival,
     questNumber: run.questIndex + 1,
     questsTotal: QUESTS_TO_WIN,
     health: `${run.hero.hp}/${run.hero.maxHp}`,
     relics: run.relics.map((id) => relicOf(id).name),
-    history: run.history.map((h) => ({ quest: t(objectiveOf(h.objectiveId).title, tone), result: h.clean ? 'clean' : 'botched' })),
+    history: run.history.map((h) => ({ quest: t(objectiveOf(h.objectiveId).title, tone, violence), result: h.clean ? 'clean' : 'botched' })),
     quest: {
-      title: t(objectiveOf(q.offer.objectiveId).title, tone),
-      client: t(giverOf(q.offer.giverId).name, tone),
-      task: t(objectiveOf(q.offer.objectiveId).task, tone),
-      twist: t(twist.text, tone),
+      title: t(objectiveOf(q.offer.objectiveId).title, tone, violence),
+      client: t(giverOf(q.offer.giverId).name, tone, violence),
+      task: t(objectiveOf(q.offer.objectiveId).task, tone, violence),
+      twist: t(twist.text, tone, violence),
       cards: q.cards.map((id) => {
         const c = cardOf(id, q.storyId);
-        return { scene: t(c.text, tone), options: c.choices.map((x) => t(x.label, tone)) };
+        return { scene: t(c.text, tone, violence), options: c.choices.map((x) => t(x.label, tone, violence)) };
       }),
     },
   };
@@ -164,7 +196,7 @@ export const narrationKey = (run: RunState): string => [
 ].join('|');
 
 /** Actual decisions and consequences, rather than speculative lines for both outcomes. */
-export const dmMomentContext = (run: RunState, tone: Tone) => {
+export const dmMomentContext = (run: RunState, tone: Tone, violence: Violence = 0) => {
   const q = run.quest!;
   const card = currentCard(run)!;
   const result = run.result;
@@ -172,36 +204,40 @@ export const dmMomentContext = (run: RunState, tone: Tone) => {
   const good = !!result && result.dmg === 0;
   return {
     key: narrationKey(run), tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    violence: VIOLENCE_NAMES[violence],
     hero: `${run.hero.name}, ${ancestryOf(run.hero.ancestryId).name} ${classOf(run.hero.classId).name}; ${quirkOf(run.hero.quirkId).name}`,
     health: `${run.hero.hp}/${run.hero.maxHp}`,
     rival: run.rival,
-    quest: t(objectiveOf(q.offer.objectiveId).title, tone),
-    scene: textFor(run, card.text, tone),
+    quest: t(objectiveOf(q.offer.objectiveId).title, tone, violence),
+    scene: textFor(run, card.text, tone, violence),
     moment: run.phase === 'result' ? 'reaction' : run.phase === 'boon' ? 'quest complete' : 'arrival',
-    action: choice ? t(choice.label, tone) : result?.outcome === 'bribe' ? 'Paid to pass' : '',
+    action: choice ? t(choice.label, tone, violence) : result?.outcome === 'bribe' ? 'Paid to pass' : '',
     outcome: result ? result.outcome : '',
-    consequence: choice ? t(good ? choice.win : choice.lose, tone) : '',
-    changed: result?.storyEffect?.memory ? t(result.storyEffect.memory, tone) : '',
-    memories: (run.decisions ?? []).slice(-3).map((d) => t(d.memory, tone)),
+    consequence: choice ? t(good ? choice.win : choice.lose, tone, violence) : '',
+    injury: result ? injuryDescription(result, violence) : '',
+    changed: result?.storyEffect?.memory ? t(result.storyEffect.memory, tone, violence) : '',
+    memories: (run.decisions ?? []).slice(-3).map((d) => t(d.memory, tone, violence)),
     flags: [...(q.flags ?? []), ...(run.storyFlags ?? [])],
     preparation: q.momentum ?? 0,
     voice: (run.questIndex + q.cardIdx + run.said) % 5,
   };
 };
 
-export const applyAiNarration = (prev: RunState, key: string, raw: unknown): RunState => {
+export const applyAiNarration = (prev: RunState, key: string, raw: unknown, tone: Tone = 0, violence: Violence = 0): RunState => {
   if (narrationKey(prev) !== key || !['card', 'result', 'boon'].includes(prev.phase)) return prev;
   const value = raw && typeof raw === 'object' ? (raw as { line?: unknown }).line : null;
   if (typeof value !== 'string') return prev;
   const line = value.replace(/\s+/g, ' ').trim();
   if (line.length < 8 || line.length > 240 || /[{}<>]|```/.test(line)) return prev;
-  return { ...prev, narration: line, liveNarrationKey: key };
+  if (!allowsModelLine(line, { tone, violence })) return prev;
+  return { ...prev, narration: line, liveNarrationKey: key, liveNarrationSettings: { tone, violence } };
 };
 
 /** A changed tone/model must not keep an old AI line or legacy quest reply on screen. */
 export const clearAiNarration = (prev: RunState): RunState => {
   if (!prev.ai && !prev.liveNarrationKey) return prev;
-  return { ...prev, ai: null, liveNarrationKey: undefined, narration: 'The Dungeon Master consults the notes for this scene.' };
+  const next = { ...prev, ai: null, liveNarrationKey: undefined, liveNarrationSettings: undefined };
+  return { ...next, narration: narrationFor(next, 0, 0) };
 };
 
 const lower = (label: string) => label.charAt(0).toLowerCase() + label.slice(1);
@@ -513,7 +549,11 @@ export const choose = (prev: RunState, choiceIdx: number): RunState => {
   run.phase = 'result';
   if (choice.deal) {
     say(run, 'bribe');
-    run.narration = 'Terms agreed. Keep the receipt; the consequences are not refundable.';
+    narrate(run, {
+      f: 'Terms agreed. Keep the receipt; the consequences are not refundable.',
+      c: 'A bargain struck. The small print is wearing a very large grin.',
+      x: 'Paid up. The bastards charge extra for consequences, so keep the receipt.',
+    });
   } else react(run);
   return run;
 };
@@ -635,7 +675,11 @@ const advance = (run: RunState): RunState => {
     run.epitaph = `Hero of the Year. Beat ${run.rival} to the trophy and retired to open a modest tavern.`;
     if (q.flags?.includes('shared-ending')) run.epitaph = `Joint Heroes of the Year with ${run.rival}. One trophy, two desks, incompatible office hours.`;
     say(run, 'victory');
-    if (q.flags?.includes('shared-ending')) run.narration = 'Two names on the trophy. I prepared a duel and you negotiated office hours. I shall invoice both of you.';
+    if (q.flags?.includes('shared-ending')) narrate(run, {
+      f: 'Two names on the trophy. I prepared a duel and you negotiated office hours. I shall invoice both of you.',
+      c: 'Shared heroism. Separate expense claims. The Guild has accidentally invented middle management.',
+      x: 'Two heroes, one trophy, twice the bloody paperwork. Somehow this is your happy ending.',
+    });
     return run;
   }
   run.boons = dealBoons(run, q.offer.tier === 2);

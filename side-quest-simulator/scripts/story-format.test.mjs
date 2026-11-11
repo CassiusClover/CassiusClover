@@ -35,4 +35,13 @@ describe('story authoring validation', () => {
     expect(() => compile(pack)).toThrow(/unconditional fallback/);
     expect(() => compile(pack)).toThrow(/unknown flag/);
   });
+  it('requires language alternatives and validates independent violence variants', () => {
+    const pack = source();
+    pack.stories[0].scenes[0].text = { f: 'Clean.', c: 'Cheeky.', x: 'Crude.', v: { gritty: { f: 'A cut.', c: 'An embarrassing cut.', x: 'A bloody nuisance of a cut.' } } };
+    expect(() => compile(pack)).not.toThrow();
+    pack.stories[0].scenes[0].text.v.graphic = 'Unknown level';
+    expect(() => compile(pack)).toThrow(/cartoon, gritty, brutal/);
+    pack.stories[0].scenes[0].text = 'One unchanging scene.';
+    expect(() => compile(pack)).toThrow(/distinct f, c and x/);
+  });
 });

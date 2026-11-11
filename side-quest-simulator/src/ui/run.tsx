@@ -4,13 +4,14 @@ import { TIER_NAMES } from '../game/content/quests';
 import {
   bribeCost, canBribe, canBuyPotion, canReroll, canRevive, cardOf, checkInfo, classOf, ancestryOf, currentCard,
   describeBoon, giverOf, isClimax, modOf, objectiveOf, potionCost, POTION_HEAL, questPay, QUESTS_TO_WIN, quirkOf,
-  relicOf, t, textFor, narrationKey, twistOf,
+  relicOf, t, textFor, narrationFor, isLiveNarration, twistOf,
 } from '../game/engine';
 import { canChoose, choiceConsequence, choiceUnlocked } from '../game/stories';
+import { deathDescription, deathHeading, injuryDescription } from '../game/contentSettings';
 import { Art, HeroArt } from '../art/Art';
 import { artForCard, artForObjective } from '../art/creatures';
 import { tipsFor } from '../game/meta';
-import type { Meta, RunState, Tone } from '../game/types';
+import type { Meta, RunState, Tone, Violence } from '../game/types';
 import { STATS } from '../game/types';
 import { Bob, D20, DmSays, Enter, Pop, Shake } from './fx';
 import { Tracker } from './tracker';
@@ -58,11 +59,11 @@ export const Hud = ({ run, onClose }: { run: RunState; onClose?: () => void }) =
   );
 };
 
-export const BoardScreen = ({ run, tone, onPick, onQuit }: { run: RunState; tone: Tone; onPick: (i: number) => void; onQuit: () => void }) => (
+export const BoardScreen = ({ run, tone, violence = 0, onPick, onQuit }: { run: RunState; tone: Tone; violence?: Violence; onPick: (i: number) => void; onQuit: () => void }) => (
   <Screen>
     <Hud run={run} onClose={onQuit} />
-    <Tracker run={run} tone={tone} />
-    <DmSays text={run.narration} />
+    <Tracker run={run} tone={tone} violence={violence} />
+    <DmSays text={narrationFor(run, tone, violence)} />
     <OnWood style={st.heading}>{run.board.length === 1 ? 'The Final Posting' : 'The Quest Board'}</OnWood>
     {run.board.map((offer, i) => {
       const obj = objectiveOf(offer.objectiveId);
@@ -78,9 +79,9 @@ export const BoardScreen = ({ run, tone, onPick, onQuit }: { run: RunState; tone
             </Row>
             <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
               <Art art={artForObjective(offer.objectiveId)} size={72} />
-              <H2 style={{ flex: 1 }}>{t(obj.title, tone)}</H2>
+              <H2 style={{ flex: 1 }}>{t(obj.title, tone, violence)}</H2>
             </View>
-            <P>{t(giverOf(offer.giverId).name, tone)} needs you to {t(obj.task, tone)}. {t(twist.text, tone)}</P>
+            <P>{t(giverOf(offer.giverId).name, tone, violence)} needs you to {t(obj.task, tone, violence)}. {t(twist.text, tone, violence)}</P>
             <Small>
               {twist.note}
               {offer.tier === 2 ? '  |  Harder rolls, guaranteed relic offer' : offer.tier === 0 ? '  |  Easier rolls' : ''}
@@ -97,8 +98,8 @@ const riskName = { safe: 'Careful', bold: 'Bold', reckless: 'Reckless' } as cons
 const riskColor = { safe: '#9ccf8c', bold: '#9cc4e0', reckless: '#eb9a88' } as const;
 
 export const CardScreen = ({
-  run, tone, onChoose, onBribe, onQuit,
-}: { run: RunState; tone: Tone; onChoose: (i: number) => void; onBribe: () => void; onQuit: () => void }) => {
+  run, tone, violence = 0, onChoose, onBribe, onQuit,
+}: { run: RunState; tone: Tone; violence?: Violence; onChoose: (i: number) => void; onBribe: () => void; onQuit: () => void }) => {
   const card = currentCard(run)!;
   const q = run.quest!;
   const art = card.art ? artForObjective(card.art) : artForCard(card.id);
@@ -106,9 +107,9 @@ export const CardScreen = ({
   return (
     <Screen>
       <Hud run={run} onClose={onQuit} />
-      <Tracker run={run} tone={tone} />
-      <OnWood style={st.heading}>{t(objectiveOf(q.offer.objectiveId).title, tone)}</OnWood>
-      <DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} />
+      <Tracker run={run} tone={tone} violence={violence} />
+      <OnWood style={st.heading}>{t(objectiveOf(q.offer.objectiveId).title, tone, violence)}</OnWood>
+      <DmSays text={narrationFor(run, tone, violence)} live={isLiveNarration(run, tone, violence)} />
       <Enter key={`card-${key}`} delay={80}>
         <Paper>
           <View style={{ height: 150, backgroundColor: art?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
@@ -116,7 +117,7 @@ export const CardScreen = ({
           </View>
           {isClimax(run) ? <Small style={{ fontWeight: '700', color: C.red }}>THE FINALE</Small> : null}
           {q.momentum ? <Small style={{ color: q.momentum > 0 ? C.green : C.red }}>Finale preparation: {signed(q.momentum)} to the final check</Small> : null}
-          <P style={{ fontSize: 19, lineHeight: 27 }}>{textFor(run, card.text, tone)}</P>
+          <P style={{ fontSize: 19, lineHeight: 27 }}>{textFor(run, card.text, tone, violence)}</P>
         </Paper>
       </Enter>
       {card.choices.map((choice, i) => {
@@ -127,7 +128,7 @@ export const CardScreen = ({
           <Enter key={`choice-${key}-${i}`} delay={220 + i * 90}>
             <Button
               testID={`choice-${i}`}
-              label={t(choice.label, tone)}
+              label={t(choice.label, tone, violence)}
               sub={choice.deal ? `Guaranteed deal  |  ${consequence}` : `${riskName[choice.risk]}  |  ${choice.stat} ${signed(info.mod + info.bonus)} vs ${info.dc}  |  ${Math.round(info.chance * 100)}%${consequence ? `\n${consequence}` : ''}`}
               disabled={!canChoose(run, choice)}
               onPress={() => onChoose(i)}
@@ -162,8 +163,8 @@ export const CardScreen = ({
 const outcomeTitle = { crit: 'Critical success', success: 'Success', fail: 'Failure', fumble: 'Critical failure', bribe: 'Money talks', deal: 'A deal is a deal' } as const;
 
 export const ResultScreen = ({
-  run, tone, onProceed, onReroll, onRevealed,
-}: { run: RunState; tone: Tone; onProceed: () => void; onReroll: () => void; onRevealed: (good: boolean) => void }) => {
+  run, tone, violence = 0, onProceed, onReroll, onRevealed,
+}: { run: RunState; tone: Tone; violence?: Violence; onProceed: () => void; onReroll: () => void; onRevealed: (good: boolean) => void }) => {
   const res = run.result!;
   const rollKey = `${res.cardId}:${res.choiceIdx}:${res.d20}:${run.luck}`;
   const hasRoll = res.outcome !== 'bribe' && res.outcome !== 'deal';
@@ -181,7 +182,7 @@ export const ResultScreen = ({
       <Paper style={{ alignItems: 'center', gap: 12 }}>
         {choice && hasRoll ? (
           <>
-            <Small style={{ fontWeight: '700', textAlign: 'center' }}>{t(choice.label, tone).toUpperCase()}</Small>
+            <Small style={{ fontWeight: '700', textAlign: 'center' }}>{t(choice.label, tone, violence).toUpperCase()}</Small>
             <Small>
               {choice.stat} {signed(res.mod + res.bonus)}  |  needs {res.dc}
             </Small>
@@ -212,9 +213,10 @@ export const ResultScreen = ({
             ) : null}
             <Enter delay={120}>
               <P style={{ textAlign: 'center' }}>
-                {choice ? textFor(run, good ? choice.win : choice.lose, tone) : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
+                {choice ? textFor(run, good ? choice.win : choice.lose, tone, violence) : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
               </P>
             </Enter>
+            {res.dmg > 0 ? <View testID="injury-description"><P style={{ textAlign: 'center' }}>{injuryDescription(res, violence)}</P></View> : null}
             <Row style={{ justifyContent: 'center' }}>
               {res.gold ? <Pop delay={260}><Pill label="GOLD" value={`+${res.gold}`} color="#7a5a17" /></Pop> : null}
               {res.heal ? <Pop delay={340}><Pill label="HP" value={`+${res.heal}`} color={C.green} /></Pop> : null}
@@ -222,7 +224,7 @@ export const ResultScreen = ({
               {res.cost ? <Pill label="GOLD" value={`-${res.cost}`} color="#7a5a17" /> : null}
               {res.luckCost ? <Pill label="LUCK" value={`-${res.luckCost}`} color={C.green} /> : null}
             </Row>
-            {res.storyEffect?.memory ? <Small>{t(res.storyEffect.memory, tone)}</Small> : null}
+            {res.storyEffect?.memory ? <Small>{t(res.storyEffect.memory, tone, violence)}</Small> : null}
             {res.storyEffect?.momentum ? <Small>Finale preparation {signed(res.storyEffect.momentum)} (total limited to ±2)</Small> : null}
             {res.notes.map((n) => <Small key={n}>{n}</Small>)}
           </>
@@ -230,7 +232,7 @@ export const ResultScreen = ({
       </Paper>
       {!rolling ? (
         <>
-          <Enter delay={200}><DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} /></Enter>
+          <Enter delay={200}><DmSays text={narrationFor(run, tone, violence)} live={isLiveNarration(run, tone, violence)} /></Enter>
           {canReroll(run) ? (
             <Enter delay={320}>
               <Button testID="reroll" label="Spend a luck token to reroll" sub={`${run.luck} remaining`} onPress={onReroll} />
@@ -245,18 +247,18 @@ export const ResultScreen = ({
   );
 };
 
-export const BoonScreen = ({ run, tone, onPick, onPotion }: { run: RunState; tone: Tone; onPick: (i: number) => void; onPotion: () => void }) => {
+export const BoonScreen = ({ run, tone, violence = 0, onPick, onPotion }: { run: RunState; tone: Tone; violence?: Violence; onPick: (i: number) => void; onPotion: () => void }) => {
   const q = run.quest!;
   return (
     <Screen>
       <Hud run={run} />
-      <Tracker run={run} tone={tone} />
-      <DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} />
+      <Tracker run={run} tone={tone} violence={violence} />
+      <DmSays text={narrationFor(run, tone, violence)} live={isLiveNarration(run, tone, violence)} />
       <Paper>
         <Small style={{ fontWeight: '700', color: C.green }}>QUEST COMPLETE</Small>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
           <Art art={artForObjective(q.offer.objectiveId)} size={64} />
-          <H2 style={{ flex: 1 }}>{t(objectiveOf(q.offer.objectiveId).title, tone)}</H2>
+          <H2 style={{ flex: 1 }}>{t(objectiveOf(q.offer.objectiveId).title, tone, violence)}</H2>
         </View>
         <P>
           {q.climaxFailed
@@ -286,19 +288,20 @@ export const BoonScreen = ({ run, tone, onPick, onPotion }: { run: RunState; ton
 };
 
 export const DeadScreen = ({
-  run, busy, notice, simulated, onRevive, onAccept,
-}: { run: RunState; busy: boolean; notice: string; simulated: boolean; onRevive: () => void; onAccept: () => void }) => (
+  run, tone = 0, violence = 0, busy, notice, simulated, onRevive, onAccept,
+}: { run: RunState; tone?: Tone; violence?: Violence; busy: boolean; notice: string; simulated: boolean; onRevive: () => void; onAccept: () => void }) => (
   <Screen>
     <Paper style={{ alignItems: 'center', gap: 10 }}>
-      <Small style={{ fontWeight: '700', color: C.red }}>YOU HAVE DIED</Small>
+      <Small style={{ fontWeight: '700', color: C.red }}>{deathHeading(violence)}</Small>
       <View style={{ opacity: 0.8, transform: [{ rotate: '7deg' }] }}>
         <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} />
       </View>
       <H1 style={{ textAlign: 'center' }}>{run.hero.name}</H1>
       <P style={{ textAlign: 'center' }}>{run.epitaph}</P>
+      <View testID="death-description"><P style={{ textAlign: 'center' }}>{deathDescription(violence)}</P></View>
       <Small>Quests completed: {run.questsDone}</Small>
     </Paper>
-    <DmSays text={run.narration} />
+    <DmSays text={narrationFor(run, tone, violence)} />
     {canRevive(run) ? (
       <Button
         testID="revive"
@@ -332,7 +335,7 @@ export const SummaryScreen = ({
         </View>
         <Small>{ancestryOf(run.hero.ancestryId).name} {cls.name}, {quirkOf(run.hero.quirkId).name}</Small>
         <P>{run.epitaph}</P>
-        {won ? <DmSays text={run.narration} /> : null}
+        {won ? <DmSays text={narrationFor(run, meta.tone, meta.violence)} /> : <P>{deathDescription(meta.violence)}</P>}
         <Row>
           <Pill label="QUESTS" value={run.questsDone} />
           <Pill label="GOLD EARNED" value={run.goldEarned} color="#7a5a17" />

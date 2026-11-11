@@ -5,46 +5,65 @@ import { ART } from '../art/creatures';
 import { CARDS } from '../game/content/cards';
 import { ANCESTRIES, CLASSES, RELICS } from '../game/content/heroes';
 import { OBJECTIVES } from '../game/content/quests';
+import { LANGUAGE_OPTIONS, VIOLENCE_OPTIONS, languagePreview, violencePreview } from '../game/contentSettings';
 import { classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type HeroChoice } from '../game/engine';
 import { DM_MODELS } from '../services/dmModels';
 import { cancelDownload, deleteModel, downloadModel, isModelDownloaded, localDmSupported } from '../services/localDm';
 import { UPGRADES, upgradeCost, upgradeLevel } from '../game/meta';
-import type { Meta, Tone } from '../game/types';
+import type { Meta, Tone, Violence } from '../game/types';
 import { STATS } from '../game/types';
 import { Bob, Enter } from './fx';
 import { Button, C, H1, H2, OnWood, P, Paper, Pill, Row, Screen, Small, TopBar } from './kit';
 
-const TONES: { tone: Tone; name: string; text: string }[] = [
-  { tone: 0, name: 'Family friendly', text: 'Cartoon peril, clean language. Safe to play next to your grandmother.' },
-  { tone: 1, name: 'Cheeky', text: 'A little innuendo and the odd raised eyebrow.' },
-  { tone: 2, name: 'Crude', text: 'Mild swearing and worse manners. For grown-ups.' },
-];
-
 const TonePicker = ({ value, onPick }: { value: Tone | null; onPick: (tone: Tone) => void }) => (
   <>
-    {TONES.map((x) => (
+    {LANGUAGE_OPTIONS.map((x) => (
       <Button
-        key={x.tone}
-        testID={`tone-${x.tone}`}
-        label={value === x.tone ? `${x.name}  (selected)` : x.name}
+        key={x.value}
+        testID={`tone-${x.value}`}
+        label={value === x.value ? `${x.name}  (selected)` : x.name}
         sub={x.text}
-        kind={value === x.tone ? 'primary' : 'plain'}
-        onPress={() => onPick(x.tone)}
+        kind={value === x.value ? 'primary' : 'plain'}
+        onPress={() => onPick(x.value)}
       />
     ))}
   </>
 );
 
-export const ToneScreen = ({ onPick, onSkip }: { onPick: (tone: Tone) => void; onSkip: () => void }) => (
+const ViolencePicker = ({ value, onPick }: { value: Violence; onPick: (value: Violence) => void }) => (
+  <>{VIOLENCE_OPTIONS.map((x) => <Button key={x.value} testID={`violence-${x.value}`}
+    label={`${x.name}${value === x.value ? '  (selected)' : ''}`} sub={x.text}
+    kind={value === x.value ? 'primary' : 'plain'} onPress={() => onPick(x.value)} />)}</>
+);
+
+const ContentPreview = ({ tone, violence }: { tone: Tone; violence: Violence }) => (
+  <View testID="content-preview"><Paper>
+    <H2>A taste of your settings</H2>
+    <P>{languagePreview(tone)}</P>
+    <P>{violencePreview(violence)}</P>
+    <Small>Applies immediately to this adventure. Violence changes descriptions; difficulty and rewards stay the same.</Small>
+  </Paper></View>
+);
+
+export const ToneScreen = ({ onPick, onSkip }: { onPick: (tone: Tone, violence: Violence) => void; onSkip: () => void }) => {
+  const [tone, setTone] = useState<Tone>(0);
+  const [violence, setViolence] = useState<Violence>(0);
+  return (
   <Screen>
     <Paper>
       <H1>Before we begin</H1>
-      <P>How rude would you like your adventures? You can change this at any time in Settings.</P>
+      <P>Choose the language and the intensity of injury descriptions separately. You can change either in Settings.</P>
     </Paper>
-    <TonePicker value={null} onPick={onPick} />
-    <Button testID="tone-skip" label="Skip" sub="Starts family friendly" kind="ghost" onPress={onSkip} />
+    <OnWood>Language</OnWood>
+    <TonePicker value={tone} onPick={setTone} />
+    <OnWood>Violence descriptions</OnWood>
+    <ViolencePicker value={violence} onPick={setViolence} />
+    <ContentPreview tone={tone} violence={violence} />
+    <Button testID="content-start" label="Use these settings" kind="primary" onPress={() => onPick(tone, violence)} />
+    <Button testID="tone-skip" label="Use clean, cartoon defaults" kind="ghost" onPress={onSkip} />
   </Screen>
-);
+  );
+};
 
 export const HomeScreen = ({
   meta, hasRun, onStart, onContinue, onGo,
@@ -214,7 +233,7 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
         <H2>Quests completed ({j.objectivesDone.length} of {OBJECTIVES.length})</H2>
         {OBJECTIVES.map((o) => (
           <Small key={o.id} style={j.objectivesDone.includes(o.id) ? { color: C.ink } : undefined}>
-            {j.objectivesDone.includes(o.id) ? t(objectiveOf(o.id).title, meta.tone) : '? ? ?'}
+            {j.objectivesDone.includes(o.id) ? t(objectiveOf(o.id).title, meta.tone, meta.violence) : '? ? ?'}
           </Small>
         ))}
       </Paper>
@@ -332,14 +351,17 @@ const DmSettings = ({ meta, onChange }: { meta: Meta; onChange: (patch: Partial<
 };
 
 export const SettingsScreen = ({
-  meta, onTone, onHaptics, onDm, onReset, onBack,
-}: { meta: Meta; onTone: (tone: Tone) => void; onHaptics: (on: boolean) => void; onDm: (patch: Partial<Meta>) => void; onReset: () => void; onBack: () => void }) => {
+  meta, onTone, onViolence, onHaptics, onDm, onReset, onBack,
+}: { meta: Meta; onTone: (tone: Tone) => void; onViolence: (violence: Violence) => void; onHaptics: (on: boolean) => void; onDm: (patch: Partial<Meta>) => void; onReset: () => void; onBack: () => void }) => {
   const [confirm, setConfirm] = useState(false);
   return (
     <Screen>
       <TopBar title="Settings" onClose={onBack} />
-      <OnWood>Tone of the writing</OnWood>
+      <OnWood>Language</OnWood>
       <TonePicker value={meta.tone} onPick={onTone} />
+      <OnWood>Violence descriptions</OnWood>
+      <ViolencePicker value={meta.violence} onPick={onViolence} />
+      <ContentPreview tone={meta.tone} violence={meta.violence} />
       <DmSettings meta={meta} onChange={onDm} />
       <Button testID="haptics" label={`Vibration: ${meta.haptics ? 'on' : 'off'}`} onPress={() => onHaptics(!meta.haptics)} />
       <Button

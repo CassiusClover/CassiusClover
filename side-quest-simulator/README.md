@@ -96,6 +96,20 @@ an AI version in Settings, which runs a small language model on the phone itself
   scene or hero. If the model is missing, slow or produces junk, authored narration carries on.
 - It needs a real build. On web and in Expo Go the setting explains that it is unavailable.
 
+## Language and violence settings
+
+Language (Clean/Cheeky/Crude) and violence descriptions (Cartoon/Gritty/Brutal) are independent.
+Both are available at first launch and in Settings, with a live example. They affect the
+current adventure immediately and persist across restarts. All 50 story/rival scene bodies
+and every scripted narrator event have authored language alternatives. Violence changes
+injury, blood-specific passages and defeat wording. Dice, HP damage, rewards, art and quest
+outcomes stay the same. Existing progress is kept; older saves default to Cartoon violence.
+
+The native AI receives both preferences and the same selected text, injury and memory
+context. Common violations are rejected in favour of authored narration; the word guard is
+not a complete semantic content filter. AI writing quality and device performance still
+need phone testing. These controls also work in the browser with the AI switched off.
+
 ## Before a store release
 
 1. Create an AdMob account, register the iOS and Android apps, and create three rewarded ad
@@ -107,8 +121,8 @@ an AI version in Settings, which runs a small language model on the phone itself
 4. Confirm the bundle identifier and Android package in `app.json`.
 5. Set up a consent message in AdMob (Privacy and messaging) for the EEA and UK; the app
    already requests it on launch.
-6. Rate the app for its strongest content. The Crude tone setting contains mild swearing, so
-   answer the store age-rating questionnaires accordingly, or remove that option.
+6. Review included content before store release: Crude includes strong swearing, and Brutal
+   includes bloody injury and death descriptions.
 7. Replace the placeholder icon and splash art in `assets/`.
 
 Never tap your own live ads. AdMob suspends accounts for it.

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { TIER_NAMES } from '../game/content/quests';
 import { objectiveOf, QUESTS_TO_WIN, rivalProgress, t } from '../game/engine';
-import type { RunState, Tone } from '../game/types';
+import type { RunState, Tone, Violence } from '../game/types';
 import { C, CloseButton, H2, P, Small, serif } from './kit';
 
 const GOLD_DARK = '#7a5a17';
@@ -11,7 +11,7 @@ const GOLD_DARK = '#7a5a17';
  * The season at a glance: ten quest markers, where the rival has got to, and the step you
  * are on within the current quest. Tap it for the full season log.
  */
-export const Tracker = ({ run, tone }: { run: RunState; tone: Tone }) => {
+export const Tracker = ({ run, tone, violence = 0 }: { run: RunState; tone: Tone; violence?: Violence }) => {
   const [open, setOpen] = useState(false);
   const rival = rivalProgress(run);
   const q = run.quest;
@@ -81,11 +81,11 @@ export const Tracker = ({ run, tone }: { run: RunState; tone: Tone }) => {
                 let detail = final ? 'The season always ends here.' : '';
                 let color: string = C.inkSoft;
                 if (rec) {
-                  title = t(objectiveOf(rec.objectiveId).title, tone);
+                  title = t(objectiveOf(rec.objectiveId).title, tone, violence);
                   detail = `${TIER_NAMES[rec.tier]}  |  ${rec.clean ? 'Done cleanly' : 'Botched the finale, half pay'}  |  ${rec.pay} gold`;
                   color = rec.clean ? C.green : GOLD_DARK;
                 } else if (current && q) {
-                  title = t(objectiveOf(q.offer.objectiveId).title, tone);
+                  title = t(objectiveOf(q.offer.objectiveId).title, tone, violence);
                   detail = `In progress: step ${q.cardIdx + 1} of ${q.cards.length}${q.cardIdx === q.cards.length - 1 ? ' (the finale)' : ''}`;
                   color = C.red;
                 } else if (current) {
@@ -98,7 +98,7 @@ export const Tracker = ({ run, tone }: { run: RunState; tone: Tone }) => {
                     <View style={{ flex: 1 }}>
                       <P style={{ fontSize: 15, lineHeight: 20, fontWeight: rec || current ? '700' : '400', color: rec || current ? C.ink : C.inkSoft }}>{title}</P>
                       {detail ? <Small style={{ color }}>{detail}</Small> : null}
-                      {rec?.memories?.map((memory, m) => <Small key={m}>{t(memory, tone)}</Small>)}
+                      {rec?.memories?.map((memory, m) => <Small key={m}>{t(memory, tone, violence)}</Small>)}
                     </View>
                   </View>
                 );

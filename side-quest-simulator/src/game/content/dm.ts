@@ -1,4 +1,5 @@
 import type { Txt } from '../types';
+import { DM_LANGUAGE } from './dmLanguage';
 
 /**
  * The Dungeon Master: a narrator with opinions. Every run has an arc (the race against a
@@ -16,7 +17,7 @@ export type DmEvent =
   | 'success' | 'fail' | 'crit' | 'fumble' | 'bribe' | 'streakGood' | 'streakBad' | 'reroll' | 'lethal'
   | 'questDone' | 'questDoneBadly' | 'dead' | 'revived' | 'victory';
 
-export const DM_LINES: Record<DmEvent, Txt[]> = {
+const BASE_LINES: Record<DmEvent, Txt[]> = {
   intro: [
     'Welcome, {hero}. The Guild crowns one Hero of the Year. The favourite is {rival}. You are listed under "also attending".',
     'Right. {hero}, {class}. The Guild has a Hero of the Year trophy and {rival} has already had it engraved. Ten quests to change the engraving.',
@@ -30,7 +31,7 @@ export const DM_LINES: Record<DmEvent, Txt[]> = {
     'Another day, another noticeboard. Somewhere, {rival} is being applauded.',
   ],
   boardHurt: [
-    'You are bleeding on the noticeboard, {hero}. Perhaps something gentle this time.',
+    'You are swaying against the noticeboard, {hero}. Perhaps something gentle this time.',
     'I am not saying take the easy one. I am saying I have seen your hit points.',
     'You look dreadful. The board does not care. I care slightly.',
   ],
@@ -147,3 +148,10 @@ export const DM_LINES: Record<DmEvent, Txt[]> = {
     'It is over. The trophy is re-engraved, badly, with your name. {rival} is asking if the Guild is hiring bards.',
   ],
 };
+
+export const DM_LINES = Object.fromEntries(Object.entries(BASE_LINES).map(([event, lines]) => [
+  event, lines.map((line, i) => {
+    const variants = DM_LANGUAGE[event as DmEvent];
+    return { ...(typeof line === 'string' ? { f: line } : line), ...variants[i % variants.length] };
+  }),
+])) as Record<DmEvent, Txt[]>;

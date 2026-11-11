@@ -1,4 +1,5 @@
 import { CLASSES } from './content/heroes';
+import { contentSettings } from './contentSettings';
 import type { Meta, RunState } from './types';
 
 export interface UpgradeDef {
@@ -20,6 +21,7 @@ export const defaultMeta = (): Meta => ({
   version: 1,
   tips: 0,
   tone: 0,
+  violence: 0,
   toneChosen: false,
   haptics: true,
   liveDm: false,
@@ -47,6 +49,7 @@ export const hydrateMeta = (raw: unknown): Meta => {
   return {
     ...base,
     ...saved,
+    ...contentSettings(saved),
     version: 1,
     upgrades: { ...base.upgrades, ...(saved.upgrades ?? {}) },
     journal: { ...base.journal, ...(saved.journal ?? {}) },

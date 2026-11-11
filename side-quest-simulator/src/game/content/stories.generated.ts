@@ -9,7 +9,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "goose-interview",
         "art": "showdown",
-        "text": "Your client refuses to answer unless you honk first. The arresting officer says the goose issued seventeen parking fines and one declaration of war.",
+        "text": {
+          "f": "Your client refuses to answer unless you honk first. The arresting officer says the goose issued seventeen parking fines and one declaration of war.",
+          "c": "The goose demands a preliminary honk before giving instructions. Seventeen parking fines and one war suggest its grasp of municipal authority is worryingly strong.",
+          "x": "Your client demands a honk before speaking. Seventeen parking fines, one declaration of war, and the smug feathered bastard wants to discuss privilege."
+        },
         "next": [
           {
             "scene": "goose-evidence"
@@ -57,7 +61,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "goose-evidence",
         "art": "library-book",
-        "text": "The evidence locker is full of stolen mayoral hats. Every hat fits the goose. One has already endorsed its re-election.",
+        "text": {
+          "f": "The evidence locker is full of stolen mayoral hats. Every hat fits the goose. One has already endorsed its re-election.",
+          "c": "The evidence consists of mayoral hats, all suspiciously goose-sized. One hat has publicly endorsed the defendant, compromising its usefulness as an impartial witness.",
+          "x": "Every stolen mayoral hat fits the goose. One has endorsed its re-election. Even the fucking evidence has political ambitions."
+        },
         "choices": [
           {
             "label": "Cross-examine the partisan hat",
@@ -91,7 +99,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "checkout-receipt",
         "art": "lich-eviction",
-        "text": "The ghost waves a receipt the length of its unfulfilled life. It only wanted milk. Every three feet is a survey asking how the haunting went.",
+        "text": {
+          "f": "The ghost waves a receipt the length of its unfulfilled life. It only wanted milk. Every three feet is a survey asking how the haunting went.",
+          "c": "The ghost's receipt contains a lifetime of unresolved purchases and a survey every three feet. It only came in for milk, which feels professionally relevant.",
+          "x": "The ghost only wanted milk. Now its receipt is longer than its life, and the bloody till keeps asking whether it would recommend the experience."
+        },
         "next": [
           {
             "scene": "checkout-supervisor"
@@ -141,7 +153,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "checkout-supervisor",
         "art": "lich-eviction",
-        "text": "The supervisor appears from a door marked 'Staff Only, Living or Otherwise'. She asks why your exorcism has not scanned as a vegetable.",
+        "text": {
+          "f": "The supervisor appears from a door marked 'Staff Only, Living or Otherwise'. She asks why your exorcism has not scanned as a vegetable.",
+          "c": "The supervisor emerges from Staff Only, Living or Otherwise and asks why your exorcism will not scan as a vegetable. The training budget speaks for itself.",
+          "x": "The supervisor wants your exorcism scanned as a vegetable. The ghost says this is why it never complained while alive. Customer service is a fucking haunting in its own right."
+        },
         "choices": [
           {
             "label": "Explain the difference between a spirit and a sprout",
@@ -176,7 +192,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "offshore-hoard",
         "art": "dragon-tax",
-        "text": "This dragon keeps its wealth offshore. Literally: the hoard is on a raft, three feet beyond the tax inspector's shoes. The tide is coming in.",
+        "text": {
+          "f": "This dragon keeps its wealth offshore. Literally: the hoard is on a raft, three feet beyond the tax inspector's shoes. The tide is coming in.",
+          "c": "The dragon's offshore account is a raft just beyond the inspector's shoes. Its accountant calls this jurisdiction. The incoming tide offers a robust counterargument.",
+          "x": "The dragon put its hoard on a raft and called it offshore. A tax-dodging bastard's idea of financial engineering. The tide is about to audit the whole fucking thing."
+        },
         "choices": [
           {
             "label": "Reclassify the raft as a mobile pension",
@@ -227,7 +247,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "soup-manifesto",
         "art": "soup",
-        "text": "Tonight's soup has formed a political party. Its manifesto demands bowls with exits and representation for bisques. The chef has called an emergency ladle meeting.",
+        "text": {
+          "f": "Tonight's soup has formed a political party. Its manifesto demands bowls with exits and representation for bisques. The chef has called an emergency ladle meeting.",
+          "c": "The soup has founded a political party promising exits in every bowl. Bisques demand representation, and the chef has called an emergency ladle summit.",
+          "x": "The soup has formed a political party. Bisques want representation. The chef wants everyone to shut the fuck up and be lunch. You have been hired to mediate."
+        },
         "next": [
           {
             "scene": "soup-debate"
@@ -275,7 +299,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "soup-debate",
         "art": "soup",
-        "text": "The televised debate is between soup and a roast potato. The potato's platform is 'be quiet and get eaten'. It is leading among chefs.",
+        "text": {
+          "f": "The televised debate is between soup and a roast potato. The potato's platform is 'be quiet and get eaten'. It is leading among chefs.",
+          "c": "The soup debates a roast potato running on 'be quiet and get eaten'. The potato is polling disturbingly well among people who work with forks.",
+          "x": "The opposition is a roast potato whose entire platform is 'shut up and get eaten'. It is winning among chefs. Apparently being a complete bastard counts as policy."
+        },
         "choices": [
           {
             "label": "Ask the potato a question outside its briefing",
@@ -310,7 +338,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "password-lute",
         "art": "password",
-        "text": "The tower's support line plays one lute note. After two hours a voice says, 'For security reasons, please describe the note you have been holding.'",
+        "text": {
+          "f": "The tower's support line plays one lute note. After two hours a voice says, 'For security reasons, please describe the note you have been holding.'",
+          "c": "Two hours of one lute note, and support wants you to describe it for security. The musician has somehow become both the obstacle and the entire department.",
+          "x": "Two hours of the same fucking lute note, and support wants you to identify it for security. You are one incorrect chord away from a formal complaint."
+        },
         "choices": [
           {
             "label": "Transcribe the note into an arcane support ticket",
@@ -355,7 +387,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "tax-receipts",
         "art": "dragon-tax",
-        "text": "The dragon's accountant is hiding inside a fireproof biscuit tin. Outside it: one mountain of receipts and a smaller mountain of former accountants.",
+        "text": {
+          "f": "The dragon's accountant is hiding inside a fireproof biscuit tin. Outside it: one mountain of receipts and a smaller mountain of former accountants.",
+          "c": "The dragon's accountant has locked himself in a fireproof biscuit tin. Outside: receipts, scorch marks, and a salary dispute that has lasted six accountants.",
+          "x": "The dragon's accountant is hiding in a biscuit tin because his boss is a tax-dodging bastard with a flamethrower for a face. The receipts are your problem now."
+        },
         "next": [
           {
             "when": "receipts",
@@ -414,7 +450,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "tax-auditor",
         "art": "dragon-tax",
-        "text": "The auditor finds a deduction for 'one emotionally necessary village'. You have the receipts. Regrettably, so does the village.",
+        "text": {
+          "f": "The auditor finds a deduction for 'one emotionally necessary village'. You have the receipts. Regrettably, so does the village.",
+          "c": "The auditor challenges a deduction for 'one emotionally necessary village'. The dragon calls it self-care. The village calls it the roofing crisis.",
+          "x": "The dragon has claimed an entire fucking village as an emotional-support expense. The auditor has your receipts. The villagers have opinions and ladders."
+        },
         "choices": [
           {
             "label": "Reclassify the village as dependent relatives",
@@ -442,7 +482,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "tax-ashes",
         "art": "dragon-tax",
-        "text": "Without receipts, the auditor wants a demonstration of 'ordinary business expenses'. The dragon has prepared an ordinary business knight.",
+        "text": {
+          "f": "Without receipts, the auditor wants a demonstration of 'ordinary business expenses'. The dragon has prepared an ordinary business knight.",
+          "c": "The auditor requests a normal business expense. The dragon produces a knight. The knight would very much like to be classed as a guest.",
+          "x": "No receipts. The dragon proposes eating a knight as a business demonstration. The knight thinks this is absolute bollocks, and has a point."
+        },
         "choices": [
           {
             "label": "Explain depreciation before the knight ignites",
@@ -492,7 +536,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "lich-tenancy",
         "art": "lich-eviction",
-        "text": "The lich's tenancy agreement predates the kingdom. A skeleton in slippers asks whether you have an appointment or an appointment-shaped weapon.",
+        "text": {
+          "f": "The lich's tenancy agreement predates the kingdom. A skeleton in slippers asks whether you have an appointment or an appointment-shaped weapon.",
+          "c": "The lich's tenancy agreement outlived three kingdoms and the original lettings agent. A skeleton in slippers asks whether your weapon has been declared on the appointment form.",
+          "x": "Nine hundred years of lease, one smug undead bastard, and a skeleton receptionist who insists your weapon requires a separate appointment. Welcome to property law."
+        },
         "next": [
           {
             "when": "tenant-rights",
@@ -546,7 +594,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "lich-flatshare",
         "art": "lich-eviction",
-        "text": "The lich agrees to leave if you find a flat accepting pets. His pet is the basement. It has started following you.",
+        "text": {
+          "f": "The lich agrees to leave if you find a flat accepting pets. His pet is the basement. It has started following you.",
+          "c": "The lich agrees to move if you find somewhere pet-friendly. His pet is the basement. It is following you with the enthusiasm of a poorly trained extension.",
+          "x": "The lich will move, but only if the new landlord accepts his pet basement. The bloody thing is following you. It has already eaten a deposit form."
+        },
         "choices": [
           {
             "label": "Write a flattering reference for the basement",
@@ -574,7 +626,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "lich-phylactery",
         "art": "lich-eviction",
-        "text": "A row of identical jam jars blocks the stairs. One contains the lich's soul. The others contain his frankly excessive marmalade.",
+        "text": {
+          "f": "A row of identical jam jars blocks the stairs. One contains the lich's soul. The others contain his frankly excessive marmalade.",
+          "c": "Identical jam jars line the stairs. One holds an immortal soul; the others hold a frankly attention-seeking quantity of marmalade.",
+          "x": "One jam jar holds the lich's soul. The rest hold his precious marmalade. Mix them up and the bastard will haunt your breakfast indefinitely."
+        },
         "choices": [
           {
             "label": "Identify the jar that fears the tenancy tribunal",
@@ -608,7 +664,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "sock-witness",
         "art": "kings-sock",
-        "text": "The royal laundry basket requests witness protection. It saw the left sock leave willingly, carrying a tiny suitcase.",
+        "text": {
+          "f": "The royal laundry basket requests witness protection. It saw the left sock leave willingly, carrying a tiny suitcase.",
+          "c": "The royal laundry basket wants witness protection. Apparently the sock left voluntarily, packed better than the king, and did not leave a flattering note.",
+          "x": "The laundry basket saw the sock leave with a suitcase and a clear determination to escape the king's feet. It wants witness protection. Sensible fucking basket."
+        },
         "next": [
           {
             "when": "sock-address",
@@ -661,7 +721,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "sock-union",
         "art": "kings-sock",
-        "text": "The sock is organising the kingdom's neglected left things. A left glove asks if you are management. A left shoe blocks the exit.",
+        "text": {
+          "f": "The sock is organising the kingdom's neglected left things. A left glove asks if you are management. A left shoe blocks the exit.",
+          "c": "The sock now represents neglected left things. A glove demands recognition; a shoe blocks the door. You appear to have walked into a very narrow general strike.",
+          "x": "The sock has unionised the kingdom's neglected left things. The shoe at the exit says you look like management. This is already turning into a complete shitshow."
+        },
         "choices": [
           {
             "label": "Draft a five-day footwear week",
@@ -690,7 +754,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "sock-drawer",
         "art": "kings-sock",
-        "text": "Your only lead is a drawer that locks from inside. It is sheltering the sock's replacement, a nervous knitted turnip.",
+        "text": {
+          "f": "Your only lead is a drawer that locks from inside. It is sheltering the sock's replacement, a nervous knitted turnip.",
+          "c": "The locked drawer is sheltering a knitted turnip hired to impersonate the missing sock. The turnip is suffering from textile impostor syndrome.",
+          "x": "The replacement sock is a knitted turnip and everyone involved knows the plan is shit. The drawer has locked itself from inside to avoid responsibility."
+        },
         "choices": [
           {
             "label": "Convince the turnip to act naturally",
@@ -737,7 +805,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "sandwich-armistice",
         "art": "sandwich",
-        "text": "Both armies call a ceasefire to inspect your sandwich. One claims the mustard is a provocation. The other has mobilised a pickle division.",
+        "text": {
+          "f": "Both armies call a ceasefire to inspect your sandwich. One claims the mustard is a provocation. The other has mobilised a pickle division.",
+          "c": "Both armies pause to inspect your sandwich. One declares the mustard provocative; the other introduces a pickle division. Lunch has acquired a disturbingly active foreign policy.",
+          "x": "Two armies are arguing over your sandwich's mustard. The pickle division has mobilised. You are delivering lunch through a geopolitical shitshow."
+        },
         "choices": [
           {
             "label": "Declare the sandwich a neutral state",
@@ -791,7 +863,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "soup-interview",
         "art": "soup",
-        "text": "The soup whispers through a straw: 'My name is Gregory. I have dependants. Mostly croutons.' The waiter approaches with a pepper mill.",
+        "text": {
+          "f": "The soup whispers through a straw: 'My name is Gregory. I have dependants. Mostly croutons.' The waiter approaches with a pepper mill.",
+          "c": "'Gregory,' whispers the soup. 'I have crouton dependants.' The waiter approaches with a pepper mill and the confidence of someone about to become a custody dispute.",
+          "x": "The soup calls itself Gregory and says the croutons are its children. A waiter approaches with a pepper mill. Apparently you are rescuing a fucking casserole family now."
+        },
         "next": [
           {
             "when": "soup-disguise",
@@ -844,7 +920,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "soup-escape",
         "art": "soup",
-        "text": "At the exit, Gregory's crouton children demand to rescue their uncle. Uncle is garlic bread and has no opinion on the matter.",
+        "text": {
+          "f": "At the exit, Gregory's crouton children demand to rescue their uncle. Uncle is garlic bread and has no opinion on the matter.",
+          "c": "The croutons refuse to leave without Uncle Garlic Bread. Uncle has yet to express a view, but smells strongly of a successful hostage negotiation.",
+          "x": "Gregory's crouton children want their garlic-bread uncle rescued. The uncle has no opinions. You are risking your arse for a side dish."
+        },
         "choices": [
           {
             "label": "Smuggle Uncle in your sleeve",
@@ -872,7 +952,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "soup-kitchen",
         "art": "soup",
-        "text": "The chef corners you beside a tureen. Gregory pretends to be normal soup. He is doing this by shouting 'ordinary soup noises'.",
+        "text": {
+          "f": "The chef corners you beside a tureen. Gregory pretends to be normal soup. He is doing this by shouting 'ordinary soup noises'.",
+          "c": "Cornered by the chef, Gregory attempts to pass as ordinary soup by shouting 'ordinary soup noises'. His grasp of undercover work is mostly liquid.",
+          "x": "Gregory is trying to blend in by yelling 'ordinary soup noises' at the chef. For fuck's sake, Gregory. You had one job: simmer quietly."
+        },
         "choices": [
           {
             "label": "Distract the chef with a fabricated inspection",
@@ -907,7 +991,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "union-agenda",
         "art": "goblin-union",
-        "text": "The goblins demand dental cover. Their dark lord offers a dental cover: one enormous helmet. The meeting is entering its fourth headbutt.",
+        "text": {
+          "f": "The goblins demand dental cover. Their dark lord offers a dental cover: one enormous helmet. The meeting is entering its fourth headbutt.",
+          "c": "The goblins want dental insurance. The dark lord offers a large helmet. The fourth headbutt suggests the benefits presentation has not landed.",
+          "x": "The goblins want dental cover. The dark lord has offered a helmet, the cheap bastard. Four headbutts into negotiations, nobody is calling this competitive benefits."
+        },
         "next": [
           {
             "when": "union-solidarity",
@@ -960,14 +1048,29 @@ export const STORIES: QuestStory[] = [
       {
         "id": "union-picket",
         "art": "goblin-union",
-        "text": "Your new comrades ask you to lead the chant. Their current slogan is 'LESS DYING, PLEASE', which tested well across all departments.",
+        "text": {
+          "f": "Your new comrades ask you to lead the chant. Their current slogan is 'LESS DYING, PLEASE', which tested well across all departments.",
+          "c": "You are leading a chant called 'LESS DYING, PLEASE'. It is popular across departments, though management objects to the implication that staff retention needs work.",
+          "x": "The goblins' chant is 'LESS DYING, PLEASE'. Management calls it unrealistic. You are now responsible for making that bunch of bastards listen."
+        },
         "choices": [
           {
             "label": "Lead a chant with a legally actionable rhyme",
             "stat": "CHA",
             "risk": "bold",
             "win": "The dark lord comes out to negotiate before the second verse.",
-            "lose": "You rhyme 'pension' with 'dismemberment'. The meter collapses.",
+            "lose": {
+              "f": "You rhyme pension with detention. The meter collapses.",
+              "c": "You rhyme pension with detention. The goblins request a different lyricist.",
+              "x": "Your rhyme is complete bollocks. The goblins ask whether you have ever heard a song.",
+              "v": {
+                "brutal": {
+                  "f": "You rhyme pension with dismemberment. The meter collapses.",
+                  "c": "You rhyme pension with dismemberment. Even the goblins question your tone.",
+                  "x": "You rhyme pension with dismemberment. The meter is fucked and so are negotiations."
+                }
+              }
+            },
             "onWin": {
               "momentum": 1,
               "memory": "Your legally actionable chant brought the dark lord to the table."
@@ -988,7 +1091,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "union-payroll",
         "art": "goblin-union",
-        "text": "Payroll has been replaced by an enchanted sack that screams whenever a goblin earns overtime. The sack is also requesting a break.",
+        "text": {
+          "f": "Payroll has been replaced by an enchanted sack that screams whenever a goblin earns overtime. The sack is also requesting a break.",
+          "c": "Payroll is an enchanted sack that screams at overtime claims. The sack has requested a wellness break. Its request is still inside itself.",
+          "x": "The payroll sack screams whenever a goblin earns overtime. Now the bloody sack wants paid leave. Even the machinery knows this employer is shit."
+        },
         "choices": [
           {
             "label": "Audit the screaming sack",
@@ -1020,7 +1127,13 @@ export const STORIES: QuestStory[] = [
         "stat": "CHA",
         "risk": "safe",
         "requires": "union-solidarity",
-        "win": "Dental cover, lunch breaks, no unpaid hauntings. The dark lord signs in washable blood.",
+        "win": {
+          "f": "Dental cover, lunch breaks, no unpaid hauntings. The dark lord signs in washable ink.",
+          "v": {
+            "gritty": "Dental cover, lunch breaks, no unpaid hauntings. The dark lord signs in washable blood.",
+            "brutal": "Dental cover, lunch breaks, no unpaid hauntings. The dark lord presses a bleeding thumb to the agreement."
+          }
+        },
         "lose": "He signs, then disputes the lunch definition. Lawyers arrive.",
         "onWin": {
           "memory": "You won the goblins a signed collective agreement."
@@ -1035,7 +1148,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "hound-route",
         "art": "hellhound",
-        "text": "The hellhound's heads vote on the route. Two want the park. One wants to consume a cathedral. The duchess says they are usually so democratic.",
+        "text": {
+          "f": "The hellhound's heads vote on the route. Two want the park. One wants to consume a cathedral. The duchess says they are usually so democratic.",
+          "c": "Two hellhound heads vote for the park; the third proposes a cathedral-based snack. The duchess calls this healthy debate. The cathedral has concerns.",
+          "x": "Two heads want walkies. The third wants to eat a fucking cathedral. The duchess insists the hellhound is usually good with people, which is an impressive technicality."
+        },
         "choices": [
           {
             "label": "Negotiate a park with a small chapel",
@@ -1088,7 +1205,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "library-renewal",
         "art": "library-book",
-        "text": "The overdue book insists the library is late collecting it. Its margins contain three centuries of increasingly personal legal arguments.",
+        "text": {
+          "f": "The overdue book insists the library is late collecting it. Its margins contain three centuries of increasingly personal legal arguments.",
+          "c": "The book claims the library is late collecting it. Its margins contain three centuries of legal argument and a remarkably personal assessment of librarians.",
+          "x": "Three hundred years overdue, and the book says the library is at fault. Its margins contain legal threats, unsolicited opinions, and enough bullshit to qualify as a second volume."
+        },
         "next": [
           {
             "when": "book-evidence",
@@ -1141,7 +1262,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "library-hearing",
         "art": "library-book",
-        "text": "A jury of dictionaries hears your case. The thesaurus keeps saying 'objection, protest, dissent, remonstrance'.",
+        "text": {
+          "f": "A jury of dictionaries hears your case. The thesaurus keeps saying 'objection, protest, dissent, remonstrance'.",
+          "c": "A dictionary jury hears the case while the thesaurus raises an objection, protest, dissent and remonstrance. It appears to bill by the synonym.",
+          "x": "The jury is dictionaries. The thesaurus keeps objecting in four different ways. You are being tried by a bunch of books that cannot shut the fuck up."
+        },
         "choices": [
           {
             "label": "Define 'overdue' narrowly enough to fit the receipt",
@@ -1169,7 +1294,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "library-stacks",
         "art": "library-book",
-        "text": "The returns chute drops you into Reference. A librarian whispers that nobody leaves Reference without becoming a source.",
+        "text": {
+          "f": "The returns chute drops you into Reference. A librarian whispers that nobody leaves Reference without becoming a source.",
+          "c": "Reference admits visitors and retains them as citations. The librarian assures you this is an excellent opportunity to become a primary source.",
+          "x": "Nobody leaves Reference without becoming a source. The librarian calls it a publishing opportunity. You call it a fucking hostage policy."
+        },
         "choices": [
           {
             "label": "Catalogue your own escape under E",
@@ -1216,7 +1345,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "giant-instructions",
         "art": "giant-furniture",
-        "text": "The instructions show a smiling stick figure assembling a wardrobe with twelve hands. You have fewer hands and considerably less optimism.",
+        "text": {
+          "f": "The instructions show a smiling stick figure assembling a wardrobe with twelve hands. You have fewer hands and considerably less optimism.",
+          "c": "The wardrobe instructions depict a twelve-handed figure radiating professional satisfaction. You have two hands and a growing resentment of educational diagrams.",
+          "x": "The smug little bastard in the instructions has twelve hands. You have two, a tiny key, and a wardrobe apparently designed by someone who hates you."
+        },
         "next": [
           {
             "scene": "giant-spare-parts"
@@ -1265,7 +1398,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "giant-spare-parts",
         "art": "giant-furniture",
-        "text": "There is one spare screw. The wardrobe says it is important. The giant asks why the wardrobe can speak. Neither is in the instructions.",
+        "text": {
+          "f": "There is one spare screw. The wardrobe says it is important. The giant asks why the wardrobe can speak. Neither is in the instructions.",
+          "c": "One screw remains. The wardrobe says it matters. The giant asks why the wardrobe is speaking. The instructions decline to comment on either development.",
+          "x": "A spare screw. A talking wardrobe. A giant asking you to explain both. None of this shit was on the front of the box."
+        },
         "choices": [
           {
             "label": "Ask the wardrobe which screw it is missing",
@@ -1299,7 +1436,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "nephew-snack",
         "art": "babysit",
-        "text": "The dark lord's nephew wants a bedtime story in which the moon gets eaten. The moon is visible through the window and listening anxiously.",
+        "text": {
+          "f": "The dark lord's nephew wants a bedtime story in which the moon gets eaten. The moon is visible through the window and listening anxiously.",
+          "c": "The nephew requests a story in which the moon is eaten. The actual moon is listening at the window with the expression of a threatened stakeholder.",
+          "x": "The kid wants a bedtime story about eating the moon. The moon is outside, listening. Even nursery duty apparently comes with this level of bullshit."
+        },
         "next": [
           {
             "scene": "nephew-monster"
@@ -1348,7 +1489,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "nephew-monster",
         "art": "babysit",
-        "text": "The monster under the bed hands you its resignation. It cannot work with a child who keeps asking it for career advice.",
+        "text": {
+          "f": "The monster under the bed hands you its resignation. It cannot work with a child who keeps asking it for career advice.",
+          "c": "The under-bed monster is resigning. The child keeps asking about its career prospects, and the monster has not prepared an answer it can live with.",
+          "x": "The monster under the bed has had enough of this shit. The child wants career advice and the monster is realising its own job has no pension."
+        },
         "choices": [
           {
             "label": "Coach the monster through an exit interview",
@@ -1382,7 +1527,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "password-questions",
         "art": "password",
-        "text": "The tower asks a security question: 'What was your first familiar's maiden name?' The wizard insists it was a snail, and a very private snail.",
+        "text": {
+          "f": "The tower asks a security question: 'What was your first familiar's maiden name?' The wizard insists it was a snail, and a very private snail.",
+          "c": "The tower wants the maiden name of the wizard's first familiar. The familiar was a snail with a complicated private life and excellent boundaries.",
+          "x": "The tower wants a snail's maiden name. The wizard insists it was a private snail. You are doing identity verification for a mollusc, for fuck's sake."
+        },
         "next": [
           {
             "when": "snail-answer",
@@ -1436,7 +1585,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "password-snail",
         "art": "password",
-        "text": "The tower sends a one-time code to the snail. You can see the snail. You can also see it beginning a long and thoughtful turn.",
+        "text": {
+          "f": "The tower sends a one-time code to the snail. You can see the snail. You can also see it beginning a long and thoughtful turn.",
+          "c": "A login code is on its way via snail. The snail has begun turning around. The concept of one-time access is being tested rather aggressively.",
+          "x": "The code went to the snail. The snail is still turning around. Whoever designed this fucking security system deserves to use it."
+        },
         "choices": [
           {
             "label": "Read the code in its trail before it expires",
@@ -1464,7 +1617,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "password-lockout",
         "art": "password",
-        "text": "Too many attempts. The tower has locked itself out of itself. It asks you to click every picture containing a smaller tower.",
+        "text": {
+          "f": "Too many attempts. The tower has locked itself out of itself. It asks you to click every picture containing a smaller tower.",
+          "c": "The tower has locked itself out of itself and is now asking you to identify pictures of smaller towers. Architectural self-esteem appears to be the actual vulnerability.",
+          "x": "The tower locked itself out and now wants pictures of other towers clicked. Even enchanted architecture has apparently outsourced its security to complete bastards."
+        },
         "choices": [
           {
             "label": "Solve the architectural identity crisis",
@@ -1498,7 +1655,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "wedding-seating",
         "art": "vampire-wedding",
-        "text": "The seating chart puts the bride's ex next to the garlic fountain. The best man says this is a coincidence, then asks if you brought a mop.",
+        "text": {
+          "f": "The seating chart puts the bride's ex next to the garlic fountain. The best man says this is a coincidence, then asks if you brought a mop.",
+          "c": "The bride's ex is seated beside a garlic fountain. The best man calls this coincidence while quietly confirming your access to a mop.",
+          "x": "The bride's ex is sitting beside a garlic fountain. The best man swears it is an accident. The smug bastard has already brought a mop."
+        },
         "next": [
           {
             "scene": "wedding-toast"
@@ -1547,7 +1708,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "wedding-toast",
         "art": "vampire-wedding",
-        "text": "The best man's toast begins 'I remember her first husband'. There were forty-seven. He has brought slides.",
+        "text": {
+          "f": "The best man's toast begins 'I remember her first husband'. There were forty-seven. He has brought slides.",
+          "c": "The best man has a slideshow about forty-seven previous husbands. The bride looks like someone mentally revising the seating plan and a will.",
+          "x": "The best man has brought slides about all forty-seven ex-husbands. Forty-seven. This speech is going to be an absolute fucking catastrophe."
+        },
         "choices": [
           {
             "label": "Catch the projector cable with your foot",
@@ -1581,7 +1746,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "fountain-plumber",
         "art": "fountain",
-        "text": "The plumber has accidentally become six. His apprenticeship paperwork says he will qualify in seventeen years. His toolbox is already judging you.",
+        "text": {
+          "f": "The plumber has accidentally become six. His apprenticeship paperwork says he will qualify in seventeen years. His toolbox is already judging you.",
+          "c": "The plumber has become six. His apprenticeship will qualify him in seventeen years. His toolbox is treating your qualifications with entirely unwarranted scepticism.",
+          "x": "The plumber is six, his qualifications are seventeen years away, and even the toolbox thinks you are underqualified. Temporal plumbing is a bastard of a trade."
+        },
         "next": [
           {
             "scene": "fountain-tuesday"
@@ -1631,7 +1800,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "fountain-tuesday",
         "art": "fountain",
-        "text": "A blockage of discarded birthdays has flooded Tuesday. An elderly toddler asks whether you are here yesterday or just badly organised.",
+        "text": {
+          "f": "A blockage of discarded birthdays has flooded Tuesday. An elderly toddler asks whether you are here yesterday or just badly organised.",
+          "c": "Discarded birthdays have flooded Tuesday. An elderly toddler asks whether you are here yesterday or merely running late. The cake situation is becoming political.",
+          "x": "Tuesday is clogged with birthdays. An elderly toddler is questioning your timekeeping. Even the fucking cake has developed a scheduling conflict."
+        },
         "choices": [
           {
             "label": "Sort the birthdays into chronological order",
@@ -1665,7 +1838,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "marrow-bribe",
         "art": "marrow",
-        "text": "The prize marrow has slipped you a note: 'I grew myself. The farmer did nothing.' The farmer quietly offers you a smaller marrow full of coins.",
+        "text": {
+          "f": "The prize marrow has slipped you a note: 'I grew myself. The farmer did nothing.' The farmer quietly offers you a smaller marrow full of coins.",
+          "c": "The prize marrow claims sole credit for its growth. Its farmer offers you a smaller marrow packed with coins. Neither has declared this a conflict of interest.",
+          "x": "The big marrow says its farmer did fuck-all. The farmer offers a smaller marrow full of money. Agricultural ethics have apparently gone straight out the window."
+        },
         "choices": [
           {
             "label": "Interview the marrow independently",
@@ -1715,7 +1892,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "kraken-shallow",
         "art": "kraken",
-        "text": "The kraken has booked the shallow end. It occupies the whole shallow end, most of the deep end, and the lifeguard's increasingly small office.",
+        "text": {
+          "f": "The kraken has booked the shallow end. It occupies the whole shallow end, most of the deep end, and the lifeguard's increasingly small office.",
+          "c": "Your student occupies the shallow end, most of the deep end and the lifeguard's personal space. Only the armbands seem professionally confident.",
+          "x": "The kraken has commandeered the pool, the lifeguard's office and most of your patience. Eight armbands, one giant embarrassment, and not a fucking stroke between them."
+        },
         "next": [
           {
             "scene": "kraken-peer-pressure"
@@ -1764,7 +1945,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "kraken-peer-pressure",
         "art": "kraken",
-        "text": "Other krakens arrive to watch. Your student tries to hide behind a pool noodle. Only one inch of it is hidden, but that inch is committed.",
+        "text": {
+          "f": "Other krakens arrive to watch. Your student tries to hide behind a pool noodle. Only one inch of it is hidden, but that inch is committed.",
+          "c": "The other krakens arrive. Your pupil hides one determined inch behind a pool noodle, which has suddenly become a very important privacy barrier.",
+          "x": "Your kraken is hiding behind a pool noodle while its mates watch. One inch concealed, several tonnes exposed. The noodle is doing its best, poor bastard."
+        },
         "choices": [
           {
             "label": "Recruit the onlookers as an encouraging wave machine",
@@ -1811,7 +1996,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "parade-map",
         "art": "parade",
-        "text": "The Parade of Snails has reached the first kerb. The marshal announces a brief six-hour pause. A snail asks you to post its resignation ahead of it.",
+        "text": {
+          "f": "The Parade of Snails has reached the first kerb. The marshal announces a brief six-hour pause. A snail asks you to post its resignation ahead of it.",
+          "c": "The snails have reached a kerb and declared a six-hour operational pause. One requests that its resignation be sent by a faster species.",
+          "x": "The parade has stopped at its first fucking kerb. Six-hour pause. One snail wants its resignation delivered by someone who might reach the office this century."
+        },
         "next": [
           {
             "scene": "parade-weather"
@@ -1859,7 +2048,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "parade-weather",
         "art": "parade",
-        "text": "Rain arrives. The snails are delighted until they discover the puddle has organised a rival parade and is claiming the route.",
+        "text": {
+          "f": "Rain arrives. The snails are delighted until they discover the puddle has organised a rival parade and is claiming the route.",
+          "c": "Rain improves morale until the puddle starts a rival procession. It now claims the route. Municipal event planning has achieved an unnecessary new depth.",
+          "x": "The snails liked the rain until the puddle organised its own parade and claimed the route. Even the fucking weather has a committee now."
+        },
         "choices": [
           {
             "label": "Merge the parades without dissolving the committee",
@@ -1893,7 +2086,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "showdown-backstage",
         "art": "showdown",
-        "text": "Backstage, your rival is rehearsing a victory speech into a hairbrush. The trophy engraver has sensibly left both names in pencil.",
+        "text": {
+          "f": "Backstage, your rival is rehearsing a victory speech into a hairbrush. The trophy engraver has sensibly left both names in pencil.",
+          "c": "Your rival practises a victory speech into a hairbrush. The engraver has left both names in pencil, demonstrating the most useful qualification in the room.",
+          "x": "Your rival is rehearsing a victory speech into a hairbrush. The engraver has both names in pencil because, unlike the smug bastard with the brush, they understand uncertainty."
+        },
         "next": [
           {
             "when": "season-rival-truce",
@@ -1950,7 +2147,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "showdown-truce",
         "art": "showdown",
-        "text": "Your rival suggests sawing the trophy in half. The engraver refuses on artistic grounds. You need a joint ending with fewer metal filings.",
+        "text": {
+          "f": "Your rival suggests sawing the trophy in half. The engraver refuses on artistic grounds. You need a joint ending with fewer metal filings.",
+          "c": "Your rival proposes halving the trophy. The engraver proposes preserving artistic integrity. Neither has yet suggested the radical alternative of sharing a shelf.",
+          "x": "Your rival wants to saw the trophy in half. The engraver tells you both to stop being idiots. You need a happy ending with less fucking metalwork."
+        },
         "choices": [
           {
             "label": "Pitch the Guild's first job-share hero contract",
@@ -1978,7 +2179,11 @@ export const STORIES: QuestStory[] = [
       {
         "id": "showdown-witnesses",
         "art": "showdown",
-        "text": "The Guild has invited everyone you helped to give character references. Someone has reserved a large seat marked 'possible soup'.",
+        "text": {
+          "f": "The Guild has invited everyone you helped to give character references. Someone has reserved a large seat marked 'possible soup'.",
+          "c": "The Guild invited your clients as character witnesses. An oversized chair labelled 'possible soup' suggests someone took the briefing admirably literally.",
+          "x": "Every client has been invited to discuss your professional conduct. One seat says 'possible soup'. Whatever happens, this is going to be one hell of a fucking reference."
+        },
         "choices": [
           {
             "label": "Let the witnesses describe what actually happened",
@@ -2025,7 +2230,11 @@ export const RIVAL_SCENES: StoryScene[] = [
   {
     "id": "rival-first-meeting",
     "art": "showdown",
-    "text": "Your rival is physically blocking the quest route while a painter captures their 'spontaneous act of heroism'. The painter asks you to look more rescued.",
+    "text": {
+      "f": "Your rival is physically blocking the quest route while a painter captures their 'spontaneous act of heroism'. The painter asks you to look more rescued.",
+      "c": "Your rival blocks the route while an artist records their spontaneous heroism. You have been asked to look rescued, preferably without distracting from the jawline.",
+      "x": "Your rival has blocked the road for a heroic portrait. The painter wants you to look rescued. The vain bastard could at least pay your modelling fee."
+    },
     "choices": [
       {
         "label": "Charge a modelling fee and hold the pose",
@@ -2068,7 +2277,11 @@ export const RIVAL_SCENES: StoryScene[] = [
   {
     "id": "rival-middle-meeting",
     "art": "showdown",
-    "text": "Your rival is alone on a milestone, struggling to open a lunch tin. The great rival of your season has been defeated by a small clip.",
+    "text": {
+      "f": "Your rival is alone on a milestone, struggling to open a lunch tin. The great rival of your season has been defeated by a small clip.",
+      "c": "A rival capable of negotiating sponsorship has been defeated by a lunch-tin clip. The tin is declining interview requests until the humiliation is complete.",
+      "x": "Your great rival cannot open a lunch tin. All that sponsorship, all that swagger, and a fucking clip has stopped the victory tour."
+    },
     "choices": [
       {
         "label": "Open it and agree never to mention this",
@@ -2112,7 +2325,11 @@ export const RIVAL_SCENES: StoryScene[] = [
   {
     "id": "rival-last-meeting",
     "art": "showdown",
-    "text": "Your rival has a spare invitation to the trophy ceremony. It says '+1: formidable nemesis or equivalent'. The handwriting under 'equivalent' is hesitant.",
+    "text": {
+      "f": "Your rival has a spare invitation to the trophy ceremony. It says '+1: formidable nemesis or equivalent'. The handwriting under 'equivalent' is hesitant.",
+      "c": "The invitation says 'formidable nemesis or equivalent'. The hesitant handwriting suggests your rival would rather be caught duelling than attempting an honest social gesture.",
+      "x": "Your rival's invitation says 'formidable nemesis or equivalent'. The poor bastard has negotiated with sponsors all year and still cannot simply ask you to come."
+    },
     "choices": [
       {
         "label": "Accept as a formidable equivalent",
