@@ -130,6 +130,27 @@ export type Boon =
   | { kind: 'luck'; amount: number }
   | { kind: 'gold'; amount: number };
 
+/** One finished quest, for the season tracker. */
+export interface QuestRecord {
+  objectiveId: string;
+  tier: Tier;
+  pay: number;
+  /** False when the finale went wrong and the client paid half. */
+  clean: boolean;
+}
+
+/** Lines written by the live Dungeon Master for one quest. They replace the scripted ones. */
+export interface AiLines {
+  questIndex: number;
+  bridgeGood: string;
+  bridgeBad: string;
+  finaleIntro: string;
+  /** One pair per card of the quest, in order: the DM's reaction to success and to failure. */
+  cards: { good: string; bad: string }[];
+  done: string;
+  doneBadly: string;
+}
+
 export type Phase = 'board' | 'card' | 'result' | 'boon' | 'dead' | 'victory';
 
 export interface ActiveQuest {
@@ -178,6 +199,8 @@ export interface RunState {
   said: number;
   /** Consecutive successes (positive) or failures (negative). */
   streak: number;
+  history: QuestRecord[];
+  ai?: AiLines | null;
 }
 
 export interface Obituary {
@@ -193,6 +216,9 @@ export interface Meta {
   tone: Tone;
   toneChosen: boolean;
   haptics: boolean;
+  /** Use the on-device AI Dungeon Master (needs a downloaded model). */
+  liveDm: boolean;
+  dmModel: 'small' | 'better';
   unlockedClasses: string[];
   upgrades: Record<string, number>;
   journal: {

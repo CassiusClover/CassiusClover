@@ -12,6 +12,7 @@ import { tipsFor } from '../game/meta';
 import type { Meta, RunState, Tone } from '../game/types';
 import { STATS } from '../game/types';
 import { Bob, D20, DmSays, Enter, Pop, Shake } from './fx';
+import { Tracker } from './tracker';
 import { Bar, Button, C, CloseButton, H1, H2, OnWood, P, Paper, Pill, Row, Screen, Small, serif } from './kit';
 
 const signed = (n: number) => (n >= 0 ? `+${n}` : `${n}`);
@@ -59,6 +60,7 @@ export const Hud = ({ run, onClose }: { run: RunState; onClose?: () => void }) =
 export const BoardScreen = ({ run, tone, onPick, onQuit }: { run: RunState; tone: Tone; onPick: (i: number) => void; onQuit: () => void }) => (
   <Screen>
     <Hud run={run} onClose={onQuit} />
+    <Tracker run={run} tone={tone} />
     <DmSays text={run.narration} />
     <OnWood style={st.heading}>{run.board.length === 1 ? 'The Final Posting' : 'The Quest Board'}</OnWood>
     {run.board.map((offer, i) => {
@@ -102,10 +104,9 @@ export const CardScreen = ({
   return (
     <Screen>
       <Hud run={run} onClose={onQuit} />
-      <OnWood style={st.heading}>
-        {t(objectiveOf(q.offer.objectiveId).title, tone)}  ({q.cardIdx + 1}/{q.cards.length})
-      </OnWood>
-      <DmSays text={run.narration} />
+      <Tracker run={run} tone={tone} />
+      <OnWood style={st.heading}>{t(objectiveOf(q.offer.objectiveId).title, tone)}</OnWood>
+      <DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} />
       <Enter key={`card-${key}`} delay={80}>
         <Paper>
           <View style={{ height: 150, backgroundColor: artForCard(card.id)?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
@@ -221,7 +222,7 @@ export const ResultScreen = ({
       </Paper>
       {!rolling ? (
         <>
-          <Enter delay={200}><DmSays text={run.narration} /></Enter>
+          <Enter delay={200}><DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} /></Enter>
           {canReroll(run) ? (
             <Enter delay={320}>
               <Button testID="reroll" label="Spend a luck token to reroll" sub={`${run.luck} remaining`} onPress={onReroll} />
@@ -241,7 +242,8 @@ export const BoonScreen = ({ run, tone, onPick, onPotion }: { run: RunState; ton
   return (
     <Screen>
       <Hud run={run} />
-      <DmSays text={run.narration} />
+      <Tracker run={run} tone={tone} />
+      <DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} />
       <Paper>
         <Small style={{ fontWeight: '700', color: C.green }}>QUEST COMPLETE</Small>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>

@@ -22,6 +22,8 @@ export const defaultMeta = (): Meta => ({
   tone: 0,
   toneChosen: false,
   haptics: true,
+  liveDm: false,
+  dmModel: 'small',
   unlockedClasses: CLASSES.filter((c) => c.cost === 0).map((c) => c.id),
   upgrades: {},
   journal: {

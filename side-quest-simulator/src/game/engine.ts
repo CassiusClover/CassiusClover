@@ -3,7 +3,7 @@ import { ANCESTRIES, CLASSES, EPITHETS, FIRST_NAMES, QUIRKS, RELICS } from './co
 import { DM_LINES, RIVALS, type DmEvent } from './content/dm';
 import { GIVERS, OBJECTIVES, TWISTS } from './content/quests';
 import type {
-  Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stat, Stats, Tier, Tone, Txt,
+  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stat, Stats, Tier, Tone, Txt,
 } from './types';
 import { STATS } from './types';
 
@@ -68,6 +68,12 @@ const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 // --- The Dungeon Master ---
 /** Sets the DM's current line. Picks deterministically without disturbing the run's dice. */
 const say = (run: RunState, event: DmEvent, choice = '') => {
+  const live = liveLine(run, event);
+  if (live) {
+    run.said += 1;
+    run.narration = live;
+    return;
+  }
   const pool = DM_LINES[event];
   const line = pool[((run.rng >>> 5) + run.said * 7) % pool.length];
   run.said += 1;
@@ -79,7 +85,72 @@ const say = (run: RunState, event: DmEvent, choice = '') => {
     .replace(/\{quest\}/g, q ? t(objectiveOf(q.offer.objectiveId).title, 0) : '')
     .replace(/\{choice\}/g, choice);
 };
+/** The live Dungeon Master's line for this moment, if one has arrived for the current quest. */
+const liveLine = (run: RunState, event: DmEvent): string => {
+  const ai = run.ai;
+  const q = run.quest;
+  if (!ai || !q || ai.questIndex !== run.questIndex) return '';
+  const card = ai.cards[q.cardIdx];
+  switch (event) {
+    case 'bridgeGood': return ai.bridgeGood;
+    case 'bridgeBad': return ai.bridgeBad;
+    case 'climaxGood': case 'climaxBad': return ai.finaleIntro;
+    case 'success': case 'crit': return card?.good ?? '';
+    case 'fail': case 'fumble': return card?.bad ?? '';
+    case 'questDone': return ai.done;
+    case 'questDoneBadly': return ai.doneBadly;
+    default: return '';
+  }
+};
+
+const clean = (s: unknown) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, 240) : '');
+
+/**
+ * Accepts lines from the live Dungeon Master. Ignored unless they are for the quest still
+ * in progress and well formed, so a slow or broken reply can never disturb a run.
+ */
+export const applyAiLines = (prev: RunState, questIndex: number, raw: unknown): RunState => {
+  if (!prev.quest || prev.questIndex !== questIndex || !raw || typeof raw !== 'object') return prev;
+  const r = raw as Record<string, unknown>;
+  const cards = Array.isArray(r.cards) ? r.cards.map((c) => ({ good: clean((c as any)?.good), bad: clean((c as any)?.bad) })) : [];
+  const ai: AiLines = {
+    questIndex,
+    bridgeGood: clean(r.bridgeGood), bridgeBad: clean(r.bridgeBad), finaleIntro: clean(r.finaleIntro),
+    cards, done: clean(r.done), doneBadly: clean(r.doneBadly),
+  };
+  if (!ai.finaleIntro && !ai.done && !cards.some((c) => c.good || c.bad)) return prev;
+  return { ...clone(prev), ai };
+};
+
+/** Everything the live Dungeon Master needs to know to write lines for the quest just accepted. */
+export const dmContext = (run: RunState, tone: Tone) => {
+  const q = run.quest!;
+  const twist = twistOf(q.offer.twistId);
+  return {
+    tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    hero: { name: run.hero.name, class: classOf(run.hero.classId).name, ancestry: ancestryOf(run.hero.ancestryId).name, quirk: quirkOf(run.hero.quirkId).name },
+    rival: run.rival,
+    questNumber: run.questIndex + 1,
+    questsTotal: QUESTS_TO_WIN,
+    health: `${run.hero.hp}/${run.hero.maxHp}`,
+    relics: run.relics.map((id) => relicOf(id).name),
+    history: run.history.map((h) => ({ quest: t(objectiveOf(h.objectiveId).title, tone), result: h.clean ? 'clean' : 'botched' })),
+    quest: {
+      title: t(objectiveOf(q.offer.objectiveId).title, tone),
+      client: t(giverOf(q.offer.giverId).name, tone),
+      task: t(objectiveOf(q.offer.objectiveId).task, tone),
+      twist: t(twist.text, tone),
+      cards: q.cards.map((id) => {
+        const c = cardOf(id);
+        return { scene: t(c.text, tone), options: c.choices.map((x) => t(x.label, tone)) };
+      }),
+    },
+  };
+};
+
 const lower = (label: string) => label.charAt(0).toLowerCase() + label.slice(1);
+/** How many quests the rival has finished: always a little ahead, until the showdown. */
+export const rivalProgress = (run: RunState) => Math.min(QUESTS_TO_WIN - 1, Math.floor(run.questsDone * 0.8) + 2);
 export const isFinalQuest = (run: RunState) => run.questIndex >= QUESTS_TO_WIN - 1;
 
 // --- Aggregated modifiers from ancestry, quirk and relics ---
@@ -188,6 +259,8 @@ export const newRun = (meta: Meta, choice: HeroChoice, seed: number, blessed = f
     narration: '',
     said: 0,
     streak: 0,
+    history: [],
+    ai: null,
   };
   const anc = ancestryOf(choice.ancestryId).effects;
   const quirk = quirkOf(choice.quirkId).effects;
@@ -450,6 +523,7 @@ const advance = (run: RunState): RunState => {
   run.goldEarned += pay;
   heal(run, m.healPerQuest + (twist.heal ?? 0));
   run.questsDone += 1;
+  run.history.push({ objectiveId: q.offer.objectiveId, tier: q.offer.tier, pay, clean: !q.climaxFailed });
   if (!run.objectivesDone.includes(q.offer.objectiveId)) run.objectivesDone.push(q.offer.objectiveId);
   else {
     run.objectivesDone.splice(run.objectivesDone.indexOf(q.offer.objectiveId), 1);

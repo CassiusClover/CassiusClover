@@ -5,7 +5,7 @@ import { CARDS } from './content/cards';
 import { ANCESTRIES, CLASSES, QUIRKS, RELICS } from './content/heroes';
 import { OBJECTIVES } from './content/quests';
 import {
-  bribe, buyPotion, canBribe, canBuyPotion, canReroll, canRevive, checkInfo, choose, currentCard, newRun, pickBoon,
+  applyAiLines, dmContext, bribe, buyPotion, canBribe, canBuyPotion, canReroll, canRevive, checkInfo, choose, currentCard, newRun, pickBoon,
   pickQuest, proceed, QUESTS_TO_WIN, reroll, revive, rollQuirk, t,
 } from './engine';
 import { buyUpgrade, defaultMeta, finishRun, hydrateMeta, tipsFor, unlockClass } from './meta';
@@ -160,6 +160,39 @@ describe('dungeon master', () => {
     }
     expect(run.narration).not.toMatch(/[{}]/);
     expect(seen.size).toBeGreaterThan(5);
+  });
+
+  it('records a season history for the tracker', () => {
+    const run = playRun(11, 'fighter', 'smart');
+    expect(run.history).toHaveLength(run.questsDone);
+    expect(run.history.every((h) => h.pay >= 0 && typeof h.clean === 'boolean')).toBe(true);
+  });
+
+  it('uses live lines for the current quest only, and ignores junk', () => {
+    let run = pickQuest(newRun(defaultMeta(), { classId: 'fighter', ancestryId: 'orc', quirkId: 'whistle' }, 5), 1);
+    const ctx = dmContext(run, 1);
+    expect(ctx.quest.cards).toHaveLength(3);
+    expect(ctx.tone).toBe('cheeky');
+    const lines = {
+      bridgeGood: 'LIVE bridge good', bridgeBad: 'LIVE bridge bad', finaleIntro: 'LIVE finale',
+      cards: [{ good: 'LIVE c0 good', bad: 'LIVE c0 bad' }, { good: 'LIVE c1 good', bad: 'LIVE c1 bad' }, { good: 'LIVE c2 good', bad: 'LIVE c2 bad' }],
+      done: 'LIVE done', doneBadly: 'LIVE done badly',
+    };
+    expect(applyAiLines(run, 3, lines)).toBe(run);
+    expect(applyAiLines(run, 0, { nonsense: true })).toBe(run);
+    expect(applyAiLines(run, 0, null)).toBe(run);
+    run = applyAiLines(run, 0, lines);
+    const heard: string[] = [];
+    for (let i = 0; i < 40 && run.phase !== 'boon' && run.phase !== 'dead'; i++) {
+      run = run.phase === 'card' ? choose(run, 0) : proceed(run);
+      heard.push(run.narration);
+    }
+    expect(heard.filter((l) => l.startsWith('LIVE')).length).toBeGreaterThanOrEqual(3);
+    if (run.phase === 'boon') {
+      run = pickQuest(pickBoon(run, 0), 0);
+      run = choose(run, 0);
+      expect(run.narration.startsWith('LIVE')).toBe(false);
+    }
   });
 
   it('ends every season with the rival showdown', () => {

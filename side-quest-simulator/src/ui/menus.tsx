@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Art, HeroArt } from '../art/Art';
 import { ART } from '../art/creatures';
@@ -6,6 +6,8 @@ import { CARDS } from '../game/content/cards';
 import { ANCESTRIES, CLASSES, RELICS } from '../game/content/heroes';
 import { OBJECTIVES } from '../game/content/quests';
 import { classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type HeroChoice } from '../game/engine';
+import { DM_MODELS } from '../services/dmModels';
+import { cancelDownload, deleteModel, downloadModel, isModelDownloaded, localDmSupported } from '../services/localDm';
 import { UPGRADES, upgradeCost, upgradeLevel } from '../game/meta';
 import type { Meta, Tone } from '../game/types';
 import { STATS } from '../game/types';
@@ -240,15 +242,106 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
   );
 };
 
+/** Download, choose and switch on the on-device AI Dungeon Master. */
+const DmSettings = ({ meta, onChange }: { meta: Meta; onChange: (patch: Partial<Meta>) => void }) => {
+  const [have, setHave] = useState<Record<string, boolean>>({});
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [failed, setFailed] = useState(false);
+  const refresh = () => setHave(Object.fromEntries(DM_MODELS.map((m) => [m.id, isModelDownloaded(m.id)])));
+  useEffect(refresh, []);
+
+  if (!localDmSupported) {
+    return (
+      <Paper>
+        <H2>AI Dungeon Master</H2>
+        <Small>
+          The AI Dungeon Master runs on the phone itself, so it is only available in the installed app, not in this preview.
+          The scripted Dungeon Master is being used.
+        </Small>
+      </Paper>
+    );
+  }
+  const ready = !!have[meta.dmModel];
+  return (
+    <Paper>
+      <H2>AI Dungeon Master</H2>
+      <Small>
+        Lets the Dungeon Master improvise fresh lines for every quest. The model runs entirely on this phone: nothing is sent
+        anywhere and it works offline. It is a one-off download, best done on Wi-Fi.
+      </Small>
+      <Button
+        testID="live-dm"
+        label={`AI Dungeon Master: ${meta.liveDm && ready ? 'on' : 'off'}`}
+        sub={ready ? undefined : 'Download a model below to switch this on'}
+        kind={meta.liveDm && ready ? 'primary' : 'plain'}
+        disabled={!ready}
+        onPress={() => onChange({ liveDm: !meta.liveDm })}
+      />
+      {DM_MODELS.map((m) => {
+        const downloading = busyId === m.id;
+        return (
+          <View key={m.id} style={{ gap: 4, paddingVertical: 6, borderTopWidth: 1, borderColor: '#d6c398' }}>
+            <P style={{ fontWeight: '700' }}>{m.name}  <Small>{m.sizeMb >= 1000 ? `${(m.sizeMb / 1000).toFixed(1)} GB` : `${m.sizeMb} MB`}</Small></P>
+            <Small>{m.blurb}</Small>
+            {have[m.id] ? (
+              <Row>
+                <View style={{ flex: 1 }}>
+                  <Button
+                    testID={`dm-use-${m.id}`}
+                    label={meta.dmModel === m.id ? 'In use' : 'Use this one'}
+                    kind={meta.dmModel === m.id ? 'primary' : 'plain'}
+                    onPress={() => onChange({ dmModel: m.id, liveDm: true })}
+                  />
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Button
+                    label="Delete"
+                    onPress={() => {
+                      deleteModel(m.id);
+                      if (meta.dmModel === m.id) onChange({ liveDm: false });
+                      refresh();
+                    }}
+                  />
+                </View>
+              </Row>
+            ) : downloading ? (
+              <Button label={`Downloading... ${Math.round(progress * 100)}%`} sub="Tap to cancel" onPress={cancelDownload} />
+            ) : (
+              <Button
+                testID={`dm-get-${m.id}`}
+                label={`Download ${m.name}`}
+                disabled={busyId !== null}
+                onPress={async () => {
+                  setBusyId(m.id);
+                  setProgress(0);
+                  setFailed(false);
+                  const ok = await downloadModel(m.id, setProgress);
+                  setBusyId(null);
+                  setFailed(!ok);
+                  refresh();
+                  if (ok) onChange({ dmModel: m.id, liveDm: true });
+                }}
+              />
+            )}
+          </View>
+        );
+      })}
+      {failed ? <Small style={{ color: C.red }}>The download did not finish. Check the connection and free space, then try again.</Small> : null}
+    </Paper>
+  );
+};
+
 export const SettingsScreen = ({
-  meta, onTone, onHaptics, onReset, onBack,
-}: { meta: Meta; onTone: (tone: Tone) => void; onHaptics: (on: boolean) => void; onReset: () => void; onBack: () => void }) => {
+  meta, onTone, onHaptics, onDm, onReset, onBack,
+}: { meta: Meta; onTone: (tone: Tone) => void; onHaptics: (on: boolean) => void; onDm: (patch: Partial<Meta>) => void; onReset: () => void; onBack: () => void }) => {
   const [confirm, setConfirm] = useState(false);
   return (
     <Screen>
       <TopBar title="Settings" onClose={onBack} />
       <OnWood>Tone of the writing</OnWood>
       <TonePicker value={meta.tone} onPick={onTone} />
+      <DmSettings meta={meta} onChange={onDm} />
       <Button testID="haptics" label={`Vibration: ${meta.haptics ? 'on' : 'off'}`} onPress={() => onHaptics(!meta.haptics)} />
       <Button
         testID="reset"

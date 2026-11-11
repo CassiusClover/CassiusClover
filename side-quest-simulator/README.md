@@ -82,6 +82,19 @@ Rewarded ads only, always the player's choice:
 | `revive` | Death screen | Return at half health, once per run |
 | `doubleTips` | End of run | Double the permanent currency earned |
 
+## The AI Dungeon Master
+
+The Dungeon Master is scripted by default (`src/game/content/dm.ts`). Players can switch on
+an AI version in Settings, which runs a small language model on the phone itself with
+`llama.rn`: no server, no API key, nothing leaves the device, and it works offline.
+
+- The model is a one-off download chosen in Settings: Apprentice (Qwen2.5 0.5B, 469 MB) or
+  Archmage (Qwen2.5 1.5B, 1.1 GB), both Apache-2.0. The catalogue is `src/services/dmModels.ts`.
+- When a quest is accepted, the model writes that quest's lines in the background as JSON
+  (`src/services/dmPrompt.ts`); they replace the scripted lines as soon as they arrive. If the
+  model is missing, slow or produces junk, the scripted Dungeon Master simply carries on.
+- It needs a real build. On web and in Expo Go the setting explains that it is unavailable.
+
 ## Before a store release
 
 1. Create an AdMob account, register the iOS and Android apps, and create three rewarded ad
@@ -106,9 +119,11 @@ Never tap your own live ads. AdMob suspends accounts for it.
   - `meta.ts` tips, upgrades, class unlocks, journal
   - `content/` classes, ancestries, quirks, relics, quests, twists, road events and the
     Dungeon Master's lines (`dm.ts`)
-- `src/services/` storage and ads (`ads.native.ts` is the real AdMob integration)
+- `src/services/` storage, ads (`ads.native.ts` is the real AdMob integration) and the
+  on-device Dungeon Master (`localDm.native.ts`)
 - `src/art/` comic-ink vector art for heroes and cards
-- `src/ui/` screens, the component kit and motion effects (`fx.tsx`: the d20 roll, DM speech)
+- `src/ui/` screens, the component kit, motion effects (`fx.tsx`: the d20 roll, DM speech)
+  and the season tracker (`tracker.tsx`)
 - `App.tsx` screen flow
 
 ## Adding content

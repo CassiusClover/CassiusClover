@@ -48,7 +48,7 @@ export const Shake = ({ children, trigger }: { children: React.ReactNode; trigge
 };
 
 /** The Dungeon Master's speech, typed out. Tap to finish the line at once. */
-export const DmSays = ({ text }: { text: string }) => {
+export const DmSays = ({ text, live = false }: { text: string; live?: boolean }) => {
   const [n, setN] = useState(0);
   useEffect(() => {
     setN(0);
@@ -61,7 +61,7 @@ export const DmSays = ({ text }: { text: string }) => {
     <Pressable onPress={() => setN(text.length)} accessibilityRole="text" accessibilityLabel={`Dungeon Master: ${text}`} style={st.dm}>
       <Art art={ART.dm} size={52} />
       <View style={{ flex: 1 }}>
-        <Text style={st.dmCap}>THE DUNGEON MASTER</Text>
+        <Text style={st.dmCap}>THE DUNGEON MASTER{live ? '   IMPROVISING' : ''}</Text>
         <Text style={st.dmText}>
           {text.slice(0, n)}
           <Text style={{ color: 'transparent' }}>{text.slice(n)}</Text>

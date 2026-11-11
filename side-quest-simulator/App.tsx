@@ -4,12 +4,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
-  bribe, buyPotion, choose, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
+  applyAiLines, bribe, buyPotion, choose, dmContext, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
 } from './src/game/engine';
 import { buyUpgrade, defaultMeta, finishRun, unlockClass } from './src/game/meta';
 import type { Meta, RunState } from './src/game/types';
 import type { Placement } from './src/services/adConfig';
 import { adsAreSimulated, initAds, setAdTone, showRewarded } from './src/services/ads';
+import { generateQuestLines, isModelDownloaded, localDmSupported } from './src/services/localDm';
 import { loadMeta, loadRun, saveMeta, saveRun } from './src/services/storage';
 import { C } from './src/ui/kit';
 import { CreateScreen, HomeScreen, JournalScreen, SettingsScreen, ShopScreen, ToneScreen } from './src/ui/menus';
@@ -83,6 +84,25 @@ export default function App() {
     else start();
   };
 
+  /** Accept a quest and, if the AI Dungeon Master is on, have it write this quest's lines. */
+  const startQuest = (index: number) => {
+    if (!run) return;
+    const next = pickQuest(run, index);
+    setRun(next);
+    if (!meta.liveDm || !localDmSupported || !isModelDownloaded(meta.dmModel)) return;
+    const questIndex = next.questIndex;
+    generateQuestLines(meta.dmModel, dmContext(next, meta.tone)).then((lines) => {
+      if (!lines) return;
+      // The player has moved on while the model was writing, so merge into the latest state.
+      setRunState((current) => {
+        if (!current) return current;
+        const merged = applyAiLines(current, questIndex, lines);
+        if (merged !== current) saveRun(merged);
+        return merged;
+      });
+    });
+  };
+
   const bank = (doubled: boolean) => {
     if (!run) return;
     setMeta(finishRun(meta, run, doubled));
@@ -114,6 +134,7 @@ export default function App() {
             setMeta({ ...meta, tone });
           }}
           onHaptics={(haptics) => setMeta({ ...meta, haptics })}
+          onDm={(patch) => setMeta({ ...meta, ...patch })}
           onReset={() => {
             setRun(null);
             setMeta({ ...defaultMeta(), tone: meta.tone, toneChosen: true, haptics: meta.haptics });
@@ -134,7 +155,7 @@ export default function App() {
     if (run && screen === 'run') {
       switch (run.phase) {
         case 'board':
-          return <BoardScreen run={run} tone={meta.tone} onPick={(i) => setRun(pickQuest(run, i))} onQuit={() => go('home')} />;
+          return <BoardScreen run={run} tone={meta.tone} onPick={startQuest} onQuit={() => go('home')} />;
         case 'card':
           return <CardScreen run={run} tone={meta.tone} onChoose={(i) => setRun(choose(run, i))} onBribe={() => setRun(bribe(run))} onQuit={() => go('home')} />;
         case 'result':
