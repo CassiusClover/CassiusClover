@@ -1,0 +1,93 @@
+# Road events. These can turn up in any quest. Several are deals: choices with a fixed
+# price and no dice, so not every scene is a roll.
+
+EVENT dubious-merchant
+art: goblin
+A goblin has set up a stall in the middle of the road. The sign says "LEGITIMATE GOODS". The word "legitimate" has been added in a different hand.
+> Deal: Buy a "healing" pie for 12 gold
+  gives: -12 gold, +5 hp
+  then: It heals. You choose not to ask what the meat was. It was not meat.
+> Deal: Buy a lucky tooth for 18 gold
+  gives: -18 gold, +1 luck
+  then: Whose tooth is not specified. It feels lucky. It feels warm.
+> Bold CHA: Haggle him down to nothing
+  win: You leave with a pie, his respect, and a small refund.
+  lose: You leave having somehow bought the stall's debts.
+
+EVENT wishing-well
+art: fountain
+A wishing well. A brass plaque reads: "Wishes granted. Results may vary. No refunds. Do not wish for refunds."
+> Deal: Toss in 10 gold and wish for health
+  gives: -10 gold, +4 hp
+  then: The well gurgles. You feel better. Somewhere a healer feels slightly worse.
+> Reckless WIS: Wish very, very carefully
+  win: Your wording is flawless. The well grudgingly pays out in coin.
+  lose: You leave a loophole. The well takes it, and your eyebrows.
+> Bold STR: Haul up the bucket and take the coins
+  win: Forty years of other people's wishes. They were not using them.
+  lose: The well hauls back.
+
+EVENT roadside-shrine
+art: statue
+A roadside shrine to a small god of "getting there eventually". The offering bowl holds two buttons and an apology.
+> Deal: Rest here a while
+  gives: +3 hp
+  then: Nothing happens, slowly. It is exactly what you needed.
+> Deal: Leave an offering of 15 gold
+  gives: -15 gold, +2 luck
+  then: A warm sense that you will, at some point, get there.
+> Bold INT: Read the inscription for hidden meaning
+  win: Behind the third stone: a previous pilgrim's emergency fund.
+  lose: The inscription is a curse on people who read inscriptions looking for money.
+
+EVENT toll-of-blood
+art: vampire
+A very polite vampire runs a toll gate. "Coin or a small donation," he says, holding up a teacup. "For my condition."
+> Deal: Pay 14 gold
+  gives: -14 gold
+  then: He writes you a receipt in copperplate and wishes you a pleasant eternity.
+> Deal: Donate a teacup's worth
+  gives: -3 hp, +1 luck
+  then: "Notes of garlic," he says, wincing. He lets you through and gives you a biscuit.
+> Reckless DEX: Vault the gate
+  win: You clear it. He applauds politely, which is somehow worse.
+  lose: He is faster than a gate. Most things are.
+
+EVENT rope-or-ladder
+art: tower
+A cliff. At the top, your destination. There is a ladder with a sign, "LADDER: 10 GOLD", and a rope with a sign, "ROPE: FREE (frayed)".
+> Deal: Take the ladder for 10 gold
+  gives: -10 gold
+  then: Rung by honest rung. Capitalism works when it is a ladder.
+> Bold STR: Take the rope
+  win: It holds. Barely. You pocket the ladder-keeper's dropped change at the top.
+  lose: "Frayed" was generous.
+> Careful DEX: Free-climb next to both
+  win: Slow, careful, free. The ladder-keeper glares the whole way up.
+  lose: A handhold turns out to be a nest. The owner objects.
+
+EVENT fortune-teller
+art: orb
+A fortune-teller's tent. "I see great things in your future," she says. "Also some terrible things. It is mostly things, to be honest."
+> Deal: Pay 8 gold for the short version
+  gives: -8 gold, +1 luck
+  then: "Duck," she says. You do not know when, but you will be ready.
+> Bold WIS: Read her instead
+  win: You tell her fortune. It is so accurate she pays you.
+  lose: You tell her fortune. It is so accurate she throws the orb.
+> Careful INT: Spot how the trick works
+  win: The orb is a goldfish bowl. You keep the secret, for a consideration.
+  lose: The orb is not a goldfish bowl. Do not tap the glass.
+
+EVENT lost-property
+art: mimic
+The Guild's lost property office. Unclaimed items after ninety days "become available". A chest in the corner is labelled "day 89". It is breathing.
+> Reckless STR: Open the breathing chest
+  win: Inside: gold, and a smaller chest that is also breathing. You take only the gold.
+  lose: It was not a chest for the first eighty-eight days either.
+> Careful CHA: Claim something plausible
+  win: "The brown cloak." There are nine. You are given the nicest, with coins in the pocket.
+  lose: "The brown cloak." The clerk asks you to describe the curse on it.
+> Deal: Hand in your own lost dignity
+  gives: +1 luck
+  then: The clerk files it under "D" and gives you a ticket. You feel lighter.

@@ -1,3 +1,4 @@
+import { PACK_ART } from '../game/content/packs.generated';
 import { BLOOD, BONE, DUSK, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, flat, glare, line, shape, slit } from './ink';
 
 /**
@@ -405,5 +406,12 @@ export const ART_FOR: Record<string, string> = {
 };
 
 /** Quest board thumbnails are keyed by objective id. */
-export const artForObjective = (objectiveId: string) => ART[ART_FOR[`x-${objectiveId}`]];
-export const artForCard = (cardId: string) => ART[ART_FOR[cardId]];
+export const artKeyFor = (cardId: string): string | undefined => {
+  const own = PACK_ART[cardId] ?? ART_FOR[cardId];
+  if (own) return own;
+  // A quest's own scenes use that quest's drawing unless they name one.
+  const scene = cardId.match(/^s-(.+)-\d+$/);
+  return scene ? PACK_ART[`x-${scene[1]}`] ?? ART_FOR[`x-${scene[1]}`] : undefined;
+};
+export const artForObjective = (objectiveId: string) => ART[artKeyFor(`x-${objectiveId}`) ?? ''];
+export const artForCard = (cardId: string) => ART[artKeyFor(cardId) ?? ''];

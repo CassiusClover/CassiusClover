@@ -16,6 +16,8 @@ export interface Choice {
   risk: Risk;
   win: Txt;
   lose: Txt;
+  /** A fixed trade with no roll. `win` holds what happens. Negative amounts are costs. */
+  deal?: { gold?: number; hp?: number; luck?: number };
 }
 
 export interface Card {
@@ -105,7 +107,7 @@ export interface QuestOffer {
   tier: Tier;
 }
 
-export type Outcome = 'crit' | 'success' | 'fail' | 'fumble' | 'bribe';
+export type Outcome = 'crit' | 'success' | 'fail' | 'fumble' | 'bribe' | 'deal';
 
 export interface RollResult {
   cardId: string;
@@ -120,6 +122,8 @@ export interface RollResult {
   dmg: number;
   gold: number;
   heal: number;
+  /** Luck tokens gained or lost (deals only). */
+  luck?: number;
   notes: string[];
 }
 
@@ -160,6 +164,8 @@ export interface ActiveQuest {
   firstRollDone: boolean;
   luckyUsed: boolean;
   climaxFailed: boolean;
+  /** Momentum carried into the finale: earlier successes help, failures rattle. */
+  edge: number;
 }
 
 export interface Hero {
@@ -201,6 +207,9 @@ export interface RunState {
   streak: number;
   history: QuestRecord[];
   ai?: AiLines | null;
+  /** The Dungeon Master's mood for this season, and rival encounters already used. */
+  mood: string;
+  rivalsSeen: string[];
 }
 
 export interface Obituary {

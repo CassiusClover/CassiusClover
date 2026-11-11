@@ -18,7 +18,7 @@ export const dmMessages = (ctx: DmContext) => {
     {
       role: 'system',
       content:
-        'You are the Dungeon Master of a comedy fantasy game. You are dry, sardonic and British, and privately fond of the player. ' +
+        `You are the Dungeon Master of a comedy fantasy game. You are dry, sardonic and British, privately fond of the player, and today you are in a ${ctx.mood} mood: let it colour every line. ` +
         'You speak to the player as "you". Every line is one or two short sentences, at most 25 words, and must mention something specific from the scene or the hero. ' +
         `Never use emoji. Never mention dice numbers. Tone: ${TONE[ctx.tone]} Reply with JSON only.`,
     },
@@ -30,7 +30,7 @@ export const dmMessages = (ctx: DmContext) => {
         `This is quest ${ctx.questNumber} of ${ctx.questsTotal}. Earlier quests: ${past}.\n` +
         `Quest: "${ctx.quest.title}". ${ctx.quest.client} needs the hero to ${ctx.quest.task}. ${ctx.quest.twist}\n` +
         `${cards}\n\n` +
-        'Write the Dungeon Master\'s lines for this quest:\n' +
+        'Write the Dungeon Master\'s lines for this quest. Vary the sentence shapes; do not start two lines the same way. Refer back to an earlier quest or to the rival in at least two lines.\n' +
         '- cards: for each scene in order, "good" is your remark when the hero succeeds there, "bad" when they fail.\n' +
         '- bridgeGood / bridgeBad: said while moving to the next scene after a success / after a failure.\n' +
         '- finaleIntro: said as the finale begins.\n' +

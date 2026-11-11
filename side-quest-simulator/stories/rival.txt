@@ -1,0 +1,50 @@
+# Encounters with the season's rival. One of these opens the third, sixth and ninth quest.
+# Use {rival} for the rival's name and {hero} for the player's.
+
+RIVAL the-autograph
+{rival} is signing autographs at the crossroads, and there is a queue. "{hero}! Come to see how it is done? Stand there. No, further back. In the shade."
+> Bold CHA: Work the queue yourself
+  win: By the end, half of them want your signature too. One asks {rival} to hold her quill.
+  lose: You sign one autograph. It is for {rival}, who frames it ironically.
+> Careful WIS: Let it go and keep walking
+  win: You do not rise to it. {rival} watches you leave and, for a moment, looks unsure.
+  lose: You almost let it go. Then you say something. It was not good.
+> Reckless DEX: Swap the quill for a trick one
+  win: It squirts. The queue howls. {rival}'s tunic may never recover.
+  lose: {rival} hands it straight back to you. "You first."
+
+RIVAL the-shortcut
+{rival} is leaning on a signpost that has been turned to face the wrong way. "Oh, are you doing this quest too? It is that way. Definitely. I would never lie about directions."
+> Careful INT: Check the signpost's shadow
+  win: The post was turned within the hour. You take the other road and arrive first.
+  lose: You overthink it and take a third road that nobody mentioned. It was nobody's for a reason.
+> Bold WIS: Read {rival}'s face
+  win: The left eye twitches on "definitely". You go the other way, whistling.
+  lose: {rival} has practised in a mirror. You walk confidently into a bog.
+> Reckless STR: Turn the signpost back, with {rival} still leaning on it
+  win: The post swings. So does {rival}, into the ditch, with a very satisfying sound.
+  lose: The post is deeper than it looks. Your back is not.
+
+RIVAL the-sponsor
+A banner across the road reads "THIS QUEST BROUGHT TO YOU BY {rival}". Beneath it, {rival} is handing out pamphlets. "It is only fair. I did do most of the last one."
+> Bold CHA: Give a rival speech from a barrel
+  win: You have no pamphlets, only charm. The crowd drifts over. Coins follow.
+  lose: The barrel was not empty. It was not strong, either.
+> Careful DEX: Quietly edit the banner
+  win: It now reads "THIS QUEST BROUGHT TO YOU, BY {rival}, LATE". Nobody saw a thing.
+  lose: You are halfway up the pole when the crowd turns round.
+> Deal: Take a pamphlet and move on
+  gives: +1 luck
+  then: On the back is a map {rival} did not mean to print. You fold it away, smiling.
+
+RIVAL the-wager
+{rival} blocks the path, tossing a coin. "A little wager, {hero}. Whoever finishes this quest first. Unless you are worried." The coin, you notice, has two heads.
+> Deal: Take the bet for 15 gold
+  gives: -15 gold, +2 luck
+  then: "Brave," says {rival}, slightly too surprised. You now have something to prove, and the nerve to prove it.
+> Bold INT: Point out the coin
+  win: "Interesting coin." {rival} pockets it, flushed, and pays you to stop talking.
+  lose: "What coin?" It has gone. You look like the one making accusations.
+> Reckless CON: Stare until {rival} looks away
+  win: A full minute. {rival} blinks first and pretends to have seen a bird.
+  lose: A full minute. Your eyes water. {rival} offers you a handkerchief, monogrammed.

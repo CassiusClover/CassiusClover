@@ -1,0 +1,223 @@
+# Scenes that belong to one quest. Each plays just before that quest's finale, so the
+# quest tells one story instead of two unrelated road events.
+
+QUEST dragon-tax
+SCENE
+The dragon's accountant is a kobold with ink to the elbows and nine years of receipts in a wheelbarrow. Several receipts are on fire.
+> Careful INT: Sort the receipts by year
+  win: A system emerges. The kobold weeps with gratitude and slips you the summary sheet.
+  lose: You file a burning receipt under "misc". The wheelbarrow goes up.
+> Bold CHA: Befriend the kobold
+  win: He shows you which deductions are "creative". You know where the bodies are itemised.
+  lose: He reports the conversation to his employer, who is large and nearby.
+> Reckless CON: Stamp out the burning ones with your boot
+  win: Every receipt saved, lightly toasted. Your boot is a hero.
+  lose: Your boot is now also a receipt, in the sense that it is on fire.
+
+QUEST lich-eviction
+SCENE
+The crypt's doorman is a zombie with a clipboard. "Name?" he says. Then, after a long pause, "Name?" again. He has been saying it since Tuesday.
+> Careful WIS: Wait for him to finish the thought
+  win: On the ninth "Name?" he ticks a box and steps aside. Patience is a weapon.
+  lose: On the ninth "Name?" you snap. He writes that down, slowly, with his teeth.
+> Bold CHA: Claim to be the lich's mother
+  win: He straightens what is left of his collar and waves you through.
+  lose: The lich's mother is on the list. She is also behind you.
+> Deal: Tip him 8 gold
+  gives: -8 gold
+  then: He pockets it in a pocket that is mostly hole, and points at the stairs.
+
+QUEST kings-sock
+SCENE
+The royal wardrobe is the size of a cathedral. A herald announces each garment as you pass it. He is on trousers. He has been on trousers for an hour.
+> Bold INT: Work out the filing system
+  win: Alphabetical by mood. Socks are under "Tuesday, wistful". You have a lead.
+  lose: You follow the system into hats. Nobody leaves hats quickly.
+> Careful DEX: Slip past during "pantaloons"
+  win: The long vowel covers your footsteps. You are in the sock wing.
+  lose: He announces you. "ONE INTRUDER, MEDIUM." Guards arrive.
+> Reckless STR: Shove the wardrobe rails apart and run
+  win: A corridor opens through the tunics like a parted sea.
+  lose: The rails swing back. You are briefly a garment.
+
+QUEST sandwich
+SCENE
+The customer's order slip says "no crusts". The sandwich has crusts. Behind you, the sandwich shop has just been taken by the eastern army.
+> Careful DEX: Trim the crusts with your dagger
+  win: Surgical. The crusts fall away in two perfect ribbons.
+  lose: You trim the sandwich into a much smaller sandwich, and your thumb.
+> Bold CHA: Decide the customer will love crusts
+  win: You rehearse the pitch. "Rustic." It is airtight.
+  lose: You rehearse the pitch out loud. A passing soldier disagrees, with a boot.
+> Deal: Buy a crustless one from a camp cook for 12 gold
+  gives: -12 gold, +2 hp
+  then: He throws in the crusts from yours, toasted. You feel oddly restored.
+
+QUEST soup
+SCENE
+You are in the restaurant kitchen. The soup is in a locked larder, singing faintly. The sous-chef has the key on a chain and a knife in each hand, for speed.
+> Bold DEX: Lift the key while she juliennes
+  win: She never breaks rhythm. Neither do you. The key is yours.
+  lose: She juliennes in your direction without looking up.
+> Careful WIS: Wait for the dinner rush
+  win: At eight o'clock nobody would notice a dragon. You stroll to the larder.
+  lose: At eight o'clock you are handed an apron and forty onions.
+> Reckless STR: Take the larder door off its hinges
+  win: The door comes away like a lid. The singing gets louder and happier.
+  lose: The door comes away on top of you.
+
+QUEST goblin-union
+SCENE
+Before the talks, both sides want a word in private. The dark lord offers you a seat that is clearly a trap. The goblins offer you a sandwich that is clearly a bribe.
+> Careful INT: Read both sides' demands first
+  win: The demands overlap on one thing: nobody likes the moat. You have your opening.
+  lose: The goblin demands are written in bite marks. You misread a threat as a greeting.
+> Bold CHA: Take the sandwich and sit in the chair
+  win: Accepting both insults everyone equally. Somehow this reads as fairness.
+  lose: The chair closes. The sandwich was also a trap. You admire the craftsmanship, upside down.
+> Reckless WIS: Tell them both what they are really afraid of
+  win: A terrible silence, then nodding. You have skipped three hours of talks.
+  lose: A terrible silence, then everything else.
+
+QUEST hellhound
+SCENE
+The duchess hands you the lead, a bag of biscuits, and a list titled "Things He Must Not Eat". The list is four pages. Page two is "postmen".
+> Careful INT: Memorise the list
+  win: Swans, bishops, the colour yellow. You are prepared for the park.
+  lose: You stop at page three. Page four was "people reading lists".
+> Bold WIS: Let all three heads sniff your hand
+  win: The left head licks you. The middle one nods. The right one is thinking about it.
+  lose: The right one has finished thinking about it.
+> Deal: Feed him your own lunch
+  gives: -2 hp, +1 luck
+  then: You will be hungry later, but all three heads now regard you as a provider.
+
+QUEST library-book
+SCENE
+The library's entrance hall has a turnstile, a "SILENCE" sign in letters of fire, and a returns desk at the far end of a marble floor that squeaks.
+> Bold DEX: Cross the floor in your socks
+  win: You glide. A reader looks up, sees nothing, and returns to her index.
+  lose: Marble and socks. You arrive at the desk fast, horizontally, and loudly.
+> Careful INT: Look up the borrower's rights
+  win: Section 12: fines are capped at "one soul or equivalent". That is a ceiling. You have a ceiling.
+  lose: The rule book is itself overdue. The fine transfers to you.
+> Reckless CON: Hold your breath the whole way
+  win: Not a sound, not even breathing. You reach the desk purple and triumphant.
+  lose: You gasp at the halfway mark. The sign flares. So do you.
+
+QUEST giant-furniture
+SCENE
+The flat-pack box is the size of a barn and labelled in Giant, a language with one vowel. The parts list says there should be forty dowels. You count thirty-nine, and a goat.
+> Careful WIS: Find the missing dowel
+  win: It was in the giant's ear, where he keeps things. He is delighted to have it back.
+  lose: You search the giant's pockets. The giant's pockets search back.
+> Bold INT: Whittle a replacement from the box
+  win: Indistinguishable from the real thing, and slightly better made.
+  lose: You whittle it from a load-bearing part of the box. The box makes its feelings known.
+> Reckless CHA: Persuade the goat to stand in
+  win: The goat braces. The goat holds. The goat is the best dowel in the wardrobe.
+  lose: The goat negotiates. The goat wins. The goat leaves with your purse and your dignity.
+
+QUEST babysit
+SCENE
+The dark lord leaves you a note. "Bedtime is eight. He will say it is nine. He will say many things. Do NOT let him into the west wing." The child is already walking toward the west wing.
+> Bold DEX: Catch him before the door
+  win: You scoop him up mid-stride. He is furious and, crucially, portable.
+  lose: He is small and the corridor is trapped for adults.
+> Careful CHA: Make the east wing sound better
+  win: "There are biscuits in the east wing." There are now. You will have to find biscuits.
+  lose: "What is in the west wing?" he asks. You do not know. He takes that as a challenge.
+> Reckless INT: Reverse psychology
+  win: "Fine, go in, see if I care." He stops, suspicious, and goes to bed out of spite.
+  lose: He goes in. You follow. So that is what is in the west wing.
+
+QUEST password
+SCENE
+The wizard has left password hints on small notes all over his study. One says "the usual". One says "NOT the usual". One is just a drawing of a cat looking disappointed.
+> Careful INT: Cross-reference the notes
+  win: The notes are dated. The newest says "cat plus the year I gave up". You have a strong candidate.
+  lose: One of the notes was a spell. You read it aloud while cross-referencing.
+> Bold WIS: Ask the cat
+  win: The cat walks across a specific sequence of flagstones and looks at you. Message received.
+  lose: The cat looks disappointed. Then it knocks an inkwell onto you from a height.
+> Deal: Pay the wizard's apprentice 15 gold for a hint
+  gives: -15 gold, +1 luck
+  then: "It rhymes with his ex-wife," she says, and takes a long lunch.
+
+QUEST vampire-wedding
+SCENE
+The vampire wedding planner hands you the menu. Every dish is "red". The seating plan has two families who have been feuding since before forks. The cake is asleep.
+> Careful WIS: Fix the seating plan
+  win: You put a stone pillar between the two worst uncles. Peace through architecture.
+  lose: You seat the two worst uncles together. One of them is now a bat and in your hair.
+> Bold CON: Taste-test the punch
+  win: Beetroot. It is beetroot. You declare it authentic and nobody argues.
+  lose: It is not beetroot.
+> Reckless DEX: Wake the cake without it noticing
+  win: You ice it in its sleep. It will wake up at the reception, beautiful and confused.
+  lose: The cake wakes up. The cake is a morning person in the worst way.
+
+QUEST fountain
+SCENE
+To reach the blockage you must cross the fountain's forecourt, which is full of people who drank from it. A man of ninety is throwing a tantrum. A toddler is complaining about her knees.
+> Bold CHA: Organise them into a queue
+  win: Ages eight to eighty, single file, sharing sweets. You walk through like a headmaster.
+  lose: The ninety-year-old bites you. He has his milk teeth, and they are sharp.
+> Careful CON: Wade through without swallowing any
+  win: Lips sealed, you arrive at the fountain exactly the age you set out.
+  lose: A splash gets you. You spend ten minutes aged six and furious about it.
+> Reckless STR: Carry the toddler; she knows the way
+  win: She directs you to the valve like a tiny, bitter foreman.
+  lose: She weighs what a grown woman weighs. Your back files a complaint.
+
+QUEST marrow
+SCENE
+Before the judging, both finalists find you alone. One presses a jar of chutney into your hands and says "for your family". The other simply shows you her pitchfork, and smiles.
+> Careful WIS: Accept nothing, admire everything
+  win: You praise the chutney's jar and the pitchfork's balance. Both leave feeling ahead.
+  lose: You praise the pitchfork too much. She lets you hold it, by the wrong end.
+> Bold CHA: Promise each of them a "special mention"
+  win: A special mention costs nothing and means nothing. They are thrilled.
+  lose: They compare notes behind the cake stall.
+> Deal: Keep the chutney
+  gives: +3 hp
+  then: It is extremely good chutney. You are now, technically, compromised.
+
+QUEST kraken
+SCENE
+The kraken is hiding under the pier and will only talk through a snorkel. "The others dive," it says. "From a height. I just sort of... lower myself in."
+> Careful CHA: Share an embarrassing story of your own
+  win: You tell it about the incident with the horse. It laughs so hard the pier shakes. Trust achieved.
+  lose: Your story is too good. It is now embarrassed on your behalf as well.
+> Bold WIS: Start with breathing exercises
+  win: In for four, out for eight. Eight arms uncurl from the pilings one at a time.
+  lose: It breathes in for four. The tide goes out. You go with it.
+> Reckless CON: Get in the water first
+  win: It is freezing and you say it is lovely. The kraken believes you. Bless it.
+  lose: It is freezing and you say several things, none of them "lovely".
+
+QUEST parade
+SCENE
+Day four. The snails have reached a fork in the road and are holding a vote. Voting is by trail. Early results suggest "left", "right", and "Gerald".
+> Careful INT: Count the trails properly
+  win: Left wins by a clear smear. You announce the result and the parade moves, eventually.
+  lose: You step in the ballot. The election must be re-run. That is another day.
+> Bold CHA: Campaign for the short route
+  win: Your slogan is "Less Road". It tests extremely well with snails.
+  lose: Gerald out-campaigns you. Gerald wants the scenic route. Gerald always does.
+> Deal: Lay a trail of lettuce costing 10 gold
+  gives: -10 gold
+  then: Democracy is suspended in favour of lettuce. The parade turns as one.
+
+QUEST showdown
+SCENE
+Backstage at the Guild hall, {rival} is having a portrait painted "for after". The painter has already done the trophy. {rival} looks up. "Oh, {hero}. They let you in. How modern."
+> Bold CHA: Be gracious. Devastatingly gracious.
+  win: "I hope the trophy matches your curtains." The painter snorts. {rival} twitches.
+  lose: You say "good luck" and somehow it comes out as an apology.
+> Careful WIS: Say nothing and study the room
+  win: The dais creaks on the left. The crowd favours underdogs. You know the ground now.
+  lose: You study the room so hard you walk into the portrait.
+> Reckless DEX: Add a moustache to the portrait
+  win: One stroke, perfectly placed. The painter decides to keep it.
+  lose: {rival} catches your wrist. "Assault on art," they announce, to several guards.

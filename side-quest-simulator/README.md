@@ -128,6 +128,6 @@ Never tap your own live ads. AdMob suspends accounts for it.
 
 ## Adding content
 
-Add a road event to `src/game/content/cards.ts` or a quest to `content/quests.ts`; the tests
-check ids are unique and each choice on a card uses a different stat. Any text can carry
-tone variants: `{ f: 'family', c: 'cheeky', x: 'crude' }`.
+Write it in plain text in `stories/` and run `npm run stories`. No code needed: see
+[STORIES.md](STORIES.md) for the format and `stories/TEMPLATE.txt` for a worked example. The
+compiler (`scripts/stories.mjs`) checks every file and reports mistakes by file and line.

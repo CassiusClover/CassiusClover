@@ -10,10 +10,15 @@ export const RIVALS = [
   'Dame Ottoline the Verified', 'Big Kev of the North Car Park', 'Lady Prunella Standing-Ovation', 'Magnus the Recently Promoted',
 ];
 
+/** The Dungeon Master is in one of these moods for a whole season. */
+export const MOODS = [
+  'theatrical', 'passive-aggressive', 'world-weary', 'suspiciously cheerful', 'pedantic', 'conspiratorial', 'hungover', 'competitive',
+];
+
 export type DmEvent =
   | 'intro' | 'board' | 'boardHurt' | 'rival1' | 'rival2' | 'rival3' | 'final'
   | 'questStart' | 'bridgeGood' | 'bridgeBad' | 'climaxGood' | 'climaxBad'
-  | 'success' | 'fail' | 'crit' | 'fumble' | 'bribe' | 'streakGood' | 'streakBad' | 'reroll' | 'lethal'
+  | 'success' | 'fail' | 'crit' | 'fumble' | 'bribe' | 'deal' | 'rivalMeet' | 'momentum' | 'streakGood' | 'streakBad' | 'reroll' | 'lethal'
   | 'questDone' | 'questDoneBadly' | 'dead' | 'revived' | 'victory';
 
 export const DM_LINES: Record<DmEvent, Txt[]> = {
@@ -105,6 +110,21 @@ export const DM_LINES: Record<DmEvent, Txt[]> = {
     'Gold changes hands. A hero for the modern age.',
     'You pay it to go away. I wrote that encounter by candlelight, you know.',
     'Capitalism defeats another carefully designed obstacle.',
+  ],
+  deal: [
+    'A transaction. No dice were harmed. I find that disappointing.',
+    'You simply paid for it. I had prepared a whole encounter.',
+    'Done, and nobody rolled anything. This is not what I trained for.',
+    'A fair exchange. I will be auditing it later.',
+  ],
+  rivalMeet: [
+    'Before the quest proper: an interruption, wearing better armour than you.',
+    'Hold on. Someone is in your way, and they have been practising their smirk.',
+    'You set out on "{quest}" and immediately meet the one person you hoped not to.',
+  ],
+  momentum: [
+    'The finale. You arrive with the wind behind you, which is not something I arranged.',
+    'And now the main event. You have momentum. I shall see what I can do about that.',
   ],
   streakGood: [
     'Three in a row. I am adjusting the difficulty. Out of spite.',

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { TIER_NAMES } from '../game/content/quests';
 import {
-  bribeCost, canBribe, canBuyPotion, canReroll, canRevive, cardOf, checkInfo, classOf, ancestryOf, currentCard,
+  bribeCost, canBribe, canBuyPotion, canChoose, canReroll, canRevive, cardOf, checkInfo, describeDeal, tx, classOf, ancestryOf, currentCard,
   describeBoon, giverOf, isClimax, modOf, objectiveOf, potionCost, POTION_HEAL, questPay, QUESTS_TO_WIN, quirkOf,
   relicOf, t, twistOf,
 } from '../game/engine';
@@ -61,7 +61,7 @@ export const BoardScreen = ({ run, tone, onPick, onQuit }: { run: RunState; tone
   <Screen>
     <Hud run={run} onClose={onQuit} />
     <Tracker run={run} tone={tone} />
-    <DmSays text={run.narration} />
+    <DmSays text={run.narration} mood={run.mood} />
     <OnWood style={st.heading}>{run.board.length === 1 ? 'The Final Posting' : 'The Quest Board'}</OnWood>
     {run.board.map((offer, i) => {
       const obj = objectiveOf(offer.objectiveId);
@@ -112,18 +112,29 @@ export const CardScreen = ({
           <View style={{ height: 150, backgroundColor: artForCard(card.id)?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
             <Bob><Art art={artForCard(card.id)} size={150} /></Bob>
           </View>
-          {isClimax(run) ? <Small style={{ fontWeight: '700', color: C.red }}>THE FINALE</Small> : null}
-          <P style={{ fontSize: 19, lineHeight: 27 }}>{t(card.text, tone)}</P>
+          {isClimax(run) ? (
+            <Small style={{ fontWeight: '700', color: C.red }}>
+              THE FINALE{q.edge > 0 ? `   MOMENTUM +${q.edge}` : q.edge < 0 ? `   RATTLED ${q.edge}` : ''}
+            </Small>
+          ) : card.id.startsWith('r-') ? (
+            <Small style={{ fontWeight: '700', color: C.red }}>YOUR RIVAL</Small>
+          ) : null}
+          <P style={{ fontSize: 19, lineHeight: 27 }}>{tx(run, card.text, tone)}</P>
         </Paper>
       </Enter>
       {card.choices.map((choice, i) => {
-        const info = checkInfo(run, choice);
+        const info = choice.deal ? null : checkInfo(run, choice);
         return (
           <Enter key={`choice-${key}-${i}`} delay={220 + i * 90}>
             <Button
               testID={`choice-${i}`}
-              label={t(choice.label, tone)}
-              sub={`${riskName[choice.risk]}  |  ${choice.stat} ${signed(info.mod + info.bonus)} vs ${info.dc}  |  ${Math.round(info.chance * 100)}%`}
+              label={tx(run, choice.label, tone)}
+              sub={
+                info
+                  ? `${riskName[choice.risk]}  |  ${choice.stat} ${signed(info.mod + info.bonus)} vs ${info.dc}  |  ${Math.round(info.chance * 100)}%`
+                  : `No roll  |  ${describeDeal(choice.deal!)}${canChoose(run, i) ? '' : '  |  cannot afford'}`
+              }
+              disabled={!canChoose(run, i)}
               onPress={() => onChoose(i)}
             />
           </Enter>
@@ -153,23 +164,25 @@ export const CardScreen = ({
   );
 };
 
-const outcomeTitle = { crit: 'Critical success', success: 'Success', fail: 'Failure', fumble: 'Critical failure', bribe: 'Money talks' } as const;
+const outcomeTitle = { crit: 'Critical success', success: 'Success', fail: 'Failure', fumble: 'Critical failure', bribe: 'Money talks', deal: 'A deal is struck' } as const;
 
 export const ResultScreen = ({
   run, tone, onProceed, onReroll, onRevealed,
 }: { run: RunState; tone: Tone; onProceed: () => void; onReroll: () => void; onRevealed: (good: boolean) => void }) => {
   const res = run.result!;
   const rollKey = `${res.cardId}:${res.choiceIdx}:${res.d20}:${run.luck}`;
-  const [rolling, setRolling] = useState(res.outcome !== 'bribe');
+  const noDice = res.outcome === 'bribe' || res.outcome === 'deal';
+  const [rolling, setRolling] = useState(!noDice);
   useEffect(() => {
-    setRolling(res.outcome !== 'bribe');
+    setRolling(!noDice);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rollKey]);
 
   const card = cardOf(res.cardId);
-  const good = res.dmg === 0;
+  const good = res.dmg === 0 || res.outcome === 'deal';
   const tint = res.outcome === 'crit' ? '#8a6410' : good ? C.green : C.red;
-  const choice = res.choiceIdx >= 0 ? card.choices[res.choiceIdx] : null;
+  const picked = res.choiceIdx >= 0 ? card.choices[res.choiceIdx] : null;
+  const choice = res.outcome === 'deal' ? null : picked;
   const lethal = res.dmg >= run.hero.hp;
   return (
     <Screen>
@@ -177,7 +190,7 @@ export const ResultScreen = ({
       <Paper style={{ alignItems: 'center', gap: 12 }}>
         {choice ? (
           <>
-            <Small style={{ fontWeight: '700', textAlign: 'center' }}>{t(choice.label, tone).toUpperCase()}</Small>
+            <Small style={{ fontWeight: '700', textAlign: 'center' }}>{tx(run, choice.label, tone).toUpperCase()}</Small>
             <Small>
               {choice.stat} {signed(res.mod + res.bonus)}  |  needs {res.dc}
             </Small>
@@ -208,11 +221,16 @@ export const ResultScreen = ({
             ) : null}
             <Enter delay={120}>
               <P style={{ textAlign: 'center' }}>
-                {choice ? t(good ? choice.win : choice.lose, tone) : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
+                {choice
+                  ? tx(run, good ? choice.win : choice.lose, tone)
+                  : picked && res.outcome === 'deal'
+                    ? tx(run, picked.win, tone)
+                    : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
               </P>
             </Enter>
             <Row style={{ justifyContent: 'center' }}>
-              {res.gold ? <Pop delay={260}><Pill label="GOLD" value={`+${res.gold}`} color="#7a5a17" /></Pop> : null}
+              {res.gold ? <Pop delay={260}><Pill label="GOLD" value={`${res.gold > 0 ? '+' : ''}${res.gold}`} color="#7a5a17" /></Pop> : null}
+              {res.luck ? <Pop delay={300}><Pill label="LUCK" value={`${res.luck > 0 ? '+' : ''}${res.luck}`} color={C.green} /></Pop> : null}
               {res.heal ? <Pop delay={340}><Pill label="HP" value={`+${res.heal}`} color={C.green} /></Pop> : null}
               {res.dmg ? <Pop delay={260}><Pill label="HP" value={`-${res.dmg}`} color={C.red} /></Pop> : null}
             </Row>

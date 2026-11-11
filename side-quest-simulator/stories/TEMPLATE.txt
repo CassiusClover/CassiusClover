@@ -1,0 +1,60 @@
+# TEMPLATE: copy this file, rename it (for example my-stories.txt), and write.
+# Lines starting with # are notes and are ignored. See STORIES.md for the full guide.
+# This template is checked for mistakes but is not put in the game.
+
+# ---------------------------------------------------------------------------
+# A ROAD EVENT: a scene that can turn up in any quest.
+# ---------------------------------------------------------------------------
+EVENT example-suspicious-bridge
+art: bridge
+A bridge with a sign: "SAFE". Somebody has scratched out a word in front of it.
+> Careful INT: Work out what the missing word was
+  win: It was "UN". You take the stepping stones instead.
+  lose: You are still thinking when the bridge makes up its own mind.
+> Bold DEX: Cross quickly
+  win: Fast enough that the bridge does not notice you.
+  lose: The bridge notices.
+> Deal: Pay the ferryman 10 gold instead
+  gives: -10 gold
+  then: He rows you over in silence and judges you the whole way.
+
+# ---------------------------------------------------------------------------
+# A NEW QUEST: needs a title, a task, a drawing, and a FINALE. SCENEs are optional.
+# ---------------------------------------------------------------------------
+QUEST example-count-the-sheep
+title: Count the Baron's Sheep
+task: count a baron's sheep before he wakes from his nap
+art: marrow
+
+SCENE
+The sheep will not stand still. One of them is a dog in a fleece and thinks you have not noticed.
+> Careful WIS: Count legs and divide by four
+  win: Four hundred legs, one hundred sheep, and one dog you agree not to mention.
+  lose: You count the dog. The dog counts you. It gets awkward.
+> Bold CHA: Ask the sheep to form a line
+  win: They do. Nobody is more surprised than the sheep.
+  lose: They form a circle, with you in the middle.
+
+FINALE
+The baron wakes up early and demands the number. You have a number. It is not a number you are proud of.
+> Bold CHA: Say it with total confidence
+  win: "One hundred and one." He nods. He never knew either.
+  lose: "About some." He was hoping for more than that.
+> Careful INT: Show your working
+  win: Four pages of tally marks. He is too impressed to check them.
+  lose: He checks them.
+> Reckless STR: Bring him the sheep instead
+  win: All of them, at once, in his bedroom. The count is undeniable.
+  lose: All of them, at once, on his foot.
+
+# ---------------------------------------------------------------------------
+# A RIVAL ENCOUNTER: {rival} and {hero} are replaced with the real names.
+# ---------------------------------------------------------------------------
+RIVAL example-the-compliment
+{rival} stops you in the road. "{hero}. I just wanted to say: you are doing very well. For you."
+> Bold CHA: Return the compliment, sharper
+  win: "And you look almost rested." A direct hit.
+  lose: You say "you too". There is no recovering from that.
+> Careful WIS: Smile and say nothing
+  win: Your silence does more damage than words could.
+  lose: Your silence is taken as agreement.

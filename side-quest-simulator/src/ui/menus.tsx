@@ -2,10 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Art, HeroArt } from '../art/Art';
 import { ART } from '../art/creatures';
-import { CARDS } from '../game/content/cards';
 import { ANCESTRIES, CLASSES, RELICS } from '../game/content/heroes';
-import { OBJECTIVES } from '../game/content/quests';
-import { classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type HeroChoice } from '../game/engine';
+import { ALL_EVENTS, ALL_OBJECTIVES, classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type HeroChoice } from '../game/engine';
 import { DM_MODELS } from '../services/dmModels';
 import { cancelDownload, deleteModel, downloadModel, isModelDownloaded, localDmSupported } from '../services/localDm';
 import { UPGRADES, upgradeCost, upgradeLevel } from '../game/meta';
@@ -208,11 +206,11 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
           <Pill label="QUESTS DONE" value={j.totalQuests} />
         </Row>
         <Small>Classes played: {j.classesPlayed.length} of {CLASSES.length}</Small>
-        <Small>Road events encountered: {j.cardsSeen.filter((id) => !id.startsWith('x-')).length} of {CARDS.length}</Small>
+        <Small>Road events encountered: {j.cardsSeen.filter((id) => ALL_EVENTS.some((c) => c.id === id)).length} of {ALL_EVENTS.length}</Small>
       </Paper>
       <Paper>
-        <H2>Quests completed ({j.objectivesDone.length} of {OBJECTIVES.length})</H2>
-        {OBJECTIVES.map((o) => (
+        <H2>Quests completed ({j.objectivesDone.length} of {ALL_OBJECTIVES.length})</H2>
+        {ALL_OBJECTIVES.map((o) => (
           <Small key={o.id} style={j.objectivesDone.includes(o.id) ? { color: C.ink } : undefined}>
             {j.objectivesDone.includes(o.id) ? t(objectiveOf(o.id).title, meta.tone) : '? ? ?'}
           </Small>
