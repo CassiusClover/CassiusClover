@@ -136,7 +136,7 @@ export default function App() {
         case 'board':
           return <BoardScreen run={run} tone={meta.tone} onPick={(i) => setRun(pickQuest(run, i))} onQuit={() => go('home')} />;
         case 'card':
-          return <CardScreen run={run} tone={meta.tone} onChoose={(i) => setRun(choose(run, i))} onBribe={() => setRun(bribe(run))} />;
+          return <CardScreen run={run} tone={meta.tone} onChoose={(i) => setRun(choose(run, i))} onBribe={() => setRun(bribe(run))} onQuit={() => go('home')} />;
         case 'result':
           return <ResultScreen run={run} tone={meta.tone} onProceed={() => setRun(proceed(run))} onReroll={() => setRun(reroll(run))} onRevealed={buzz} />;
         case 'boon':

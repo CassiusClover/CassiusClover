@@ -9,7 +9,8 @@ import { classOf, quirkOf, relicOf, objectiveOf, rollName, rollQuirk, t, type He
 import { UPGRADES, upgradeCost, upgradeLevel } from '../game/meta';
 import type { Meta, Tone } from '../game/types';
 import { STATS } from '../game/types';
-import { Button, C, H1, H2, OnWood, P, Paper, Pill, Row, Screen, Small } from './kit';
+import { Bob, Enter } from './fx';
+import { Button, C, H1, H2, OnWood, P, Paper, Pill, Row, Screen, Small, TopBar } from './kit';
 
 const TONES: { tone: Tone; name: string; text: string }[] = [
   { tone: 0, name: 'Family friendly', text: 'Cartoon peril, clean language. Safe to play next to your grandmother.' },
@@ -52,7 +53,7 @@ export const HomeScreen = ({
       <H1 style={{ color: C.cream, fontSize: 40, lineHeight: 46, textAlign: 'center' }}>Side Quest{'\n'}Simulator</H1>
       <View style={{ flexDirection: 'row', gap: 10, marginTop: 12, alignItems: 'center' }}>
         <View style={{ transform: [{ rotate: '-6deg' }] }}><Art art={ART.lich} size={84} /></View>
-        <HeroArt classId="barbarian" ancestryId="orc" size={104} />
+        <Bob><HeroArt classId="barbarian" ancestryId="orc" size={104} /></Bob>
         <View style={{ transform: [{ rotate: '6deg' }] }}><Art art={ART.dragon} size={84} /></View>
       </View>
       <Row style={{ marginTop: 8 }}>
@@ -60,11 +61,11 @@ export const HomeScreen = ({
         <Pill label="BEST" value={`${meta.journal.bestQuests} quests`} />
       </Row>
     </View>
-    {hasRun ? <Button testID="continue" label="Continue adventure" kind="primary" onPress={onContinue} /> : null}
-    <Button testID="start" label="New adventure" sub={hasRun ? 'Abandons the adventure in progress' : 'Two to ten minutes, depending on skill and luck'} kind={hasRun ? 'plain' : 'primary'} onPress={onStart} />
-    <Button testID="shop" label="Guild Hall" sub="Unlock classes and permanent upgrades" onPress={() => onGo('shop')} />
-    <Button testID="journal" label="Journal" sub="Discoveries, records and obituaries" onPress={() => onGo('journal')} />
-    <Button testID="settings" label="Settings" onPress={() => onGo('settings')} />
+    {hasRun ? <Enter delay={60}><Button testID="continue" label="Continue adventure" kind="primary" onPress={onContinue} /></Enter> : null}
+    <Enter delay={120}><Button testID="start" label="New adventure" sub={hasRun ? 'Abandons the adventure in progress' : 'Two to ten minutes, depending on skill and luck'} kind={hasRun ? 'plain' : 'primary'} onPress={onStart} /></Enter>
+    <Enter delay={200}><Button testID="shop" label="Guild Hall" sub="Unlock classes and permanent upgrades" onPress={() => onGo('shop')} /></Enter>
+    <Enter delay={280}><Button testID="journal" label="Journal" sub="Discoveries, records and obituaries" onPress={() => onGo('journal')} /></Enter>
+    <Enter delay={360}><Button testID="settings" label="Settings" onPress={() => onGo('settings')} /></Enter>
   </Screen>
 );
 
@@ -81,7 +82,7 @@ export const CreateScreen = ({
   const choice: HeroChoice = { classId, ancestryId, quirkId: quirk.id, name };
   return (
     <Screen>
-      <OnWood style={{ fontSize: 22, fontWeight: '700', color: C.cream }}>Assemble a hero</OnWood>
+      <TopBar title="Assemble a hero" onClose={onBack} />
       <Paper>
         <Small style={{ fontWeight: '700' }}>CLASS</Small>
         <Row>
@@ -133,7 +134,6 @@ export const CreateScreen = ({
       />
       {notice ? <OnWood style={{ textAlign: 'center', color: C.gold }}>{notice}</OnWood> : null}
       <Button testID="begin" label="Set out" kind="primary" disabled={busy} onPress={() => onBegin(choice, false)} />
-      <Button label="Back" kind="ghost" disabled={busy} onPress={onBack} />
     </Screen>
   );
 };
@@ -148,10 +148,7 @@ export const ShopScreen = ({
   meta, onUnlock, onUpgrade, onBack,
 }: { meta: Meta; onUnlock: (classId: string) => void; onUpgrade: (id: string) => void; onBack: () => void }) => (
   <Screen>
-    <Row style={{ justifyContent: 'space-between' }}>
-      <OnWood style={{ fontSize: 22, fontWeight: '700', color: C.cream }}>Guild Hall</OnWood>
-      <Pill label="TIPS" value={meta.tips} color="#7a5a17" />
-    </Row>
+    <TopBar title="Guild Hall" onClose={onBack} right={<Pill label="TIPS" value={meta.tips} color="#7a5a17" />} />
     <Paper>
       <H2>Classes</H2>
       {CLASSES.map((c) => {
@@ -192,7 +189,6 @@ export const ShopScreen = ({
         );
       })}
     </Paper>
-    <Button testID="back" label="Back" kind="ghost" onPress={onBack} />
   </Screen>
 );
 
@@ -200,7 +196,7 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
   const j = meta.journal;
   return (
     <Screen>
-      <OnWood style={{ fontSize: 22, fontWeight: '700', color: C.cream }}>Journal</OnWood>
+      <TopBar title="Journal" onClose={onBack} />
       <Paper>
         <H2>Records</H2>
         <Row>
@@ -240,8 +236,7 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
           </View>
         ))}
       </Paper>
-      <Button testID="back" label="Back" kind="ghost" onPress={onBack} />
-    </Screen>
+      </Screen>
   );
 };
 
@@ -251,7 +246,7 @@ export const SettingsScreen = ({
   const [confirm, setConfirm] = useState(false);
   return (
     <Screen>
-      <OnWood style={{ fontSize: 22, fontWeight: '700', color: C.cream }}>Settings</OnWood>
+      <TopBar title="Settings" onClose={onBack} />
       <OnWood>Tone of the writing</OnWood>
       <TonePicker value={meta.tone} onPick={onTone} />
       <Button testID="haptics" label={`Vibration: ${meta.haptics ? 'on' : 'off'}`} onPress={() => onHaptics(!meta.haptics)} />
@@ -265,7 +260,6 @@ export const SettingsScreen = ({
           setConfirm(!confirm);
         }}
       />
-      <Button testID="back" label="Back" kind="ghost" onPress={onBack} />
-    </Screen>
+      </Screen>
   );
 };

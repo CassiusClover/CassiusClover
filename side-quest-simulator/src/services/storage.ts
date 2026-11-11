@@ -22,7 +22,8 @@ export const loadRun = async (): Promise<RunState | null> => {
   try {
     const raw = await AsyncStorage.getItem(RUN_KEY);
     const run = raw ? (JSON.parse(raw) as RunState) : null;
-    return run && run.hero && run.phase ? run : null;
+    // Discard saves from before the Dungeon Master existed; they lack the story fields.
+    return run && run.hero && run.phase && typeof run.rival === 'string' ? run : null;
   } catch {
     return null;
   }

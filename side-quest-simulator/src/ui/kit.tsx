@@ -1,5 +1,5 @@
-import React from 'react';
-import { Platform, Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, Platform, Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export const C = {
@@ -80,9 +80,41 @@ export const Row = ({ children, style }: { children: React.ReactNode; style?: St
   <View style={[s.row, style]}>{children}</View>
 );
 
-export const Bar = ({ value, max, color = C.red }: { value: number; max: number; color?: string }) => (
-  <View style={s.barOuter}>
-    <View style={[s.barInner, { width: `${Math.max(0, Math.min(100, (value / Math.max(1, max)) * 100))}%`, backgroundColor: color }]} />
+/** A meter whose fill glides to its new value. */
+export const Bar = ({ value, max, color = C.red }: { value: number; max: number; color?: string }) => {
+  const pct = Math.max(0, Math.min(100, (value / Math.max(1, max)) * 100));
+  const v = useRef(new Animated.Value(pct)).current;
+  useEffect(() => {
+    Animated.timing(v, { toValue: pct, duration: 450, useNativeDriver: false }).start();
+  }, [pct, v]);
+  return (
+    <View style={s.barOuter}>
+      <Animated.View style={[s.barInner, { width: v.interpolate({ inputRange: [0, 100], outputRange: ['0%', '100%'] }), backgroundColor: color }]} />
+    </View>
+  );
+};
+
+/** Round X button for the corner of a screen. */
+export const CloseButton = ({ onPress, label = 'Close', size = 38 }: { onPress: () => void; label?: string; size?: number }) => (
+  <Pressable
+    testID="close"
+    accessibilityRole="button"
+    accessibilityLabel={label}
+    hitSlop={10}
+    onPress={onPress}
+    style={({ pressed }) => [s.close, { width: size, height: size }, pressed && s.pressed]}
+  >
+    <View style={[s.closeBar, { width: size * 0.46, transform: [{ rotate: '45deg' }] }]} />
+    <View style={[s.closeBar, { width: size * 0.46, transform: [{ rotate: '-45deg' }] }]} />
+  </Pressable>
+);
+
+/** Screen title with an optional badge and the close button in the corner. */
+export const TopBar = ({ title, onClose, right }: { title: string; onClose?: () => void; right?: React.ReactNode }) => (
+  <View style={s.topBar}>
+    <Text style={s.topTitle}>{title}</Text>
+    {right}
+    {onClose ? <CloseButton onPress={onClose} /> : null}
   </View>
 );
 
@@ -115,4 +147,8 @@ const s = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', gap: 8, flexWrap: 'wrap' },
   barOuter: { height: 8, borderRadius: 4, backgroundColor: 'rgba(0,0,0,0.35)', overflow: 'hidden' },
   barInner: { height: 8, borderRadius: 4 },
+  close: { width: 38, height: 38, borderRadius: 19, backgroundColor: C.woodLight, borderWidth: 1, borderColor: C.inkSoft, alignItems: 'center', justifyContent: 'center' },
+  closeBar: { position: 'absolute', width: 18, height: 2.5, borderRadius: 2, backgroundColor: C.parchment },
+  topBar: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  topTitle: { flex: 1, fontFamily: serif, fontSize: 22, fontWeight: '700', color: C.cream },
 });

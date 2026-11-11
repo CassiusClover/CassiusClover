@@ -144,6 +144,36 @@ describe('engine', () => {
   });
 });
 
+describe('dungeon master', () => {
+  it('narrates every step with tokens filled in', () => {
+    let run = newRun(defaultMeta(), { classId: 'bard', ancestryId: 'elf', quirkId: 'whistle', name: 'Test Hero' }, 77);
+    expect(run.narration).toContain(run.rival);
+    const seen = new Set<string>();
+    for (let i = 0; i < 200 && run.phase !== 'dead' && run.phase !== 'victory'; i++) {
+      expect(run.narration.length).toBeGreaterThan(10);
+      expect(run.narration).not.toMatch(/[{}]/);
+      seen.add(run.narration);
+      if (run.phase === 'board') run = pickQuest(run, 0);
+      else if (run.phase === 'card') run = choose(run, 0);
+      else if (run.phase === 'result') run = proceed(run);
+      else if (run.phase === 'boon') run = pickBoon(run, 0);
+    }
+    expect(run.narration).not.toMatch(/[{}]/);
+    expect(seen.size).toBeGreaterThan(5);
+  });
+
+  it('ends every season with the rival showdown', () => {
+    for (let seed = 1; seed < 400; seed++) {
+      const run = playRun(seed * 31, 'barbarian', 'smart');
+      if (run.phase !== 'victory') continue;
+      expect(run.objectivesDone[run.objectivesDone.length - 1]).toBe('showdown');
+      expect(run.epitaph).toContain(run.rival);
+      return;
+    }
+    throw new Error('no victory found');
+  });
+});
+
 describe('meta', () => {
   it('buys upgrades and unlocks classes only when affordable', () => {
     let meta = defaultMeta();

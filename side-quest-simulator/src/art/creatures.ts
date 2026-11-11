@@ -376,6 +376,15 @@ export const ART: Record<string, { bg: string; svg: string }> = {
       flat('M40 44 L44 34 L48 42z M60 36 L64 26 L68 38z M82 46 L90 38 L88 50z', BONE) +
       shape('M90 24 L98 24 L98 32 L90 32z', BONE) + black('M93 26 h3 v4 h-3z') + shape('M108 24 L116 24 L116 32 L108 32z', BONE) + black('M111 26 h3 v4 h-3z'),
   }),
+  dm: piece({
+    bg: '#1c1622', back: MUSTARD, disc: [60, 40, 34],
+    sil: 'M20 108 L30 62 L38 40 L50 18 L70 18 L82 40 L90 62 L100 108z',
+    fill: PLUM,
+    over: black('M44 30 L52 22 L68 22 L76 30 L74 50 L60 58 L46 50z') + glare(60, 36, 7, MUSTARD, 8) + line('M54 47 L60 49 L66 46', MUSTARD, 1.6) +
+      shape('M8 110 L12 70 L42 78 L78 78 L108 70 L112 110z', RUST) + black('M78 78 L108 70 L112 110 L80 110z') + line('M42 78 L40 110 M78 78 L80 110', INK, 2.5) +
+      line('M18 82 L36 86 M18 92 L36 95 M48 88 L72 88 M48 97 L66 97', '#c9762a', 1.6) +
+      shape('M52 66 L60 60 L68 66 L66 76 L54 76z', BONE) + line('M57 67 L60 72 L63 67', INK, 1.4),
+  }),
 };
 
 /** Which drawing illustrates each card. */
@@ -392,6 +401,7 @@ export const ART_FOR: Record<string, string> = {
   'x-soup': 'soup', 'x-goblin-union': 'goblin', 'x-hellhound': 'hellhound', 'x-library-book': 'book',
   'x-giant-furniture': 'wardrobe', 'x-babysit': 'imp', 'x-password': 'door', 'x-vampire-wedding': 'vampire',
   'x-fountain': 'fountain', 'x-marrow': 'marrow', 'x-kraken': 'kraken', 'x-parade': 'snail',
+  'x-showdown': 'blackknight',
 };
 
 /** Quest board thumbnails are keyed by objective id. */

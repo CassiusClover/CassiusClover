@@ -244,6 +244,22 @@ export const OBJECTIVES: Objective[] = [
       ],
     },
   },
+  {
+    id: 'showdown',
+    title: 'The Hero of the Year Showdown',
+    task: 'settle, in front of the entire Guild, who is actually Hero of the Year',
+    final: true,
+    climax: {
+      id: 'x-showdown',
+      text: 'The Guild hall is packed. Your rival stands on the dais in spotless armour, holding the trophy "for safekeeping", and has prepared remarks.',
+      choices: [
+        ch('Duel for it, properly', 'STR', 'bold', 'Three exchanges and the trophy is yours. The armour was mostly decorative.', 'The armour was not decorative. Neither was the sword.'),
+        ch('Read out your actual record', 'CHA', 'bold', 'Ten quests, itemised. The hall erupts. Your rival claps last, and quietly.', 'Your record includes the incidents. The hall remembers the incidents.'),
+        ch('Check the trophy engraving against the rules', 'INT', 'safe', 'Rule 9: no pre-engraving. Disqualified on a technicality. Delicious.', 'There is a Rule 10 about pedants. It is enforced physically.'),
+        ch('Simply take the trophy and leave', 'DEX', 'reckless', 'Gone before the gasp. It is on your mantelpiece by supper.', 'You get the trophy. The trophy is heavier than it looks. So is the dais.'),
+      ],
+    },
+  },
 ];
 
 export const TWISTS: Twist[] = [

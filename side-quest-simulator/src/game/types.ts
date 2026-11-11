@@ -81,6 +81,8 @@ export interface Objective {
   title: Txt;
   task: Txt;
   climax: Card;
+  /** Only offered as the last quest of a run. */
+  final?: boolean;
 }
 
 export interface Twist {
@@ -170,6 +172,12 @@ export interface RunState {
   seenCards: string[];
   objectivesDone: string[];
   epitaph: string;
+  /** The season's rival, and the Dungeon Master's current line. */
+  rival: string;
+  narration: string;
+  said: number;
+  /** Consecutive successes (positive) or failures (negative). */
+  streak: number;
 }
 
 export interface Obituary {

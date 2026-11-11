@@ -2,8 +2,9 @@
 
 A fast, choice-driven roguelike for iOS and Android. Pick a class, an ancestry and a
 regrettable quirk, take absurd jobs from the quest board, and roll a d20 against your six
-stats until you retire a legend or die doing something undignified. Runs last two to ten
-minutes.
+stats until you retire a legend or die doing something undignified. A sardonic Dungeon
+Master narrates each run: a ten-quest race against a rival for Hero of the Year, ending in
+a showdown. Runs last two to ten minutes.
 
 Built with Expo (React Native, TypeScript). One codebase for both stores.
 
@@ -103,9 +104,11 @@ Never tap your own live ads. AdMob suspends accounts for it.
 - `src/game/` rules and content, pure TypeScript with no UI imports
   - `engine.ts` run state machine: board, cards, d20 checks, boons, death, revive
   - `meta.ts` tips, upgrades, class unlocks, journal
-  - `content/` classes, ancestries, quirks, relics, quests, twists and road events
+  - `content/` classes, ancestries, quirks, relics, quests, twists, road events and the
+    Dungeon Master's lines (`dm.ts`)
 - `src/services/` storage and ads (`ads.native.ts` is the real AdMob integration)
-- `src/ui/` screens and the small component kit
+- `src/art/` comic-ink vector art for heroes and cards
+- `src/ui/` screens, the component kit and motion effects (`fx.tsx`: the d20 roll, DM speech)
 - `App.tsx` screen flow
 
 ## Adding content
