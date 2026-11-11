@@ -1,6 +1,7 @@
 import { Directory, File, Paths, type DownloadTask } from 'expo-file-system';
 import { dmModelOf } from './dmModels';
-import { dmMessages, dmSchema, type DmContext } from './dmPrompt';
+import { dmMessages, dmSchema, dmMomentMessages, dmMomentSchema, type DmContext, type DmMomentContext } from './dmPrompt';
+import { createLatestQueue } from './latestQueue';
 
 type Llama = typeof import('llama.rn');
 type LlamaContext = Awaited<ReturnType<Llama['initLlama']>>;
@@ -124,4 +125,25 @@ export const generateQuestLines = async (id: string, ctx: DmContext): Promise<un
   } finally {
     busy = false;
   }
+};
+
+const momentQueue = createLatestQueue<{ id: string; ctx: DmMomentContext }, unknown>(async ({ id, ctx }) => {
+  const model = await load(id);
+  if (!model) return null;
+  // Stop abandoned or very slow inference; gameplay always continues with authored text.
+  const timer = setTimeout(() => { model.stopCompletion().catch(() => {}); }, 20_000);
+  try {
+    const result = await model.completion({
+      messages: dmMomentMessages(ctx),
+      response_format: { type: 'json_schema', json_schema: { strict: true, schema: dmMomentSchema } },
+      n_predict: 128, temperature: 0.9, top_p: 0.92, penalty_repeat: 1.12, stop: STOP,
+    });
+    return JSON.parse(result.text);
+  } finally { clearTimeout(timer); }
+});
+
+export const generateMomentLine = (id: string, ctx: DmMomentContext) => momentQueue.request({ id, ctx });
+export const cancelMomentLine = () => {
+  momentQueue.cancel();
+  loaded?.ctx.stopCompletion().catch(() => {});
 };

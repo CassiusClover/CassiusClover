@@ -90,9 +90,10 @@ an AI version in Settings, which runs a small language model on the phone itself
 
 - The model is a one-off download chosen in Settings: Apprentice (Qwen2.5 0.5B, 469 MB) or
   Archmage (Qwen2.5 1.5B, 1.1 GB), both Apache-2.0. The catalogue is `src/services/dmModels.ts`.
-- When a quest is accepted, the model writes that quest's lines in the background as JSON
-  (`src/services/dmPrompt.ts`); they replace the scripted lines as soon as they arrive. If the
-  model is missing, slow or produces junk, the scripted Dungeon Master simply carries on.
+- The model reacts to the current scene and the choice you actually made, with recent
+  accepted decisions as callbacks (`src/services/dmPrompt.ts`). Each request asks for one
+  short line. Obsolete queued requests are skipped and late replies cannot affect another
+  scene or hero. If the model is missing, slow or produces junk, authored narration carries on.
 - It needs a real build. On web and in Expo Go the setting explains that it is unavailable.
 
 ## Before a store release
@@ -128,6 +129,13 @@ Never tap your own live ads. AdMob suspends accounts for it.
 
 ## Adding content
 
-Add a road event to `src/game/content/cards.ts` or a quest to `content/quests.ts`; the tests
-check ids are unique and each choice on a card uses a different stat. Any text can carry
-tone variants: `{ f: 'family', c: 'cheeky', x: 'crude' }`.
+Read [the story guide](docs/STORY_GUIDE.md) and copy `stories/TEMPLATE.json.example` to
+`stories/my-story.json`. Add whole new jobs or replay variants without editing game code.
+Run `npm run stories:build`, `npm test` and `npm run typecheck`, then restart the preview.
+
+The packs contain 19 jobs, 22 story versions, 47 scenes and three direct rival encounters.
+Choices can unlock branches and finale approaches, spend gold in guaranteed deals, change
+finale preparation, and leave factual callbacks in the season log. A road truce can unlock
+a joint-trophy ending. Existing meta progress and old active saves remain compatible.
+
+`npm run lint` checks the source; `npm run stories:check` checks generated content is current.

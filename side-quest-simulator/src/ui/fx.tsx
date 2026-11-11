@@ -4,14 +4,14 @@ import { SvgXml } from 'react-native-svg';
 import { Art } from '../art/Art';
 import { ART } from '../art/creatures';
 import type { Outcome } from '../game/types';
-import { C, serif } from './kit';
+import { C, serif, useAnimationValue } from './kit';
 
 /** Native-driven animation everywhere except web, where the driver does not exist. */
 export const ND = Platform.OS !== 'web';
 
 /** Fades and lifts its children into place. Give siblings rising delays to stagger them. */
 export const Enter = ({ children, delay = 0, from = 16, style }: { children: React.ReactNode; delay?: number; from?: number; style?: StyleProp<ViewStyle> }) => {
-  const v = useRef(new Animated.Value(0)).current;
+  const v = useAnimationValue(0);
   useEffect(() => {
     Animated.timing(v, { toValue: 1, duration: 280, delay, easing: Easing.out(Easing.cubic), useNativeDriver: ND }).start();
   }, [v, delay]);
@@ -24,7 +24,7 @@ export const Enter = ({ children, delay = 0, from = 16, style }: { children: Rea
 
 /** Springs in from small, for rewards and verdicts. */
 export const Pop = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
-  const v = useRef(new Animated.Value(0)).current;
+  const v = useAnimationValue(0);
   useEffect(() => {
     Animated.sequence([Animated.delay(delay), Animated.spring(v, { toValue: 1, friction: 5, tension: 140, useNativeDriver: ND })]).start();
   }, [v, delay]);
@@ -33,7 +33,7 @@ export const Pop = ({ children, delay = 0 }: { children: React.ReactNode; delay?
 
 /** Shakes its children whenever `trigger` changes (skipping the first render). */
 export const Shake = ({ children, trigger }: { children: React.ReactNode; trigger: number }) => {
-  const v = useRef(new Animated.Value(0)).current;
+  const v = useAnimationValue(0);
   const first = useRef(true);
   useEffect(() => {
     if (first.current) {
@@ -48,10 +48,11 @@ export const Shake = ({ children, trigger }: { children: React.ReactNode; trigge
 };
 
 /** The Dungeon Master's speech, typed out. Tap to finish the line at once. */
-export const DmSays = ({ text, live = false }: { text: string; live?: boolean }) => {
+export const DmSays = (props: { text: string; live?: boolean }) => <DmLine key={props.text} {...props} />;
+
+const DmLine = ({ text, live = false }: { text: string; live?: boolean }) => {
   const [n, setN] = useState(0);
   useEffect(() => {
-    setN(0);
     if (!text) return;
     const id = setInterval(() => setN((c) => (c >= text.length ? c : c + 2)), 16);
     return () => clearInterval(id);
@@ -90,18 +91,18 @@ const RAYS = Array.from({ length: 12 }, (_, i) => i * 30);
 export const D20 = ({
   value, rollKey, outcome, size = 136, onLanded,
 }: { value: number; rollKey: string; outcome: Outcome; size?: number; onLanded: () => void }) => {
-  const drop = useRef(new Animated.Value(0)).current;
-  const spin = useRef(new Animated.Value(0)).current;
-  const pop = useRef(new Animated.Value(1)).current;
-  const shake = useRef(new Animated.Value(0)).current;
-  const burst = useRef(new Animated.Value(0)).current;
+  const drop = useAnimationValue(0);
+  const spin = useAnimationValue(0);
+  const pop = useAnimationValue(1);
+  const shake = useAnimationValue(0);
+  const burst = useAnimationValue(0);
   const [shown, setShown] = useState(value);
-  const [landed, setLanded] = useState(false);
+  const [landedKey, setLandedKey] = useState('');
+  const landed = landedKey === rollKey;
   const landedCb = useRef(onLanded);
-  landedCb.current = onLanded;
+  useEffect(() => { landedCb.current = onLanded; }, [onLanded]);
 
   useEffect(() => {
-    setLanded(false);
     drop.setValue(0);
     spin.setValue(0);
     pop.setValue(1);
@@ -120,7 +121,7 @@ export const D20 = ({
     }
     timers.push(setTimeout(() => {
       setShown(value);
-      setLanded(true);
+      setLandedKey(rollKey);
       Animated.sequence([
         Animated.timing(pop, { toValue: 1.26, duration: 110, useNativeDriver: ND }),
         Animated.spring(pop, { toValue: 1, friction: 4, tension: 160, useNativeDriver: ND }),
@@ -192,7 +193,7 @@ export const D20 = ({
 
 /** A gentle idle bob, so illustrations feel alive. */
 export const Bob = ({ children }: { children: React.ReactNode }) => {
-  const v = useRef(new Animated.Value(0)).current;
+  const v = useAnimationValue(0);
   useEffect(() => {
     const loop = Animated.loop(
       Animated.sequence([

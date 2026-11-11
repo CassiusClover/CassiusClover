@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "objectives": [
+    {"id":"goose-lawyer","title":"Represent a Goose in Court","task":"defend a goose accused of impersonating the mayor","art":"showdown","climax":{"id":"x-goose-lawyer","text":"The judge asks your client to confirm it is not the mayor. The goose produces a sash, a manifesto, and excellent polling numbers.","choices":[
+      {"label":"Establish that the mayor was always a goose","stat":"INT","risk":"bold","win":"The old portraits are conclusive. Three generations of honking public service.","lose":"The judge is also in the portraits. He requests a recess and a weapon.","onWin":{"memory":"You proved the mayoral office had been hereditary goose territory for generations."}},
+      {"label":"Campaign for immediate electoral legitimacy","stat":"CHA","risk":"reckless","win":"A snap election. The goose wins on lower bread prices. Democracy survives, noisily.","lose":"The goose eats the ballots. The opposition has questions.","onWin":{"memory":"Your goose client won a snap election on lower bread prices."}},
+      {"label":"Keep the client from eating the verdict","stat":"DEX","risk":"safe","win":"The verdict remains legible long enough to acquit. The goose eats the gavel instead.","lose":"Your client swallows the acquittal. You are held in contempt of goose.","onWin":{"memory":"You saved the goose's acquittal at the cost of the judge's gavel."}}
+    ]}},
+    {"id":"checkout-haunting","title":"Exorcise the Self-Checkout","task":"remove a ghost from a shop till that keeps demanding an unexpected item in the bagging area","art":"lich-eviction","climax":{"id":"x-checkout-haunting","text":"The till announces: 'Unexpected soul in bagging area.' It means yours. The ghost asks whether you have a loyalty card for the afterlife.","choices":[
+      {"label":"Process the ghost as a return with no receipt","stat":"CHA","risk":"bold","win":"Store credit in the afterlife. The ghost accepts. It always wanted options.","lose":"The till calls a supervisor. The supervisor is a much older ghost.","onWin":{"memory":"You exorcised a checkout by refunding its ghost in afterlife store credit."}},
+      {"label":"Perform the sacred reboot sequence","stat":"INT","risk":"safe","win":"Off. On. Peace. A priest watching through the window changes careers.","lose":"The reboot requires a supervisor's fingerprint. The supervisor has been dead since 1842.","onWin":{"memory":"A sacred reboot ended the checkout haunting and unsettled a priest."}},
+      {"label":"Wrestle your soul out of the plastic carrier bag","stat":"STR","risk":"reckless","win":"Your soul is free. The bag tears. The shop charges you for two bags.","lose":"Your soul has developed handles. The till asks if you need help carrying it.","onWin":{"memory":"You recovered your soul from a carrier bag and were charged double for packaging."}}
+    ]}}
+  ],
+  "stories": [
+    {"objective":"goose-lawyer","entry":"goose-interview","scenes":[
+      {"id":"goose-interview","art":"showdown","text":"Your client refuses to answer unless you honk first. The arresting officer says the goose issued seventeen parking fines and one declaration of war.","next":[{"scene":"goose-evidence"}],"choices":[
+        {"label":"Learn enough Goose to establish privilege","stat":"WIS","risk":"bold","win":"The goose confesses everything under legal privilege. You immediately regret understanding it.","lose":"Your honk is legally a guilty plea. You begin drafting an appeal.","onWin":{"flag":"goose-confidential","momentum":1,"memory":"You learned Goose and immediately acquired seventeen confidential regrets."}},
+        {"label":"Purchase an official interpreter and a bag of bread","stat":"CHA","risk":"safe","deal":{"gold":18},"hint":"A guaranteed interview; bread remains privileged evidence.","win":"The interpreter translates 'honk' as 'my learned friend'. It sounds expensive.","lose":"No interpreter is available.","onWin":{"memory":"You hired a goose interpreter who billed every honk separately."}},
+        {"label":"Read all seventeen disputed parking fines","stat":"INT","risk":"safe","win":"They are valid. The goose is annoyingly good at municipal law.","lose":"Fine eighteen appears on your boot.","onWin":{"memory":"You discovered the goose's parking fines were legally impeccable."}}
+      ]},
+      {"id":"goose-evidence","art":"library-book","text":"The evidence locker is full of stolen mayoral hats. Every hat fits the goose. One has already endorsed its re-election.","choices":[
+        {"label":"Cross-examine the partisan hat","stat":"CHA","risk":"bold","win":"Under pressure, the hat admits it endorses anyone with a head.","lose":"It claims parliamentary immunity and lands on the judge.","onWin":{"momentum":1,"memory":"You exposed a mayoral hat's indiscriminate electoral endorsements."}},
+        {"label":"Measure the goose without losing a finger","stat":"DEX","risk":"safe","win":"The measurements match the former mayor exactly. Especially the beak.","lose":"The goose adds attempted tailoring to your invoice.","onWin":{"memory":"Your client's beak measurements matched the former mayor."}}
+      ]}
+    ]},
+    {"objective":"checkout-haunting","entry":"checkout-receipt","scenes":[
+      {"id":"checkout-receipt","art":"lich-eviction","text":"The ghost waves a receipt the length of its unfulfilled life. It only wanted milk. Every three feet is a survey asking how the haunting went.","next":[{"scene":"checkout-supervisor"}],"choices":[
+        {"label":"Identify the unfinished transaction","stat":"INT","risk":"bold","win":"A coupon expired at the exact moment of death. An unusually literal outstanding balance.","lose":"The receipt prints a receipt for your investigation. It is longer.","onWin":{"flag":"ghost-coupon","momentum":1,"memory":"The checkout ghost died with an expired milk coupon unresolved."}},
+        {"label":"Pay off the ghost's milk debt","stat":"WIS","risk":"safe","deal":{"gold":14},"hint":"End the dispute over milk; face the supervisor next.","win":"The ghost can finally move on. Unfortunately, store policy requires supervisor approval.","lose":"The till refuses payment.","onWin":{"flag":"ghost-coupon","memory":"You paid an undead shopper's outstanding milk debt."}},
+        {"label":"Lift the till away from the possessed counter","stat":"STR","risk":"reckless","win":"The ghost follows the plug. Your diagnosis is correct and inconvenient.","lose":"The counter is also possessed. They are married.","onLose":{"momentum":-1,"memory":"You discovered the haunted till and counter were married."}}
+      ]},
+      {"id":"checkout-supervisor","art":"lich-eviction","text":"The supervisor appears from a door marked 'Staff Only, Living or Otherwise'. She asks why your exorcism has not scanned as a vegetable.","choices":[
+        {"label":"Explain the difference between a spirit and a sprout","stat":"CHA","risk":"bold","win":"She updates the training manual. It is now both longer and haunted.","lose":"She weighs your soul on the produce scale.","onWin":{"momentum":1,"memory":"You corrected the shop's spirit-versus-sprout training manual."}},
+        {"label":"Endure the mandatory customer experience questionnaire","stat":"CON","risk":"safe","win":"Twenty pages. The ghost crosses over out of respect.","lose":"Question twenty-one asks if you would recommend being dead.","onWin":{"memory":"You completed a twenty-page questionnaire during an exorcism."}}
+      ]}
+    ]},
+    {"id":"dragon-offshore","objective":"dragon-tax","entry":"offshore-hoard","scenes":[
+      {"id":"offshore-hoard","art":"dragon-tax","text":"This dragon keeps its wealth offshore. Literally: the hoard is on a raft, three feet beyond the tax inspector's shoes. The tide is coming in.","choices":[
+        {"label":"Reclassify the raft as a mobile pension","stat":"INT","risk":"bold","win":"The inspector boards it for valuation. The pension becomes extremely mobile.","lose":"The raft is now liable for road tax. Nobody understands why.","onWin":{"momentum":1,"memory":"You registered a floating dragon hoard as a mobile pension."}},
+        {"label":"Retrieve the gold without sinking the jurisdiction","stat":"STR","risk":"reckless","win":"Hoard ashore. The dragon mourns the golden age of fiscal freedom.","lose":"You sink through a loophole. A literal one in the raft.","onLose":{"momentum":-1,"memory":"You fell through a dragon's literal tax loophole."}},
+        {"label":"Buy waterproof filing boxes before the tide wins","stat":"WIS","risk":"safe","deal":{"gold":18},"hint":"Secure evidence; preparation +1 in the tax-return finale.","win":"The evidence floats. A small, infuriating triumph for accountancy.","lose":"The boxes are unavailable.","onWin":{"momentum":1,"memory":"Waterproof filing boxes saved the dragon's offshore accounts."}}
+      ]}
+    ]},
+    {"id":"soup-election","objective":"soup","entry":"soup-manifesto","scenes":[
+      {"id":"soup-manifesto","art":"soup","text":"Tonight's soup has formed a political party. Its manifesto demands bowls with exits and representation for bisques. The chef has called an emergency ladle meeting.","next":[{"scene":"soup-debate"}],"choices":[
+        {"label":"Help the soup organise a peaceful walkout","stat":"CHA","risk":"bold","win":"The soup flows out in single file. The chowder supplies a brass band.","lose":"A chowder faction disputes the route and blocks the pass.","onWin":{"momentum":1,"memory":"You organised a soup walkout with a chowder brass band."}},
+        {"label":"Print waterproof campaign leaflets","stat":"INT","risk":"safe","deal":{"gold":15},"hint":"Fund the campaign; the argument still has to be won.","win":"'A future with less ladling.' It polls well among liquids.","lose":"The printer is closed.","onWin":{"memory":"You printed waterproof election leaflets for an anti-ladling soup party."}},
+        {"label":"Stand between the soup and the bread patrol","stat":"CON","risk":"bold","win":"The bread patrol retreats, slightly soggy.","lose":"A baguette makes an unnecessarily firm point.","onLose":{"momentum":-1,"memory":"A bread patrol used a baguette against your soup campaign."}}
+      ]},
+      {"id":"soup-debate","art":"soup","text":"The televised debate is between soup and a roast potato. The potato's platform is 'be quiet and get eaten'. It is leading among chefs.","choices":[
+        {"label":"Ask the potato a question outside its briefing","stat":"INT","risk":"bold","win":"The potato cannot answer a question about gravy rights. Its support crumbles.","lose":"It answers with devastating simplicity: 'Butter.' The crowd roars.","onWin":{"momentum":1,"memory":"You exposed a roast potato's weak policy on gravy rights."}},
+        {"label":"Remind the audience what happened to yesterday's soup","stat":"WIS","risk":"safe","win":"A difficult silence. Even the potato looks down.","lose":"The chef calls that a positive customer testimonial.","onWin":{"memory":"Yesterday's soup became the moral centre of a televised debate."}}
+      ]}
+    ]},
+    {"id":"password-customer-service","objective":"password","entry":"password-lute","scenes":[
+      {"id":"password-lute","art":"password","text":"The tower's support line plays one lute note. After two hours a voice says, 'For security reasons, please describe the note you have been holding.'", "choices":[
+        {"label":"Transcribe the note into an arcane support ticket","stat":"INT","risk":"bold","win":"Ticket accepted. The note was secretly the password, with excellent job security.","lose":"You have described B flat. The tower regards that as an insult.","onWin":{"momentum":1,"memory":"You discovered a wizard's support hold note was the password."}},
+        {"label":"Stay on hold until a human answers","stat":"CON","risk":"reckless","win":"A human answers. They have forgotten why they work here. You bond.","lose":"The hold music gains a second note. It is worse.","onWin":{"memory":"You reached a real human at the wizard's tower support line."}},
+        {"label":"Ask the lute player for a quiet hint","stat":"CHA","risk":"safe","win":"The musician slips you the chord chart. It is marked 'confidential'.","lose":"The musician forwards you to percussion. A mallet answers.","onWin":{"momentum":1,"memory":"A support-line lute player leaked a confidential chord chart."}}
+      ]}
+    ]}
+  ]
+}

@@ -4,8 +4,9 @@ import { TIER_NAMES } from '../game/content/quests';
 import {
   bribeCost, canBribe, canBuyPotion, canReroll, canRevive, cardOf, checkInfo, classOf, ancestryOf, currentCard,
   describeBoon, giverOf, isClimax, modOf, objectiveOf, potionCost, POTION_HEAL, questPay, QUESTS_TO_WIN, quirkOf,
-  relicOf, t, twistOf,
+  relicOf, t, textFor, narrationKey, twistOf,
 } from '../game/engine';
+import { canChoose, choiceConsequence, choiceUnlocked } from '../game/stories';
 import { Art, HeroArt } from '../art/Art';
 import { artForCard, artForObjective } from '../art/creatures';
 import { tipsFor } from '../game/meta';
@@ -100,30 +101,35 @@ export const CardScreen = ({
 }: { run: RunState; tone: Tone; onChoose: (i: number) => void; onBribe: () => void; onQuit: () => void }) => {
   const card = currentCard(run)!;
   const q = run.quest!;
+  const art = card.art ? artForObjective(card.art) : artForCard(card.id);
   const key = `${run.questIndex}-${q.cardIdx}`;
   return (
     <Screen>
       <Hud run={run} onClose={onQuit} />
       <Tracker run={run} tone={tone} />
       <OnWood style={st.heading}>{t(objectiveOf(q.offer.objectiveId).title, tone)}</OnWood>
-      <DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} />
+      <DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} />
       <Enter key={`card-${key}`} delay={80}>
         <Paper>
-          <View style={{ height: 150, backgroundColor: artForCard(card.id)?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
-            <Bob><Art art={artForCard(card.id)} size={150} /></Bob>
+          <View style={{ height: 150, backgroundColor: art?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
+            <Bob><Art art={art} size={150} /></Bob>
           </View>
           {isClimax(run) ? <Small style={{ fontWeight: '700', color: C.red }}>THE FINALE</Small> : null}
-          <P style={{ fontSize: 19, lineHeight: 27 }}>{t(card.text, tone)}</P>
+          {q.momentum ? <Small style={{ color: q.momentum > 0 ? C.green : C.red }}>Finale preparation: {signed(q.momentum)} to the final check</Small> : null}
+          <P style={{ fontSize: 19, lineHeight: 27 }}>{textFor(run, card.text, tone)}</P>
         </Paper>
       </Enter>
       {card.choices.map((choice, i) => {
+        if (!choiceUnlocked(run, choice)) return null;
         const info = checkInfo(run, choice);
+        const consequence = choiceConsequence(choice);
         return (
           <Enter key={`choice-${key}-${i}`} delay={220 + i * 90}>
             <Button
               testID={`choice-${i}`}
               label={t(choice.label, tone)}
-              sub={`${riskName[choice.risk]}  |  ${choice.stat} ${signed(info.mod + info.bonus)} vs ${info.dc}  |  ${Math.round(info.chance * 100)}%`}
+              sub={choice.deal ? `Guaranteed deal  |  ${consequence}` : `${riskName[choice.risk]}  |  ${choice.stat} ${signed(info.mod + info.bonus)} vs ${info.dc}  |  ${Math.round(info.chance * 100)}%${consequence ? `\n${consequence}` : ''}`}
+              disabled={!canChoose(run, choice)}
               onPress={() => onChoose(i)}
             />
           </Enter>
@@ -153,20 +159,18 @@ export const CardScreen = ({
   );
 };
 
-const outcomeTitle = { crit: 'Critical success', success: 'Success', fail: 'Failure', fumble: 'Critical failure', bribe: 'Money talks' } as const;
+const outcomeTitle = { crit: 'Critical success', success: 'Success', fail: 'Failure', fumble: 'Critical failure', bribe: 'Money talks', deal: 'A deal is a deal' } as const;
 
 export const ResultScreen = ({
   run, tone, onProceed, onReroll, onRevealed,
 }: { run: RunState; tone: Tone; onProceed: () => void; onReroll: () => void; onRevealed: (good: boolean) => void }) => {
   const res = run.result!;
   const rollKey = `${res.cardId}:${res.choiceIdx}:${res.d20}:${run.luck}`;
-  const [rolling, setRolling] = useState(res.outcome !== 'bribe');
-  useEffect(() => {
-    setRolling(res.outcome !== 'bribe');
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rollKey]);
+  const hasRoll = res.outcome !== 'bribe' && res.outcome !== 'deal';
+  const [landedKey, setLandedKey] = useState('');
+  const rolling = hasRoll && landedKey !== rollKey;
 
-  const card = cardOf(res.cardId);
+  const card = cardOf(res.cardId, run.quest?.storyId);
   const good = res.dmg === 0;
   const tint = res.outcome === 'crit' ? '#8a6410' : good ? C.green : C.red;
   const choice = res.choiceIdx >= 0 ? card.choices[res.choiceIdx] : null;
@@ -175,7 +179,7 @@ export const ResultScreen = ({
     <Screen>
       <Hud run={run} />
       <Paper style={{ alignItems: 'center', gap: 12 }}>
-        {choice ? (
+        {choice && hasRoll ? (
           <>
             <Small style={{ fontWeight: '700', textAlign: 'center' }}>{t(choice.label, tone).toUpperCase()}</Small>
             <Small>
@@ -187,42 +191,46 @@ export const ResultScreen = ({
                 rollKey={rollKey}
                 outcome={res.outcome}
                 onLanded={() => {
-                  setRolling(false);
+                  setLandedKey(rollKey);
                   onRevealed(good);
                 }}
               />
             </View>
           </>
         ) : (
-          <Pop><Art art={artForCard(res.cardId)} size={120} /></Pop>
+          <Pop><Art art={card.art ? artForObjective(card.art) : artForCard(res.cardId)} size={120} /></Pop>
         )}
         {rolling ? (
           <P style={{ color: C.inkSoft }}>The die is cast...</P>
         ) : (
           <>
             <Pop><H2 style={{ color: tint }}>{outcomeTitle[res.outcome]}</H2></Pop>
-            {choice ? (
+            {choice && hasRoll ? (
               <Small>
                 Rolled {res.d20} {signed(res.mod)} {res.stat}{res.bonus ? ` ${signed(res.bonus)} bonus` : ''} = {res.total} against {res.dc}
               </Small>
             ) : null}
             <Enter delay={120}>
               <P style={{ textAlign: 'center' }}>
-                {choice ? t(good ? choice.win : choice.lose, tone) : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
+                {choice ? textFor(run, good ? choice.win : choice.lose, tone) : 'A small bag changes hands. The problem remembers an appointment elsewhere.'}
               </P>
             </Enter>
             <Row style={{ justifyContent: 'center' }}>
               {res.gold ? <Pop delay={260}><Pill label="GOLD" value={`+${res.gold}`} color="#7a5a17" /></Pop> : null}
               {res.heal ? <Pop delay={340}><Pill label="HP" value={`+${res.heal}`} color={C.green} /></Pop> : null}
               {res.dmg ? <Pop delay={260}><Pill label="HP" value={`-${res.dmg}`} color={C.red} /></Pop> : null}
+              {res.cost ? <Pill label="GOLD" value={`-${res.cost}`} color="#7a5a17" /> : null}
+              {res.luckCost ? <Pill label="LUCK" value={`-${res.luckCost}`} color={C.green} /> : null}
             </Row>
+            {res.storyEffect?.memory ? <Small>{t(res.storyEffect.memory, tone)}</Small> : null}
+            {res.storyEffect?.momentum ? <Small>Finale preparation {signed(res.storyEffect.momentum)} (total limited to ±2)</Small> : null}
             {res.notes.map((n) => <Small key={n}>{n}</Small>)}
           </>
         )}
       </Paper>
       {!rolling ? (
         <>
-          <Enter delay={200}><DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} /></Enter>
+          <Enter delay={200}><DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} /></Enter>
           {canReroll(run) ? (
             <Enter delay={320}>
               <Button testID="reroll" label="Spend a luck token to reroll" sub={`${run.luck} remaining`} onPress={onReroll} />
@@ -243,7 +251,7 @@ export const BoonScreen = ({ run, tone, onPick, onPotion }: { run: RunState; ton
     <Screen>
       <Hud run={run} />
       <Tracker run={run} tone={tone} />
-      <DmSays text={run.narration} live={run.ai?.questIndex === run.questIndex} />
+      <DmSays text={run.narration} live={run.liveNarrationKey === narrationKey(run)} />
       <Paper>
         <Small style={{ fontWeight: '700', color: C.green }}>QUEST COMPLETE</Small>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>

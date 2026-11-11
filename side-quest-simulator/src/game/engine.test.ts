@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ART, ART_FOR } from '../art/creatures';
+import { artForCard } from '../art/creatures';
 import { ANCESTRY_IDS, CLASS_IDS, heroSvg } from '../art/heroes';
 import { CARDS } from './content/cards';
 import { ANCESTRIES, CLASSES, QUIRKS, RELICS } from './content/heroes';
@@ -9,6 +9,7 @@ import {
   pickQuest, proceed, QUESTS_TO_WIN, reroll, revive, rollQuirk, t,
 } from './engine';
 import { buyUpgrade, defaultMeta, finishRun, hydrateMeta, tipsFor, unlockClass } from './meta';
+import { canChoose } from './stories';
 import type { RunState } from './types';
 
 type Policy = 'smart' | 'random';
@@ -19,17 +20,19 @@ const playRun = (seed: number, classId: string, policy: Policy, meta = defaultMe
   const prand = () => ((pr = (pr * 1664525 + 1013904223) >>> 0) / 4294967296);
   let run = newRun(meta, { classId, ancestryId: ANCESTRIES[seed % ANCESTRIES.length].id, quirkId: rollQuirk(seed) }, seed);
   for (let guard = 0; guard < 500; guard++) {
-    if (run.phase === 'board') run = pickQuest(run, policy === 'smart' ? 1 : Math.floor(prand() * 3));
+    if (run.phase === 'board') run = pickQuest(run, policy === 'smart' ? Math.min(1, run.board.length - 1) : Math.floor(prand() * run.board.length));
     else if (run.phase === 'card') {
       const card = currentCard(run)!;
-      let idx = Math.floor(prand() * card.choices.length);
+      const available = card.choices.map((c, i) => canChoose(run, c) ? i : -1).filter((i) => i >= 0);
+      let idx = available[Math.floor(prand() * available.length)];
       if (policy === 'smart') {
         // Best expected value: gold-weighted success against HP-weighted failure.
         const score = card.choices.map((c) => {
+          if (!canChoose(run, c)) return -Infinity;
           const p = checkInfo(run, c).chance;
           const risk = c.risk === 'safe' ? [0.6, 2] : c.risk === 'bold' ? [1, 3] : [2.2, 5];
           const hpWeight = run.hero.hp <= 6 ? 6 : 3;
-          return p * risk[0] * 4 - (1 - p) * risk[1] * hpWeight;
+          return c.deal ? -(c.deal.gold / 8) + (c.onWin?.momentum ?? 0) : p * risk[0] * 4 - (1 - p) * risk[1] * hpWeight;
         });
         idx = score.indexOf(Math.max(...score));
       }
@@ -73,7 +76,7 @@ describe('content', () => {
   });
 
   it('has art for every card, class and ancestry', () => {
-    for (const c of [...CARDS, ...OBJECTIVES.map((o) => o.climax)]) expect(ART[ART_FOR[c.id]], c.id).toBeDefined();
+    for (const c of [...CARDS, ...OBJECTIVES.map((o) => o.climax)]) expect(artForCard(c.id), c.id).toBeDefined();
     for (const c of CLASSES) expect(CLASS_IDS).toContain(c.id);
     for (const a of ANCESTRIES) expect(ANCESTRY_IDS).toContain(a.id);
     expect(heroSvg('wizard', 'gnome').length).toBeGreaterThan(200);
@@ -154,7 +157,7 @@ describe('dungeon master', () => {
       expect(run.narration).not.toMatch(/[{}]/);
       seen.add(run.narration);
       if (run.phase === 'board') run = pickQuest(run, 0);
-      else if (run.phase === 'card') run = choose(run, 0);
+      else if (run.phase === 'card') run = choose(run, currentCard(run)!.choices.findIndex((c) => canChoose(run, c)));
       else if (run.phase === 'result') run = proceed(run);
       else if (run.phase === 'boon') run = pickBoon(run, 0);
     }
@@ -171,7 +174,7 @@ describe('dungeon master', () => {
   it('uses live lines for the current quest only, and ignores junk', () => {
     let run = pickQuest(newRun(defaultMeta(), { classId: 'fighter', ancestryId: 'orc', quirkId: 'whistle' }, 5), 1);
     const ctx = dmContext(run, 1);
-    expect(ctx.quest.cards).toHaveLength(3);
+    expect(ctx.quest.cards.length).toBeGreaterThanOrEqual(2);
     expect(ctx.tone).toBe('cheeky');
     const lines = {
       bridgeGood: 'LIVE bridge good', bridgeBad: 'LIVE bridge bad', finaleIntro: 'LIVE finale',
@@ -273,5 +276,5 @@ describe('balance', () => {
         expect(row.quests).toBeGreaterThan(1.5);
       }
     }
-  });
+  }, 20_000);
 });

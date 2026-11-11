@@ -10,18 +10,54 @@ export type Txt = string | { f: string; c?: string; x?: string };
 
 export type Risk = 'safe' | 'bold' | 'reckless';
 
+export interface StoryEffect {
+  /** Quest-local flags choose later scenes and unlock approaches. */
+  flag?: string;
+  momentum?: number;
+  /** A factual callback, retained for the rest of this season. */
+  memory?: Txt;
+}
+
 export interface Choice {
   label: Txt;
   stat: Stat;
   risk: Risk;
   win: Txt;
   lose: Txt;
+  hint?: string;
+  /** A guaranteed bargain. Costs are paid when its result is accepted. */
+  deal?: { gold: number; luck?: number };
+  requires?: string;
+  onWin?: StoryEffect;
+  onLose?: StoryEffect;
 }
 
 export interface Card {
   id: string;
   text: Txt;
   choices: Choice[];
+  art?: string;
+}
+
+export interface StoryScene extends Card {
+  next?: { scene: string; when?: string }[];
+}
+
+export interface QuestStory {
+  id?: string;
+  objective: string;
+  entry: string;
+  scenes: StoryScene[];
+  /** Extra finale approaches earned in this story. */
+  finaleChoices?: Choice[];
+}
+
+export interface StoryDecision {
+  quest: string;
+  scene: string;
+  choice: string;
+  outcome: Outcome;
+  memory: Txt;
 }
 
 export interface Effects {
@@ -81,6 +117,7 @@ export interface Objective {
   title: Txt;
   task: Txt;
   climax: Card;
+  art?: string;
   /** Only offered as the last quest of a run. */
   final?: boolean;
 }
@@ -105,7 +142,7 @@ export interface QuestOffer {
   tier: Tier;
 }
 
-export type Outcome = 'crit' | 'success' | 'fail' | 'fumble' | 'bribe';
+export type Outcome = 'crit' | 'success' | 'fail' | 'fumble' | 'bribe' | 'deal';
 
 export interface RollResult {
   cardId: string;
@@ -121,6 +158,9 @@ export interface RollResult {
   gold: number;
   heal: number;
   notes: string[];
+  cost?: number;
+  luckCost?: number;
+  storyEffect?: StoryEffect;
 }
 
 export type Boon =
@@ -137,6 +177,7 @@ export interface QuestRecord {
   pay: number;
   /** False when the finale went wrong and the client paid half. */
   clean: boolean;
+  memories?: Txt[];
 }
 
 /** Lines written by the live Dungeon Master for one quest. They replace the scripted ones. */
@@ -154,12 +195,15 @@ export interface AiLines {
 export type Phase = 'board' | 'card' | 'result' | 'boon' | 'dead' | 'victory';
 
 export interface ActiveQuest {
+  storyId?: string;
   offer: QuestOffer;
   cards: string[];
   cardIdx: number;
   firstRollDone: boolean;
   luckyUsed: boolean;
   climaxFailed: boolean;
+  flags?: string[];
+  momentum?: number;
 }
 
 export interface Hero {
@@ -201,6 +245,11 @@ export interface RunState {
   streak: number;
   history: QuestRecord[];
   ai?: AiLines | null;
+  /** Stable across saves, so a late model reply cannot affect another hero. */
+  id?: string;
+  decisions?: StoryDecision[];
+  liveNarrationKey?: string;
+  storyFlags?: string[];
 }
 
 export interface Obituary {

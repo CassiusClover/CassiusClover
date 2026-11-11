@@ -2,8 +2,10 @@ import { CARDS } from './content/cards';
 import { ANCESTRIES, CLASSES, EPITHETS, FIRST_NAMES, QUIRKS, RELICS } from './content/heroes';
 import { DM_LINES, RIVALS, type DmEvent } from './content/dm';
 import { GIVERS, OBJECTIVES, TWISTS } from './content/quests';
+import { RIVAL_SCENES } from './content/stories.generated';
+import { canChoose, nextScene, storyCard, storiesFor, storyOf, storyRoute } from './stories';
 import type {
-  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stat, Stats, Tier, Tone, Txt,
+  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stats, Tier, Tone, Txt,
 } from './types';
 import { STATS } from './types';
 
@@ -34,8 +36,13 @@ export const relicOf = (id: string) => byId(RELICS, id);
 export const giverOf = (id: string) => byId(GIVERS, id);
 export const objectiveOf = (id: string) => byId(OBJECTIVES, id);
 export const twistOf = (id: string) => byId(TWISTS, id);
-export const cardOf = (id: string): Card =>
-  id.startsWith('x-') ? byId(OBJECTIVES.map((o) => o.climax), id) : byId(CARDS, id);
+export const cardOf = (id: string, storyId?: string): Card => {
+  const scene = storyCard(id);
+  if (scene) return scene;
+  if (!id.startsWith('x-')) return byId(CARDS, id);
+  const objective = byId(OBJECTIVES, id.slice(2));
+  return { ...objective.climax, choices: [...objective.climax.choices, ...(storyOf(objective.id, storyId)?.finaleChoices ?? [])] };
+};
 
 export const t = (txt: Txt, tone: Tone): string => {
   if (typeof txt === 'string') return txt;
@@ -45,6 +52,7 @@ export const t = (txt: Txt, tone: Tone): string => {
 };
 
 export const modOf = (score: number) => Math.floor((score - 10) / 2);
+export const textFor = (run: RunState, txt: Txt, tone: Tone) => t(txt, tone).replace(/\{rival\}/g, run.rival).replace(/\{hero\}/g, run.hero.name);
 
 // --- RNG (mulberry32, state carried in the run so saves are deterministic) ---
 const rand = (run: { rng: number }): number => {
@@ -68,6 +76,7 @@ const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 // --- The Dungeon Master ---
 /** Sets the DM's current line. Picks deterministically without disturbing the run's dice. */
 const say = (run: RunState, event: DmEvent, choice = '') => {
+  run.liveNarrationKey = undefined;
   const live = liveLine(run, event);
   if (live) {
     run.said += 1;
@@ -141,11 +150,58 @@ export const dmContext = (run: RunState, tone: Tone) => {
       task: t(objectiveOf(q.offer.objectiveId).task, tone),
       twist: t(twist.text, tone),
       cards: q.cards.map((id) => {
-        const c = cardOf(id);
+        const c = cardOf(id, q.storyId);
         return { scene: t(c.text, tone), options: c.choices.map((x) => t(x.label, tone)) };
       }),
     },
   };
+};
+
+/** Identifies a playable moment, not the current narration text. */
+export const narrationKey = (run: RunState): string => [
+  run.id ?? `${run.hero.name}:${run.rival}`, run.questIndex, run.quest?.offer.objectiveId,
+  run.phase, run.quest?.cards[run.quest.cardIdx], run.result?.choiceIdx, run.result?.outcome, run.result?.d20, run.rng, run.hero.hp, run.gold, run.luck,
+].join('|');
+
+/** Actual decisions and consequences, rather than speculative lines for both outcomes. */
+export const dmMomentContext = (run: RunState, tone: Tone) => {
+  const q = run.quest!;
+  const card = currentCard(run)!;
+  const result = run.result;
+  const choice = result && result.choiceIdx >= 0 ? card.choices[result.choiceIdx] : null;
+  const good = !!result && result.dmg === 0;
+  return {
+    key: narrationKey(run), tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    hero: `${run.hero.name}, ${ancestryOf(run.hero.ancestryId).name} ${classOf(run.hero.classId).name}; ${quirkOf(run.hero.quirkId).name}`,
+    health: `${run.hero.hp}/${run.hero.maxHp}`,
+    rival: run.rival,
+    quest: t(objectiveOf(q.offer.objectiveId).title, tone),
+    scene: textFor(run, card.text, tone),
+    moment: run.phase === 'result' ? 'reaction' : run.phase === 'boon' ? 'quest complete' : 'arrival',
+    action: choice ? t(choice.label, tone) : result?.outcome === 'bribe' ? 'Paid to pass' : '',
+    outcome: result ? result.outcome : '',
+    consequence: choice ? t(good ? choice.win : choice.lose, tone) : '',
+    changed: result?.storyEffect?.memory ? t(result.storyEffect.memory, tone) : '',
+    memories: (run.decisions ?? []).slice(-3).map((d) => t(d.memory, tone)),
+    flags: [...(q.flags ?? []), ...(run.storyFlags ?? [])],
+    preparation: q.momentum ?? 0,
+    voice: (run.questIndex + q.cardIdx + run.said) % 5,
+  };
+};
+
+export const applyAiNarration = (prev: RunState, key: string, raw: unknown): RunState => {
+  if (narrationKey(prev) !== key || !['card', 'result', 'boon'].includes(prev.phase)) return prev;
+  const value = raw && typeof raw === 'object' ? (raw as { line?: unknown }).line : null;
+  if (typeof value !== 'string') return prev;
+  const line = value.replace(/\s+/g, ' ').trim();
+  if (line.length < 8 || line.length > 240 || /[{}<>]|```/.test(line)) return prev;
+  return { ...prev, narration: line, liveNarrationKey: key };
+};
+
+/** A changed tone/model must not keep an old AI line or legacy quest reply on screen. */
+export const clearAiNarration = (prev: RunState): RunState => {
+  if (!prev.ai && !prev.liveNarrationKey) return prev;
+  return { ...prev, ai: null, liveNarrationKey: undefined, narration: 'The Dungeon Master consults the notes for this scene.' };
 };
 
 const lower = (label: string) => label.charAt(0).toLowerCase() + label.slice(1);
@@ -227,6 +283,9 @@ export const newRun = (meta: Meta, choice: HeroChoice, seed: number, blessed = f
   const up = meta.upgrades;
   const stats: Stats = { ...cls.stats };
   const run: RunState = {
+    id: `sqs-${seed >>> 0}-${choice.name ?? rollName(seed)}`,
+    decisions: [],
+    storyFlags: [],
     rng: seed >>> 0,
     hero: {
       name: choice.name ?? rollName(seed),
@@ -315,11 +374,16 @@ export const questPay = (run: RunState, offer: QuestOffer): number => {
 export const pickQuest = (prev: RunState, idx: number): RunState => {
   const run = clone(prev);
   if (run.phase !== 'board') return prev;
-  const offer = run.board[Math.min(idx, run.board.length - 1)];
+  if (!Number.isInteger(idx) || idx < 0 || idx >= run.board.length) return prev;
+  const offer = run.board[idx];
   const recent = new Set(run.seenCards.slice(-12));
   let pool = CARDS.filter((c) => !recent.has(c.id));
   if (pool.length < CARDS_PER_QUEST) pool = CARDS;
-  const cards = shuffled(run, pool).slice(0, CARDS_PER_QUEST).map((c) => c.id);
+  const versions = storiesFor(offer.objectiveId);
+  const story = versions.length ? pick(run, versions) : undefined;
+  const cards = story ? storyRoute(story.entry, run.storyFlags ?? []) : shuffled(run, pool).slice(0, CARDS_PER_QUEST).map((c) => c.id);
+  const rivalIndex = [2, 5, 8].indexOf(run.questIndex);
+  if (rivalIndex >= 0 && RIVAL_SCENES[rivalIndex]) cards.push(RIVAL_SCENES[rivalIndex].id);
   run.quest = {
     offer,
     cards: [...cards, objectiveOf(offer.objectiveId).climax.id],
@@ -327,7 +391,11 @@ export const pickQuest = (prev: RunState, idx: number): RunState => {
     firstRollDone: false,
     luckyUsed: false,
     climaxFailed: false,
+    flags: [],
+    momentum: 0,
+    storyId: story?.id ?? story?.objective,
   };
+  run.ai = null;
   run.luck += modsOf(run).luckPerQuest;
   run.phase = 'card';
   noteCard(run);
@@ -345,7 +413,7 @@ const noteCard = (run: RunState) => {
 };
 
 export const currentCard = (run: RunState): Card | null =>
-  run.quest ? cardOf(run.quest.cards[run.quest.cardIdx]) : null;
+  run.quest ? cardOf(run.quest.cards[run.quest.cardIdx], run.quest.storyId) : null;
 
 export const isClimax = (run: RunState): boolean =>
   !!run.quest && run.quest.cardIdx === run.quest.cards.length - 1;
@@ -361,15 +429,20 @@ export interface CheckInfo {
 }
 
 export const checkInfo = (run: RunState, choice: Choice): CheckInfo => {
+  if (choice.deal) return { dc: 0, mod: 0, bonus: 0, chance: 1, notes: ['Guaranteed deal; no roll'] };
   const q = run.quest!;
   const twist = twistOf(q.offer.twistId);
   const m = modsOf(run);
   const climax = isClimax(run);
   const dc =
-    9 + Math.round(run.questIndex * 1.25) + TIER[q.offer.tier].dc + RISK[choice.risk].dc +
+    10 + Math.round(run.questIndex * 1.25) + Math.floor(run.questIndex / 5) + TIER[q.offer.tier].dc + RISK[choice.risk].dc +
     (twist.dcMod ?? 0) + (twist.statDc?.[choice.stat] ?? 0) + (climax ? 1 : 0);
   const notes: string[] = [];
   let bonus = m.rollBonus;
+  if (climax && q.momentum) {
+    bonus += q.momentum;
+    notes.push(`Preparation ${q.momentum >= 0 ? '+' : ''}${q.momentum}`);
+  }
   if (climax && m.climaxBonus) {
     bonus += m.climaxBonus;
     notes.push(`Finale +${m.climaxBonus}`);
@@ -424,16 +497,24 @@ const rollChoice = (run: RunState, choiceIdx: number): RollResult => {
     dmg = RISK[choice.risk].dmg + Math.floor(run.questIndex / 2) + (twist.dmgMod ?? 0) + (outcome === 'fumble' ? 2 : 0) - m.dmgReduce;
     dmg = Math.max(1, dmg);
   }
-  return { cardId: card.id, choiceIdx, stat: choice.stat, d20, mod: info.mod, bonus: info.bonus, total, dc: info.dc, outcome, dmg, gold, heal: healed, notes };
+  return { cardId: card.id, choiceIdx, stat: choice.stat, d20, mod: info.mod, bonus: info.bonus, total, dc: info.dc, outcome, dmg, gold, heal: healed, notes, storyEffect: success ? choice.onWin : choice.onLose };
 };
 
 /** Pick a choice on the current card. The result is shown, then applied by `proceed`. */
 export const choose = (prev: RunState, choiceIdx: number): RunState => {
   if (prev.phase !== 'card' || !prev.quest) return prev;
+  const choice = currentCard(prev)?.choices[choiceIdx];
+  if (!Number.isInteger(choiceIdx) || !choice || !canChoose(prev, choice)) return prev;
   const run = clone(prev);
-  run.result = rollChoice(run, choiceIdx);
+  if (choice.deal) {
+    run.result = { cardId: currentCard(run)!.id, choiceIdx, stat: choice.stat, d20: 0, mod: 0, bonus: 0, total: 0, dc: 0,
+      outcome: 'deal', dmg: 0, gold: 0, heal: 0, notes: ['A bargain, not a roll.'], cost: choice.deal.gold, luckCost: choice.deal.luck ?? 0, storyEffect: choice.onWin };
+  } else run.result = rollChoice(run, choiceIdx);
   run.phase = 'result';
-  react(run);
+  if (choice.deal) {
+    say(run, 'bribe');
+    run.narration = 'Terms agreed. Keep the receipt; the consequences are not refundable.';
+  } else react(run);
   return run;
 };
 
@@ -442,7 +523,7 @@ const react = (run: RunState) => {
   const res = run.result!;
   const good = res.dmg === 0;
   const streak = good ? Math.max(run.streak, 0) + 1 : Math.min(run.streak, 0) - 1;
-  const label = lower(t(cardOf(res.cardId).choices[res.choiceIdx].label, 0));
+  const label = lower(t(cardOf(res.cardId, run.quest?.storyId).choices[res.choiceIdx].label, 0));
   if (res.dmg >= run.hero.hp) say(run, 'lethal');
   else if (res.outcome === 'fumble') say(run, 'fumble');
   else if (res.outcome === 'crit') say(run, 'crit');
@@ -484,15 +565,29 @@ export const proceed = (prev: RunState): RunState => {
   const run = clone(prev);
   const res = run.result!;
   const q = run.quest!;
+  run.gold -= res.cost ?? 0;
+  run.luck -= res.luckCost ?? 0;
+  const effect = res.storyEffect;
+  if (effect) {
+    q.flags ??= [];
+    if (effect.flag && !q.flags.includes(effect.flag)) q.flags.push(effect.flag);
+    if (effect.flag?.startsWith('season-')) run.storyFlags = [...new Set([...(run.storyFlags ?? []), effect.flag])];
+    q.momentum = Math.max(-2, Math.min(2, (q.momentum ?? 0) + (effect.momentum ?? 0)));
+  }
+  const selected = res.choiceIdx >= 0 ? cardOf(res.cardId, q.storyId).choices[res.choiceIdx] : null;
+  run.decisions = [...(run.decisions ?? []), {
+    quest: q.offer.objectiveId, scene: res.cardId, choice: selected ? t(selected.label, 0) : 'Paid to pass', outcome: res.outcome,
+    memory: effect?.memory ?? `${selected ? t(selected.label, 0) : 'Paid to pass'}: ${res.outcome}.`,
+  }].slice(-12);
   run.gold += res.gold;
   run.goldEarned += res.gold;
   heal(run, res.heal);
   run.hero.hp -= res.dmg;
-  if (res.outcome !== 'bribe') run.streak = res.dmg === 0 ? Math.max(run.streak, 0) + 1 : Math.min(run.streak, 0) - 1;
+  if (res.outcome !== 'bribe' && res.outcome !== 'deal') run.streak = res.dmg === 0 ? Math.max(run.streak, 0) + 1 : Math.min(run.streak, 0) - 1;
   if (res.dmg > 0 && isClimax(run)) q.climaxFailed = true;
   if (run.hero.hp <= 0) {
     run.hero.hp = 0;
-    const card = cardOf(res.cardId);
+    const card = cardOf(res.cardId, q.storyId);
     const label = t(card.choices[res.choiceIdx].label, 0);
     run.epitaph = `Tried to "${lower(label)}" during "${t(objectiveOf(q.offer.objectiveId).title, 0)}".`;
     run.phase = 'dead';
@@ -505,6 +600,11 @@ export const proceed = (prev: RunState): RunState => {
 const advance = (run: RunState): RunState => {
   const q = run.quest!;
   const wentWell = !run.result || run.result.dmg === 0;
+  const next = nextScene(currentCard(run)!, [...(q.flags ?? []), ...(run.storyFlags ?? [])]);
+  if (next) {
+    const tail = q.cards.slice(q.cardIdx + 1).filter((id) => id.startsWith('rival-') || !storyCard(id));
+    q.cards = [...q.cards.slice(0, q.cardIdx + 1), ...storyRoute(next, [...(q.flags ?? []), ...(run.storyFlags ?? [])]), ...tail];
+  }
   run.result = null;
   if (q.cardIdx < q.cards.length - 1) {
     q.cardIdx += 1;
@@ -523,7 +623,8 @@ const advance = (run: RunState): RunState => {
   run.goldEarned += pay;
   heal(run, m.healPerQuest + (twist.heal ?? 0));
   run.questsDone += 1;
-  run.history.push({ objectiveId: q.offer.objectiveId, tier: q.offer.tier, pay, clean: !q.climaxFailed });
+  run.history.push({ objectiveId: q.offer.objectiveId, tier: q.offer.tier, pay, clean: !q.climaxFailed,
+    memories: (run.decisions ?? []).filter((d) => d.quest === q.offer.objectiveId).map((d) => d.memory).slice(-3) });
   if (!run.objectivesDone.includes(q.offer.objectiveId)) run.objectivesDone.push(q.offer.objectiveId);
   else {
     run.objectivesDone.splice(run.objectivesDone.indexOf(q.offer.objectiveId), 1);
@@ -532,7 +633,9 @@ const advance = (run: RunState): RunState => {
   if (run.questsDone >= QUESTS_TO_WIN) {
     run.phase = 'victory';
     run.epitaph = `Hero of the Year. Beat ${run.rival} to the trophy and retired to open a modest tavern.`;
+    if (q.flags?.includes('shared-ending')) run.epitaph = `Joint Heroes of the Year with ${run.rival}. One trophy, two desks, incompatible office hours.`;
     say(run, 'victory');
+    if (q.flags?.includes('shared-ending')) run.narration = 'Two names on the trophy. I prepared a duel and you negotiated office hours. I shall invoice both of you.';
     return run;
   }
   run.boons = dealBoons(run, q.offer.tier === 2);

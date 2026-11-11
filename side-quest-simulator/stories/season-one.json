@@ -1,0 +1,288 @@
+{
+  "version": 1,
+  "stories": [
+    {
+      "objective": "dragon-tax", "entry": "tax-receipts",
+      "scenes": [
+        { "id": "tax-receipts", "art": "dragon-tax", "text": "The dragon's accountant is hiding inside a fireproof biscuit tin. Outside it: one mountain of receipts and a smaller mountain of former accountants.",
+          "next": [{"when":"receipts","scene":"tax-auditor"},{"scene":"tax-ashes"}],
+          "choices": [
+            {"label":"Sort the receipts by scorch mark","stat":"INT","risk":"bold","hint":"Success keeps evidence for the audit.","win":"The biscuit tin opens. A tiny hand gives you a labelled folder.","lose":"You classify three receipts as toast. They were essential toast.","onWin":{"flag":"receipts","momentum":1,"memory":"You rescued the dragon's receipts from the biscuit-tin accountant."}},
+            {"label":"Buy the accountant's emergency duplicate","stat":"CHA","risk":"safe","deal":{"gold":15},"hint":"Keep the receipts and unlock a finale approach.","win":"His emergency duplicate was under the emergency biscuits.","lose":"The biscuit tin remains firmly shut.","onWin":{"flag":"receipts","memory":"You paid fifteen gold for the dragon accountant's emergency duplicate."}},
+            {"label":"Carry the whole mountain to the tax office","stat":"STR","risk":"reckless","win":"You carry a taxable mountain. The dragon calls this a capital improvement.","lose":"The mountain catches fire. The accountant changes tins.","onWin":{"momentum":1,"memory":"You carried a dragon's entire filing mountain."},"onLose":{"momentum":-1,"memory":"The dragon's receipts burned during your attempt to lift them."}}
+          ]},
+        {"id":"tax-auditor","art":"dragon-tax","text":"The auditor finds a deduction for 'one emotionally necessary village'. You have the receipts. Regrettably, so does the village.","choices":[
+          {"label":"Reclassify the village as dependent relatives","stat":"INT","risk":"bold","win":"The auditor accepts. The dragon acquires four hundred dependants and a school newsletter.","lose":"The village requests pocket money. The auditor requests your head.","onWin":{"momentum":1,"memory":"You registered an entire village as the dragon's dependants."}},
+          {"label":"Have the dragon apologise to the village","stat":"CHA","risk":"safe","win":"It is a very large apology. The village accepts payment in roofing.","lose":"The apology starts with 'if anyone was offended'. The village objects.","onWin":{"memory":"You negotiated replacement roofs for the dragon's village."}}
+        ]},
+        {"id":"tax-ashes","art":"dragon-tax","text":"Without receipts, the auditor wants a demonstration of 'ordinary business expenses'. The dragon has prepared an ordinary business knight.","choices":[
+          {"label":"Explain depreciation before the knight ignites","stat":"INT","risk":"reckless","win":"The knight depreciates gracefully. Into retirement, alive.","lose":"The dragon hears 'appreciation'. It appreciates the knight flambé.","onWin":{"momentum":1,"memory":"Your lecture on depreciation saved the business knight."},"onLose":{"memory":"The tax demonstration ended in knight flambé."}},
+          {"label":"Stand between the knight and accounting","stat":"CON","risk":"bold","win":"Your singed outline is accepted as documentary evidence.","lose":"You discover that tax liability can be measured in burns.","onWin":{"memory":"You became the dragon's documentary evidence."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Submit the fireproof duplicate with everything itemised","stat":"INT","risk":"safe","requires":"receipts","win":"Every deduction has a receipt. The dragon gets a refund and buys the accountant a larger tin.","lose":"The refund is approved in copper. Delivery crushes the desk.","onWin":{"memory":"The fireproof duplicate won the dragon a tax refund."}}]
+    },
+    {
+      "objective":"lich-eviction","entry":"lich-tenancy",
+      "scenes":[
+        {"id":"lich-tenancy","art":"lich-eviction","text":"The lich's tenancy agreement predates the kingdom. A skeleton in slippers asks whether you have an appointment or an appointment-shaped weapon.","next":[{"when":"tenant-rights","scene":"lich-flatshare"},{"scene":"lich-phylactery"}],"choices":[
+          {"label":"Read the nine-hundred-year break clause","stat":"INT","risk":"bold","win":"The lease permits eviction only if he gets his deposit back. The slippers nod.","lose":"You accidentally renew him for another dynasty.","onWin":{"flag":"tenant-rights","momentum":1,"memory":"You discovered that the lich is owed nine centuries of deposit interest."}},
+          {"label":"Fund a moving van with reinforced soul storage","stat":"CHA","risk":"safe","deal":{"gold":18},"hint":"Negotiate a move instead of a siege.","win":"The skeleton starts packing. All the boxes say 'fragile: mortal remains'.","lose":"No van is available.","onWin":{"flag":"tenant-rights","memory":"You paid for the lich's moving van."}},
+          {"label":"Take the front door off its hinges","stat":"STR","risk":"reckless","win":"You serve notice directly through the new architectural feature.","lose":"The door is a beloved ancestor. The family assembles.","onLose":{"momentum":-1,"memory":"You insulted the lich's ancestor, who was also his front door."}}
+        ]},
+        {"id":"lich-flatshare","art":"lich-eviction","text":"The lich agrees to leave if you find a flat accepting pets. His pet is the basement. It has started following you.","choices":[
+          {"label":"Write a flattering reference for the basement","stat":"CHA","risk":"bold","win":"'Quiet, self-contained, eats damp.' A landlord is delighted.","lose":"The basement eats the reference and one supporting wall.","onWin":{"momentum":1,"memory":"You found a pet-friendly flat for a sentient basement."}},
+          {"label":"Teach it to stay","stat":"WIS","risk":"safe","win":"Good basement. Very good basement. The lich cries one dust.","lose":"It sits. On your foot.","onWin":{"memory":"The lich's basement now responds to 'stay'."}}
+        ]},
+        {"id":"lich-phylactery","art":"lich-eviction","text":"A row of identical jam jars blocks the stairs. One contains the lich's soul. The others contain his frankly excessive marmalade.","choices":[
+          {"label":"Identify the jar that fears the tenancy tribunal","stat":"WIS","risk":"bold","win":"The soul rattles. Marmalade, famously, does not fear due process.","lose":"You threaten the apricot preserve. It retains counsel.","onWin":{"momentum":1,"memory":"You identified the lich's soul by its fear of the tenancy tribunal."}},
+          {"label":"Carry every jar outside without tasting any","stat":"DEX","risk":"safe","win":"The soul and the preserves reach the pavement intact.","lose":"You drop one. Citrus revenge follows.","onWin":{"memory":"You moved a lich's entire marmalade collection."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"kings-sock","entry":"sock-witness",
+      "scenes":[
+        {"id":"sock-witness","art":"kings-sock","text":"The royal laundry basket requests witness protection. It saw the left sock leave willingly, carrying a tiny suitcase.","next":[{"when":"sock-address","scene":"sock-union"},{"scene":"sock-drawer"}],"choices":[
+          {"label":"Promise the basket a new identity","stat":"CHA","risk":"safe","win":"It becomes a humble bread bin and gives you the sock's forwarding address.","lose":"You call it 'Basket Two'. It withdraws cooperation.","onWin":{"flag":"sock-address","memory":"The royal laundry basket entered witness protection as a bread bin."}},
+          {"label":"Purchase the sock's train ticket records","stat":"INT","risk":"bold","deal":{"gold":12},"hint":"Follow the sock into the labour movement.","win":"One single to Freedom, changing at Damp Junction.","lose":"The station is closed.","onWin":{"flag":"sock-address","memory":"You bought evidence that the royal sock fled by train."}},
+          {"label":"Search the royal drawer without breathing","stat":"CON","risk":"bold","win":"You recover a left-shaped indent and a revolutionary pamphlet.","lose":"A century of royal foot announces itself.","onLose":{"momentum":-1,"memory":"The royal drawer defeated your lungs."}}
+        ]},
+        {"id":"sock-union","art":"kings-sock","text":"The sock is organising the kingdom's neglected left things. A left glove asks if you are management. A left shoe blocks the exit.","choices":[
+          {"label":"Draft a five-day footwear week","stat":"INT","risk":"bold","win":"The shoe moves aside. The sock agrees to one final audience.","lose":"You forgot weekends. The glove calls a general strike.","onWin":{"flag":"sock-contract","momentum":1,"memory":"You negotiated a five-day footwear week with the runaway sock."}},
+          {"label":"Listen without calling anyone odd","stat":"WIS","risk":"safe","win":"For once, someone hears their side. Their left side.","lose":"You say 'all right'. The meeting takes it personally.","onWin":{"memory":"You heard the left things' grievances without making the obvious joke."}}
+        ]},
+        {"id":"sock-drawer","art":"kings-sock","text":"Your only lead is a drawer that locks from inside. It is sheltering the sock's replacement, a nervous knitted turnip.","choices":[
+          {"label":"Convince the turnip to act naturally","stat":"CHA","risk":"reckless","win":"It practises being worn. Unsettlingly convincing.","lose":"It photosynthesises under questioning.","onWin":{"memory":"You coached a turnip to impersonate a royal sock."}},
+          {"label":"Follow the loose thread under the door","stat":"DEX","risk":"bold","win":"The thread leads to a secret knitting cell.","lose":"The thread leads out of your own trousers.","onWin":{"momentum":1,"memory":"A loose thread led you to a secret knitting cell."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Offer the sock its negotiated footwear contract","stat":"WIS","risk":"safe","requires":"sock-contract","win":"The sock returns on union terms. The king must now wash his own feet.","lose":"The king signs with his right hand. Talks briefly collapse.","onWin":{"memory":"The king accepted union terms for his left sock."}}]
+    },
+    {
+      "objective":"sandwich","entry":"sandwich-armistice",
+      "scenes":[
+        {"id":"sandwich-armistice","art":"sandwich","text":"Both armies call a ceasefire to inspect your sandwich. One claims the mustard is a provocation. The other has mobilised a pickle division.","choices":[
+          {"label":"Declare the sandwich a neutral state","stat":"CHA","risk":"bold","win":"They recognise its borders. The crust gains diplomatic immunity.","lose":"Both armies appoint ambassadors. Neither will leave the bag.","onWin":{"flag":"neutral-lunch","momentum":1,"memory":"You secured diplomatic immunity for a sandwich."}},
+          {"label":"Pay the official bread corridor toll","stat":"WIS","risk":"safe","deal":{"gold":14},"hint":"Guaranteed passage, but the lunch loses its military prestige.","win":"A drummer announces the transit of one extremely important lunch.","lose":"The bread corridor is closed.","onWin":{"memory":"You paid a bread-corridor toll to move lunch through a war."}},
+          {"label":"Sprint between the catapults without spilling soup","stat":"DEX","risk":"reckless","win":"You clear the battlefield. The soup has acquired a medal.","lose":"A crouton causes an international incident.","onWin":{"momentum":1,"memory":"Your lunch sprint earned the soup a military medal."},"onLose":{"momentum":-1,"memory":"A crouton from your delivery caused an international incident."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"soup","entry":"soup-interview",
+      "scenes":[
+        {"id":"soup-interview","art":"soup","text":"The soup whispers through a straw: 'My name is Gregory. I have dependants. Mostly croutons.' The waiter approaches with a pepper mill.","next":[{"when":"soup-disguise","scene":"soup-escape"},{"scene":"soup-kitchen"}],"choices":[
+          {"label":"Disguise Gregory as a decorative pond","stat":"INT","risk":"bold","win":"A tiny reed conceals him beautifully. The croutons practise being ducks.","lose":"The waiter asks why the pond smells of lunch.","onWin":{"flag":"soup-disguise","momentum":1,"memory":"You disguised Gregory the soup as a duck pond."}},
+          {"label":"Buy Gregory and declare him takeaway","stat":"CHA","risk":"safe","deal":{"gold":16},"hint":"Avoid the kitchen; keep Gregory's disguise.","win":"Gregory objects to being bought, then notices the exit.","lose":"The till refuses.","onWin":{"flag":"soup-disguise","memory":"You bought Gregory's freedom as a takeaway order."}},
+          {"label":"Lift the entire table and walk out","stat":"STR","risk":"reckless","win":"A table for one becomes a vehicle for six bowls.","lose":"The legs fold. The waiter applauds your reservation cancellation.","onWin":{"memory":"You used restaurant furniture as a soup getaway vehicle."}}
+        ]},
+        {"id":"soup-escape","art":"soup","text":"At the exit, Gregory's crouton children demand to rescue their uncle. Uncle is garlic bread and has no opinion on the matter.","choices":[
+          {"label":"Smuggle Uncle in your sleeve","stat":"DEX","risk":"bold","win":"The family is reunited. Your sleeve is wonderfully fragrant.","lose":"Butter betrays you at the elbow.","onWin":{"flag":"soup-family","memory":"You rescued Gregory's garlic-bread uncle."}},
+          {"label":"Explain that Uncle may be happier here","stat":"WIS","risk":"safe","win":"A mature conversation. Gregory leaves him a forwarding napkin.","lose":"The croutons demand custody mediation.","onWin":{"memory":"Gregory left his garlic-bread uncle a forwarding napkin."}}
+        ]},
+        {"id":"soup-kitchen","art":"soup","text":"The chef corners you beside a tureen. Gregory pretends to be normal soup. He is doing this by shouting 'ordinary soup noises'.", "choices":[
+          {"label":"Distract the chef with a fabricated inspection","stat":"CHA","risk":"bold","win":"You condemn the ladle. Gregory escapes during the appeal.","lose":"The chef requests credentials. Gregory says 'blub'.","onWin":{"momentum":1,"memory":"You condemned a ladle to help Gregory escape."}},
+          {"label":"Drink the decoy soup without flinching","stat":"CON","risk":"reckless","win":"Entirely ordinary. Gregory is deeply offended by your satisfied expression.","lose":"The decoy contains experimental chilli.","onLose":{"momentum":-1,"memory":"Experimental chilli nearly ended Gregory's rescue."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"goblin-union","entry":"union-agenda",
+      "scenes":[
+        {"id":"union-agenda","art":"goblin-union","text":"The goblins demand dental cover. Their dark lord offers a dental cover: one enormous helmet. The meeting is entering its fourth headbutt.","next":[{"when":"union-solidarity","scene":"union-picket"},{"scene":"union-payroll"}],"choices":[
+          {"label":"Calculate the cost of replacing every headbutted manager","stat":"INT","risk":"bold","win":"Dental insurance is cheaper. The helmet becomes a suggestion box.","lose":"The dark lord introduces a headbutt tax.","onWin":{"momentum":1,"memory":"You proved dental insurance costs less than headbutted managers."}},
+          {"label":"Contribute to the goblin strike fund","stat":"CHA","risk":"safe","deal":{"gold":15},"hint":"Stand with the workers; unlock collective bargaining.","win":"They give you a tiny placard and an enormous responsibility.","lose":"The fund is closed.","onWin":{"flag":"union-solidarity","memory":"You funded the goblins' strike and carried their placard."}},
+          {"label":"Demonstrate a safer headbutt on the table","stat":"CON","risk":"reckless","win":"The table joins the union. It has endured enough.","lose":"The table wins. Management applauds.","onWin":{"flag":"union-solidarity","memory":"A table joined the goblin union after your demonstration."}}
+        ]},
+        {"id":"union-picket","art":"goblin-union","text":"Your new comrades ask you to lead the chant. Their current slogan is 'LESS DYING, PLEASE', which tested well across all departments.","choices":[
+          {"label":"Lead a chant with a legally actionable rhyme","stat":"CHA","risk":"bold","win":"The dark lord comes out to negotiate before the second verse.","lose":"You rhyme 'pension' with 'dismemberment'. The meter collapses.","onWin":{"momentum":1,"memory":"Your legally actionable chant brought the dark lord to the table."}},
+          {"label":"Hold the line against the skeleton scabs","stat":"STR","risk":"bold","win":"You point out skeletons also lack dental cover. They swap sides.","lose":"Their picket line has significantly more elbows.","onWin":{"memory":"The skeleton strikebreakers joined the dental-cover campaign."}}
+        ]},
+        {"id":"union-payroll","art":"goblin-union","text":"Payroll has been replaced by an enchanted sack that screams whenever a goblin earns overtime. The sack is also requesting a break.","choices":[
+          {"label":"Audit the screaming sack","stat":"INT","risk":"bold","win":"The sack has been withholding its own wages. A difficult meeting follows.","lose":"The sack alleges you are an expense and attempts to swallow you.","onWin":{"momentum":1,"memory":"You discovered the payroll sack was withholding its own wages."}},
+          {"label":"Counsel the sack through a breathing exercise","stat":"WIS","risk":"safe","win":"The screaming stops. The payslips emerge with little apology notes.","lose":"It inhales you instead.","onWin":{"memory":"You taught the payroll sack to breathe before processing overtime."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Present the workers' signed collective agreement","stat":"CHA","risk":"safe","requires":"union-solidarity","win":"Dental cover, lunch breaks, no unpaid hauntings. The dark lord signs in washable blood.","lose":"He signs, then disputes the lunch definition. Lawyers arrive.","onWin":{"memory":"You won the goblins a signed collective agreement."}}]
+    },
+    {
+      "objective":"hellhound","entry":"hound-route",
+      "scenes":[
+        {"id":"hound-route","art":"hellhound","text":"The hellhound's heads vote on the route. Two want the park. One wants to consume a cathedral. The duchess says they are usually so democratic.","choices":[
+          {"label":"Negotiate a park with a small chapel","stat":"CHA","risk":"bold","win":"A workable compromise. The chapel can be rebuilt.","lose":"The third head invokes the constitution. It is written in fire.","onWin":{"momentum":1,"memory":"You negotiated a hellhound walking route with optional small chapel."}},
+          {"label":"Buy three separate distraction sausages","stat":"WIS","risk":"safe","deal":{"gold":12},"hint":"All heads stay occupied; the finale still needs handling.","win":"Each head assumes it received the largest sausage. Peace through geometry.","lose":"No sausages remain.","onWin":{"memory":"Three geometrically ambiguous sausages saved a cathedral."}},
+          {"label":"Hold the lead through a squirrel sighting","stat":"STR","risk":"reckless","win":"The squirrel withdraws from public life. You retain both arms.","lose":"For several streets you are the dog walk.","onWin":{"momentum":1,"memory":"You held a hellhound back from a squirrel."},"onLose":{"momentum":-1,"memory":"The hellhound dragged you through several streets."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"library-book","entry":"library-renewal",
+      "scenes":[
+        {"id":"library-renewal","art":"library-book","text":"The overdue book insists the library is late collecting it. Its margins contain three centuries of increasingly personal legal arguments.","next":[{"when":"book-evidence","scene":"library-hearing"},{"scene":"library-stacks"}],"choices":[
+          {"label":"Find the original return receipt in the margins","stat":"INT","risk":"bold","win":"A receipt! The book had been using it as a character witness.","lose":"The margin cross-examines you until you forget your name.","onWin":{"flag":"book-evidence","momentum":1,"memory":"You found a return receipt inside a book's legal argument."}},
+          {"label":"Pay for a retrospective renewal","stat":"CHA","risk":"safe","deal":{"gold":18},"hint":"Earn a hearing instead of being sent through the stacks.","win":"Your renewal is backdated to a kingdom that no longer exists.","lose":"Renewals are closed.","onWin":{"flag":"book-evidence","memory":"You renewed the library book retroactively by three centuries."}},
+          {"label":"Ignore its arguments and carry it inside","stat":"CON","risk":"bold","win":"It quotes precedent all the way. You develop a useful immunity to footnotes.","lose":"It opens on a really sharp footnote.","onWin":{"memory":"You carried a litigious book through three centuries of footnotes."}}
+        ]},
+        {"id":"library-hearing","art":"library-book","text":"A jury of dictionaries hears your case. The thesaurus keeps saying 'objection, protest, dissent, remonstrance'.", "choices":[
+          {"label":"Define 'overdue' narrowly enough to fit the receipt","stat":"INT","risk":"bold","win":"The dictionaries accept the definition. The thesaurus has no words. Briefly.","lose":"You are found guilty of lexical opportunism.","onWin":{"flag":"book-acquitted","memory":"A jury of dictionaries accepted your definition of overdue."}},
+          {"label":"Appeal to the children's section","stat":"CHA","risk":"safe","win":"A picture book supplies a simple moral. The dictionaries feel ashamed.","lose":"The moral is 'never trust strangers with fines'.","onWin":{"memory":"A picture book shamed the library's dictionary jury."}}
+        ]},
+        {"id":"library-stacks","art":"library-book","text":"The returns chute drops you into Reference. A librarian whispers that nobody leaves Reference without becoming a source.","choices":[
+          {"label":"Catalogue your own escape under E","stat":"INT","risk":"reckless","win":"A perfect filing loophole. Your escape is now available in hardback.","lose":"You are cross-referenced under Trapped, see Also: Fool.","onWin":{"momentum":1,"memory":"You catalogued your library escape under E."}},
+          {"label":"Crawl beneath the silent biographies","stat":"DEX","risk":"safe","win":"One biography mouths 'good luck'. You decline to find out whose.","lose":"You sneeze in a volume of famous last words.","onWin":{"memory":"A silent biography wished you luck beneath the library shelves."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Cite the dictionary jury's acquittal","stat":"INT","risk":"safe","requires":"book-acquitted","win":"The fine is struck out. The book begins writing its courtroom memoir.","lose":"The acquittal has itself accrued an overdue charge.","onWin":{"memory":"You defeated the library fine with a dictionary jury's acquittal."}}]
+    },
+    {
+      "objective":"giant-furniture","entry":"giant-instructions",
+      "scenes":[
+        {"id":"giant-instructions","art":"giant-furniture","text":"The instructions show a smiling stick figure assembling a wardrobe with twelve hands. You have fewer hands and considerably less optimism.","next":[{"scene":"giant-spare-parts"}],"choices":[
+          {"label":"Decipher the wordless stick-figure theology","stat":"INT","risk":"bold","win":"You discover step one means 'do not build during a thunderstorm'. Useful, belatedly.","lose":"Step one means 'summon assistance'. You summon a hinge demon.","onWin":{"momentum":1,"memory":"You translated twelve-handed furniture instructions."}},
+          {"label":"Hire twelve goblin hands, attached to six goblins","stat":"CHA","risk":"safe","deal":{"gold":16},"hint":"Guarantee the opening assembly; owe the crew a recommendation.","win":"The crew arrives wearing tiny hard hats. One is the foreman and has no hands.","lose":"The crew is unavailable.","onWin":{"flag":"assembly-crew","memory":"You hired a six-goblin furniture crew and their handless foreman."}},
+          {"label":"Bend the panels until they resemble a wardrobe","stat":"STR","risk":"reckless","win":"The wardrobe fits through the door. Technically, you made the door fit.","lose":"You invent flat-pack shrapnel.","onLose":{"momentum":-1,"memory":"Your furniture technique produced flat-pack shrapnel."}}
+        ]},
+        {"id":"giant-spare-parts","art":"giant-furniture","text":"There is one spare screw. The wardrobe says it is important. The giant asks why the wardrobe can speak. Neither is in the instructions.","choices":[
+          {"label":"Ask the wardrobe which screw it is missing","stat":"WIS","risk":"safe","win":"It indicates its conscience. You fit the screw. It apologises for the shouting.","lose":"It requests a private consultation with the hinge demon.","onWin":{"memory":"You installed the wardrobe's conscience using the spare screw."}},
+          {"label":"Perform the load test yourself","stat":"CON","risk":"bold","win":"You survive inside a wardrobe sitting inside another wardrobe. Certified.","lose":"The wardrobe decides you are a coat.","onWin":{"momentum":1,"memory":"You personally certified a giant's nesting wardrobes."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"babysit","entry":"nephew-snack",
+      "scenes":[
+        {"id":"nephew-snack","art":"babysit","text":"The dark lord's nephew wants a bedtime story in which the moon gets eaten. The moon is visible through the window and listening anxiously.","next":[{"scene":"nephew-monster"}],"choices":[
+          {"label":"Tell a story where the moon negotiates a smaller bite","stat":"CHA","risk":"bold","win":"The child agrees to a crescent. The moon takes notes for its lawyer.","lose":"The child asks for a practical demonstration.","onWin":{"flag":"moon-promise","memory":"You promised the dark lord's nephew a story with only a crescent-sized bite."}},
+          {"label":"Replace the moon with a cheese wheel","stat":"DEX","risk":"safe","win":"A convincing lunar eclipse. The nephew requests crackers.","lose":"The moon complains that the cheese is a poor likeness.","onWin":{"momentum":1,"memory":"You impersonated the moon using a cheese wheel."}},
+          {"label":"Purchase the officially licensed sleep spell","stat":"INT","risk":"bold","deal":{"gold":20},"hint":"Preparation +1 for the finale; side effects include dreams about licensing.","win":"The spell arrives with seventeen pages of terms and a tiny pillow.","lose":"The spell is out of stock.","onWin":{"momentum":1,"memory":"You bought a licensed sleep spell with seventeen pages of terms."}}
+        ]},
+        {"id":"nephew-monster","art":"babysit","text":"The monster under the bed hands you its resignation. It cannot work with a child who keeps asking it for career advice.","choices":[
+          {"label":"Coach the monster through an exit interview","stat":"WIS","risk":"safe","win":"It stays on a consultancy basis. The nephew respects the title.","lose":"The nephew offers it an unpaid internship. It bites the contract.","onWin":{"memory":"The bedtime monster now works as a consultant."}},
+          {"label":"Take over under-bed duties until lights out","stat":"CON","risk":"bold","win":"You make one convincing growl. The child finally brushes his teeth.","lose":"There is another monster under the monster. It wants your CV.","onWin":{"momentum":1,"memory":"You covered the under-bed monster's shift."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"password","entry":"password-questions",
+      "scenes":[
+        {"id":"password-questions","art":"password","text":"The tower asks a security question: 'What was your first familiar's maiden name?' The wizard insists it was a snail, and a very private snail.","next":[{"when":"snail-answer","scene":"password-snail"},{"scene":"password-lockout"}],"choices":[
+          {"label":"Trace the snail's wedding announcement","stat":"INT","risk":"bold","win":"Snail Society, volume four. The wedding was three inches from the birthplace.","lose":"The announcement is still travelling to the printer.","onWin":{"flag":"snail-answer","momentum":1,"memory":"You located a wizard's snail familiar through its society wedding announcement."}},
+          {"label":"Bribe the tower's helpdesk gargoyle","stat":"CHA","risk":"safe","deal":{"gold":14},"hint":"Reach the snail verification step.","win":"The gargoyle escalates you to someone technically alive.","lose":"The gargoyle is on lunch.","onWin":{"flag":"snail-answer","memory":"A helpdesk gargoyle escalated your password ticket to someone alive."}},
+          {"label":"Climb past the login window","stat":"DEX","risk":"reckless","win":"You bypass authentication using a drainpipe. Security hates this one trick.","lose":"The drainpipe requests a verification code.","onLose":{"momentum":-1,"memory":"A drainpipe locked you out for failing two-factor authentication."}}
+        ]},
+        {"id":"password-snail","art":"password","text":"The tower sends a one-time code to the snail. You can see the snail. You can also see it beginning a long and thoughtful turn.","choices":[
+          {"label":"Read the code in its trail before it expires","stat":"DEX","risk":"bold","win":"Correct on the first attempt. It was six zeroes and a leaf.","lose":"The trail spells 'loading'. You have been misled.","onWin":{"flag":"password-proof","memory":"You decoded two-factor authentication from a snail trail."}},
+          {"label":"Convince the tower that patience is secure","stat":"WIS","risk":"safe","win":"It extends the timeout to geological time. Sensible for a snail.","lose":"It classifies you as suspiciously patient.","onWin":{"memory":"The wizard's tower now supports geological-time login codes."}}
+        ]},
+        {"id":"password-lockout","art":"password","text":"Too many attempts. The tower has locked itself out of itself. It asks you to click every picture containing a smaller tower.","choices":[
+          {"label":"Solve the architectural identity crisis","stat":"INT","risk":"bold","win":"You explain that a turret can be part of a tower. It weeps stone tears.","lose":"It decides you are a smaller tower and tries to absorb you.","onWin":{"momentum":1,"memory":"You talked a locked-out tower through an architectural identity crisis."}},
+          {"label":"Offer emotional support without accepting cookies","stat":"CHA","risk":"safe","win":"The tower calms down. You retain control of your browsing preferences.","lose":"It offers actual cookies. They are masonry.","onWin":{"memory":"You comforted a wizard's tower without accepting its cookies."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"vampire-wedding","entry":"wedding-seating",
+      "scenes":[
+        {"id":"wedding-seating","art":"vampire-wedding","text":"The seating chart puts the bride's ex next to the garlic fountain. The best man says this is a coincidence, then asks if you brought a mop.","next":[{"scene":"wedding-toast"}],"choices":[
+          {"label":"Rearrange six centuries of grudges","stat":"INT","risk":"bold","win":"Everyone sits beside someone they have only moderately murdered.","lose":"You seat an ancestral feud beside another ancestral feud. They reconnect.","onWin":{"momentum":1,"memory":"You arranged a vampire wedding by degrees of ancestral murder."}},
+          {"label":"Pay to replace the garlic fountain with beetroot","stat":"WIS","risk":"safe","deal":{"gold":18},"hint":"Save the ex; gain an ally for the reception.","win":"The ex is grateful. The beetroot is delighted by its promotion.","lose":"The supplier has departed.","onWin":{"flag":"wedding-ally","memory":"You saved the vampire bride's ex with a beetroot fountain."}},
+          {"label":"Carry the fountain into the sunlight yourself","stat":"STR","risk":"reckless","win":"A clean removal. Several guests leave appreciative scorch marks.","lose":"The fountain has an aggressive splash radius.","onLose":{"momentum":-1,"memory":"The garlic fountain splashed you during the vampire wedding."}}
+        ]},
+        {"id":"wedding-toast","art":"vampire-wedding","text":"The best man's toast begins 'I remember her first husband'. There were forty-seven. He has brought slides.","choices":[
+          {"label":"Catch the projector cable with your foot","stat":"DEX","risk":"safe","win":"A tactful technical failure. The bride silently names you in her will.","lose":"The cable was a guest's tail. The slideshow continues during the fight.","onWin":{"memory":"You ended a forty-seven-husband wedding slideshow with a discreet cable tug."}},
+          {"label":"Deliver a better toast before slide two","stat":"CHA","risk":"bold","win":"You focus on their future. This may be eternal, but you keep it to a minute.","lose":"Your opening line is 'til death do you part'. An awkward room.","onWin":{"momentum":1,"memory":"Your one-minute wedding toast displaced forty-seven dead husbands."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"fountain","entry":"fountain-plumber",
+      "scenes":[
+        {"id":"fountain-plumber","art":"fountain","text":"The plumber has accidentally become six. His apprenticeship paperwork says he will qualify in seventeen years. His toolbox is already judging you.","next":[{"scene":"fountain-tuesday"}],"choices":[
+          {"label":"Translate his finger-paint plumbing diagram","stat":"INT","risk":"bold","win":"The blue blob is a temporal valve. The green blob is his mum.","lose":"You open his mum. Metaphorically. The toolbox disapproves.","onWin":{"flag":"valve-map","momentum":1,"memory":"A six-year-old plumber's finger painting revealed the temporal valve."}},
+          {"label":"Hire the plumber's future qualified self","stat":"CHA","risk":"safe","deal":{"gold":20},"hint":"Get the valve map; create a very awkward family meeting.","win":"He arrives, grounds himself, and hands over a diagram.","lose":"His future self is unavailable.","onWin":{"flag":"valve-map","memory":"You hired a future plumber who promptly grounded his six-year-old self."}},
+          {"label":"Hold the pipe shut until adulthood returns","stat":"STR","risk":"reckless","win":"The leak stops. You briefly remember a retirement you have not earned.","lose":"Your arms experience puberty in opposite directions.","onLose":{"momentum":-1,"memory":"The Fountain of Youth gave your arms incompatible ages."}}
+        ]},
+        {"id":"fountain-tuesday","art":"fountain","text":"A blockage of discarded birthdays has flooded Tuesday. An elderly toddler asks whether you are here yesterday or just badly organised.","choices":[
+          {"label":"Sort the birthdays into chronological order","stat":"WIS","risk":"bold","win":"Tuesday drains. Everyone gets one appropriate-sized slice of cake.","lose":"You put Leap Day first. An extra Tuesday appears.","onWin":{"momentum":1,"memory":"You drained Tuesday by sorting discarded birthdays."}},
+          {"label":"Wade upstream without remembering your own birth","stat":"CON","risk":"safe","win":"You reach the valve before the flashback. A merciful omission.","lose":"You remember it. You were cross then, too.","onWin":{"memory":"You reached the time valve without witnessing your own birth."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"marrow","entry":"marrow-bribe",
+      "scenes":[
+        {"id":"marrow-bribe","art":"marrow","text":"The prize marrow has slipped you a note: 'I grew myself. The farmer did nothing.' The farmer quietly offers you a smaller marrow full of coins.","choices":[
+          {"label":"Interview the marrow independently","stat":"WIS","risk":"bold","win":"It supplies photographic evidence, including a humiliating watering-can incident.","lose":"It demands anonymity. It is the only twenty-foot marrow in the village.","onWin":{"flag":"marrow-testimony","momentum":1,"memory":"The prize marrow testified against its farmer."}},
+          {"label":"Buy the coin marrow as evidence","stat":"INT","risk":"safe","deal":{"gold":12},"hint":"Keep the bribe off the judging table.","win":"Evidence secured. Lunch secured. Fiscal policy surprisingly edible.","lose":"The exhibit has been sold.","onWin":{"memory":"You purchased an evidence marrow filled with attempted bribery."}},
+          {"label":"Lift the prize marrow to check for hidden supports","stat":"STR","risk":"reckless","win":"Entirely self-supporting. It flexes a leaf, smugly.","lose":"It asks to put you down for a moment. It does so from a height.","onLose":{"momentum":-1,"memory":"The prize marrow demonstrated its strength by dropping you."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"kraken","entry":"kraken-shallow",
+      "scenes":[
+        {"id":"kraken-shallow","art":"kraken","text":"The kraken has booked the shallow end. It occupies the whole shallow end, most of the deep end, and the lifeguard's increasingly small office.","next":[{"scene":"kraken-peer-pressure"}],"choices":[
+          {"label":"Design a floatation aid for eight embarrassed arms","stat":"INT","risk":"bold","win":"Eight armbands, one dignity-preserving cape. It relaxes.","lose":"Your prototype is technically a net. It has strong feelings about nets.","onWin":{"flag":"kraken-confidence","momentum":1,"memory":"You designed a dignity-preserving swimming cape for a kraken."}},
+          {"label":"Book a private lesson without spectators","stat":"CHA","risk":"safe","deal":{"gold":16},"hint":"Protect its confidence; earn a calmer finale approach.","win":"The lifeguard clears the pool. The pool itself thanks you.","lose":"The pool is fully booked.","onWin":{"flag":"kraken-confidence","memory":"You funded a private swimming lesson for an embarrassed kraken."}},
+          {"label":"Demonstrate breathing without showing off","stat":"CON","risk":"safe","win":"You inhale. You exhale. The kraken applauds eight times.","lose":"You swallow a mouthful. It cancels the demonstration on your behalf.","onWin":{"memory":"Your modest breathing demonstration won eight rounds of kraken applause."}}
+        ]},
+        {"id":"kraken-peer-pressure","art":"kraken","text":"Other krakens arrive to watch. Your student tries to hide behind a pool noodle. Only one inch of it is hidden, but that inch is committed.","choices":[
+          {"label":"Recruit the onlookers as an encouraging wave machine","stat":"CHA","risk":"bold","win":"They cheer in eight-part harmony. Your student emerges from the inch.","lose":"They do a Mexican wave. It becomes a local weather event.","onWin":{"momentum":1,"memory":"You turned mocking krakens into an eight-part cheering section."}},
+          {"label":"Float beside the pool noodle and wait","stat":"WIS","risk":"safe","win":"Eventually, another inch lets go. It is a start.","lose":"The pool noodle asks you to stop leaning on it emotionally.","onWin":{"memory":"You waited quietly beside a kraken's determined pool noodle."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Use the private lesson's one-arm-at-a-time routine","stat":"WIS","risk":"safe","requires":"kraken-confidence","win":"One arm, then two, then eight. The cape is unnecessary now. It keeps it anyway.","lose":"Eight arms choose eight directions. You are the meeting point.","onWin":{"memory":"The kraken learned to swim and kept its dignity cape."}}]
+    },
+    {
+      "objective":"parade","entry":"parade-map",
+      "scenes":[
+        {"id":"parade-map","art":"parade","text":"The Parade of Snails has reached the first kerb. The marshal announces a brief six-hour pause. A snail asks you to post its resignation ahead of it.","next":[{"scene":"parade-weather"}],"choices":[
+          {"label":"Find a level route that avoids the salt merchant","stat":"WIS","risk":"bold","win":"A safe detour. The salt merchant calls you anti-business.","lose":"Your detour crosses a crisp factory's loading bay.","onWin":{"momentum":1,"memory":"You rerouted the snail parade away from a salt merchant."}},
+          {"label":"Hire a very small wagon for the first kerb","stat":"INT","risk":"safe","deal":{"gold":14},"hint":"Save time; the snails insist it still counts as walking.","win":"Four hundred passengers, one modest axle. A historic ascent.","lose":"The wagon is unavailable.","onWin":{"flag":"snail-wagon","memory":"A tiny wagon carried four hundred snails over their first kerb."}},
+          {"label":"Carry the marshal until morale improves","stat":"STR","risk":"safe","win":"He thanks you in a speech that lasts until tomorrow.","lose":"He has a very heavy ceremonial shell.","onWin":{"memory":"You carried the snail marshal through his day-long thank-you speech."}}
+        ]},
+        {"id":"parade-weather","art":"parade","text":"Rain arrives. The snails are delighted until they discover the puddle has organised a rival parade and is claiming the route.","choices":[
+          {"label":"Merge the parades without dissolving the committee","stat":"CHA","risk":"bold","win":"Snails lead, puddle follows. The route becomes temporarily scenic.","lose":"The puddle insists on equal shell representation.","onWin":{"momentum":1,"memory":"You negotiated a joint snail-and-puddle parade."}},
+          {"label":"Hold an umbrella over all four hundred marchers","stat":"CON","risk":"reckless","win":"An impossible stretch of arms. The snails chant your name very slowly.","lose":"Your umbrella is declared an unauthorised venue.","onWin":{"memory":"Four hundred snails chanted your name beneath one umbrella."}}
+        ]}
+      ]
+    },
+    {
+      "objective":"showdown","entry":"showdown-backstage",
+      "scenes":[
+        {"id":"showdown-backstage","art":"showdown","text":"Backstage, your rival is rehearsing a victory speech into a hairbrush. The trophy engraver has sensibly left both names in pencil.","next":[{"when":"season-rival-truce","scene":"showdown-truce"},{"scene":"showdown-witnesses"}],"choices":[
+          {"label":"Call in the truce you made on the road","stat":"CHA","risk":"safe","requires":"season-rival-truce","deal":{"gold":0},"hint":"Unlock a shared-trophy ending.","win":"The hairbrush lowers. For once, you are both off script.","lose":"Your rival declines.","onWin":{"flag":"shared-trophy","memory":"Your rival agreed to honour the road truce at the showdown."}},
+          {"label":"Find the page of rules that forbids pre-written speeches","stat":"INT","risk":"bold","win":"Rule 43. Your rival quietly eats page one.","lose":"The page is an advertisement for your rival's memoir.","onWin":{"momentum":1,"memory":"You challenged your rival's pre-written victory speech under Rule 43."}},
+          {"label":"Warm up by lifting the entire podium","stat":"STR","risk":"reckless","win":"The speech becomes considerably less confident.","lose":"The podium's foundations have sponsors of their own.","onWin":{"memory":"You intimidated your rival by lifting the podium."},"onLose":{"momentum":-1,"memory":"A sponsored podium defeated your backstage warm-up."}}
+        ]},
+        {"id":"showdown-truce","art":"showdown","text":"Your rival suggests sawing the trophy in half. The engraver refuses on artistic grounds. You need a joint ending with fewer metal filings.","choices":[
+          {"label":"Pitch the Guild's first job-share hero contract","stat":"INT","risk":"bold","win":"Alternate weekends, shared expenses, separate memoirs. The engraver writes an ampersand.","lose":"The Guild tries to pay one salary. You both object at once.","onWin":{"momentum":1,"memory":"You designed a job-share Hero of the Year contract."}},
+          {"label":"Get matching signatures before anyone changes their mind","stat":"DEX","risk":"safe","win":"Signed. The hairbrush serves as the official quill.","lose":"Your rival signs the hairbrush instead.","onWin":{"memory":"Your joint hero contract was signed with a hairbrush quill."}}
+        ]},
+        {"id":"showdown-witnesses","art":"showdown","text":"The Guild has invited everyone you helped to give character references. Someone has reserved a large seat marked 'possible soup'.", "choices":[
+          {"label":"Let the witnesses describe what actually happened","stat":"CHA","risk":"bold","win":"It is not flattering. It is specific. The audience believes every word.","lose":"A witness opens with 'technically nobody died'. A difficult start.","onWin":{"momentum":1,"memory":"Your clients gave painfully specific character references at the showdown."}},
+          {"label":"Check the witness queue for rival-sponsored actors","stat":"WIS","risk":"safe","win":"Three actors admit it immediately. Their contracts include confession pay.","lose":"You eject an actual grateful client. They revise their reference.","onWin":{"memory":"You exposed three rival-sponsored character witnesses."}}
+        ]}
+      ],
+      "finaleChoices":[{"label":"Present the joint Hero of the Year contract","stat":"CHA","risk":"safe","requires":"shared-trophy","win":"The Guild accepts. Two heroes, one trophy, absolutely incompatible office hours.","lose":"The Guild demands a probationary duel. Human resources are terrible.","onWin":{"flag":"shared-ending","memory":"You and your rival became joint Heroes of the Year."}}]
+    }
+  ],
+  "rivals":[
+    {"id":"rival-first-meeting","art":"showdown","text":"Your rival is physically blocking the quest route while a painter captures their 'spontaneous act of heroism'. The painter asks you to look more rescued.","choices":[
+      {"label":"Charge a modelling fee and hold the pose","stat":"CHA","risk":"bold","win":"You negotiate royalties. The painter titles it 'Hero With Expensive Witness'.","lose":"Your rival frames you as the problem being defeated.","onWin":{"momentum":1,"memory":"You billed your rival for posing in their heroic portrait."}},
+      {"label":"Pay for a quiet truce away from the painter","stat":"WIS","risk":"safe","deal":{"gold":18},"hint":"Remembered throughout this season; opens a showdown ending.","win":"A handshake behind the canvas. Neither of you is as confident off camera.","lose":"Talks fail.","onWin":{"flag":"season-rival-truce","memory":"You made a private road truce with your rival."}},
+      {"label":"Duck under the canvas without entering the composition","stat":"DEX","risk":"safe","win":"You pass unnoticed. Your rival rescues an empty patch of grass.","lose":"You trip into the perfect defeated-villain pose.","onWin":{"memory":"Your rival's heroic portrait depicts the rescue of empty grass."}}
+    ]},
+    {"id":"rival-middle-meeting","art":"showdown","text":"Your rival is alone on a milestone, struggling to open a lunch tin. The great rival of your season has been defeated by a small clip.","choices":[
+      {"label":"Open it and agree never to mention this","stat":"DEX","risk":"safe","win":"The tin opens. So does a guarded conversation about the pressure to be legendary.","lose":"Now neither of you can open it. A strangely intimate defeat.","onWin":{"flag":"season-rival-truce","memory":"You opened your rival's lunch tin and promised discretion."}},
+      {"label":"Buy lunch for both of you","stat":"CHA","risk":"safe","deal":{"gold":20},"hint":"Renew or establish a truce that the showdown remembers.","win":"Two pies. No audience. It briefly feels like adventuring with a friend.","lose":"The pie shop has closed.","onWin":{"flag":"season-rival-truce","memory":"You shared two quiet pies with your rival."}},
+      {"label":"Open it by demonstrating superior upper-body strength","stat":"STR","risk":"reckless","win":"The clip yields. The soup travels a remarkable distance.","lose":"The tin is now angry at both of you.","onWin":{"momentum":1,"memory":"You launched your rival's lunch into the middle distance."}}
+    ]},
+    {"id":"rival-last-meeting","art":"showdown","text":"Your rival has a spare invitation to the trophy ceremony. It says '+1: formidable nemesis or equivalent'. The handwriting under 'equivalent' is hesitant.","choices":[
+      {"label":"Accept as a formidable equivalent","stat":"CHA","risk":"bold","win":"They smile before remembering not to. A real one, briefly.","lose":"You both deliver rehearsed threats over each other. Neither sounds convincing.","onWin":{"flag":"season-rival-truce","memory":"You accepted your rival's ceremony invitation as a formidable equivalent."}},
+      {"label":"Read the invitation for hidden disqualification clauses","stat":"INT","risk":"safe","win":"The only condition is to wear shoes. You are already ahead.","lose":"The invitation bites. Security feature.","onWin":{"momentum":1,"memory":"You checked the ceremony rules and confirmed shoes were compulsory."}},
+      {"label":"Put the invitation somewhere nobody can steal it","stat":"DEX","risk":"bold","win":"Safe inside your boot. The trophy ceremony now smells like determination.","lose":"You hide it so well the Guild briefly disqualifies you both.","onWin":{"memory":"You stored your trophy-ceremony invitation inside your boot."}}
+    ]}
+  ]
+}

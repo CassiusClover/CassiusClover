@@ -1,4 +1,5 @@
 import type { Choice, Giver, Objective, Risk, Stat, Twist, Txt } from '../types';
+import { EXTRA_OBJECTIVES } from './stories.generated';
 
 export const ch = (label: Txt, stat: Stat, risk: Risk, win: Txt, lose: Txt): Choice => ({ label, stat, risk, win, lose });
 
@@ -19,7 +20,7 @@ export const GIVERS: Giver[] = [
   { id: 'wizard', name: { f: 'A wizard who lost a bet', c: 'A wizard who lost a bet and his trousers', x: 'A hungover wizard who lost a bet and his trousers' } },
 ];
 
-export const OBJECTIVES: Objective[] = [
+const BASE_OBJECTIVES: Objective[] = [
   {
     id: 'dragon-tax',
     title: "File the Dragon's Tax Return",
@@ -261,6 +262,8 @@ export const OBJECTIVES: Objective[] = [
     },
   },
 ];
+
+export const OBJECTIVES: Objective[] = [...BASE_OBJECTIVES, ...EXTRA_OBJECTIVES];
 
 export const TWISTS: Twist[] = [
   { id: 'none', text: 'There is no catch. This is suspicious in itself.', note: 'No modifier' },

@@ -98,6 +98,7 @@ export const Tracker = ({ run, tone }: { run: RunState; tone: Tone }) => {
                     <View style={{ flex: 1 }}>
                       <P style={{ fontSize: 15, lineHeight: 20, fontWeight: rec || current ? '700' : '400', color: rec || current ? C.ink : C.inkSoft }}>{title}</P>
                       {detail ? <Small style={{ color }}>{detail}</Small> : null}
+                      {rec?.memories?.map((memory, m) => <Small key={m}>{t(memory, tone)}</Small>)}
                     </View>
                   </View>
                 );

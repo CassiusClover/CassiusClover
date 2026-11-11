@@ -1,0 +1,24 @@
+# Story and Dungeon Master update
+
+Based on `claude/epic-franklin-cttqyz` at `b74bc97`. The linked branch contained the tracker and on-device narrator; the later story pack described in the handoff was not present in that branch.
+
+## Behaviour
+
+- 19 jobs, 22 story versions, 47 authored quest scenes and three in-person rival encounters. All original objectives have their own story. Three jobs also have alternate versions.
+- Early choices select later scenes and unlock approaches to the finale. Paid bargains are guaranteed, display their cost before choosing, award no roll prize, and cannot use a reroll.
+- Accepted decisions leave factual callbacks in the season log. Quest preparation changes the final roll, with a strict -2 to +2 limit. A road truce can unlock a joint-trophy ending.
+- The AI receives the current scene, selected action, resolved consequence and recent accepted memories. It writes one short JSON line rather than a speculative batch for the entire quest. Native inference requests are serialised; stale queued requests and stale replies are discarded. A 20-second inference stop preserves the scripted fallback.
+- Tone/model changes clear stored AI replies. Existing meta-progress and pre-update active saves are supported. New story scenes are used on newly accepted quests; an already-active old quest keeps its existing cards.
+- Checks are slightly harder, including a later-season increase, to offset preparation and guaranteed bargains. The existing 6,400-run balance simulation remains within its original bounds for all eight classes.
+
+## Write more
+
+Use [STORY_GUIDE.md](STORY_GUIDE.md) and `stories/TEMPLATE.json.example`. New jobs and story variants are JSON content. Run `npm run stories:build` and commit the generated TypeScript along with the source JSON. Tests reject stale generated content.
+
+## Verification and limits
+
+- 37 automated tests pass, including content validation, branching, affordability, one-time costs, deterministic runs, revive behaviour, old-save compatibility, model request serialisation, tone changes and balance.
+- TypeScript passes. Expo lint passes with two warnings for the intentional optional native SDK `require` calls (the same pattern allows the game to open without those SDKs in Expo Go).
+- Web, iOS and Android JavaScript/Hermes bundle exports pass. These exports are not signed phone installers and do not update the existing installed builds.
+- Browser interaction evidence is in `browser-check.json`; screenshots show the actual mobile-width web preview with synthetic test saves and the scripted narrator.
+- Model download, native inference, generation speed and humour still need a physical phone test. No new model or AI writing quality is claimed to have been tested on hardware.

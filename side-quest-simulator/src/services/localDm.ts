@@ -1,4 +1,4 @@
-import type { DmContext } from './dmPrompt';
+import type { DmContext, DmMomentContext } from './dmPrompt';
 
 /**
  * Web and fallback implementation: there is no on-device model here, so the scripted
@@ -18,3 +18,5 @@ export const deleteModel = (_id: string): void => {};
 export const generateQuestLines = async (_id: string, _ctx: DmContext): Promise<unknown | null> => null;
 
 export const releaseModel = async (): Promise<void> => {};
+export const generateMomentLine = async (_id: string, _ctx: DmMomentContext): Promise<unknown | null> => null;
+export const cancelMomentLine = (): void => {};

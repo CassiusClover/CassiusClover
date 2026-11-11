@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Art, HeroArt } from '../art/Art';
 import { ART } from '../art/creatures';
@@ -244,12 +244,11 @@ export const JournalScreen = ({ meta, onBack }: { meta: Meta; onBack: () => void
 
 /** Download, choose and switch on the on-device AI Dungeon Master. */
 const DmSettings = ({ meta, onChange }: { meta: Meta; onChange: (patch: Partial<Meta>) => void }) => {
-  const [have, setHave] = useState<Record<string, boolean>>({});
+  const [have, setHave] = useState<Record<string, boolean>>(() => Object.fromEntries(DM_MODELS.map((m) => [m.id, isModelDownloaded(m.id)])));
   const [busyId, setBusyId] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const [failed, setFailed] = useState(false);
   const refresh = () => setHave(Object.fromEntries(DM_MODELS.map((m) => [m.id, isModelDownloaded(m.id)])));
-  useEffect(refresh, []);
 
   if (!localDmSupported) {
     return (

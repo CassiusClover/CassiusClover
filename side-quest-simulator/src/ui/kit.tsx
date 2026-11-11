@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Animated, Platform, Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -17,6 +17,10 @@ export const C = {
 };
 
 export const serif = Platform.select({ ios: 'Georgia', android: 'serif', default: 'Georgia, "Times New Roman", serif' });
+
+/** React Native Web does not export the native useAnimatedValue hook. Keep the same
+ * Animated.Value for this component's lifetime using React's lazy state initializer. */
+export const useAnimationValue = (initial: number) => useState(() => new Animated.Value(initial))[0];
 
 export const Screen = ({ children, scroll = true }: { children: React.ReactNode; scroll?: boolean }) => (
   <SafeAreaView style={s.screen}>
@@ -83,7 +87,7 @@ export const Row = ({ children, style }: { children: React.ReactNode; style?: St
 /** A meter whose fill glides to its new value. */
 export const Bar = ({ value, max, color = C.red }: { value: number; max: number; color?: string }) => {
   const pct = Math.max(0, Math.min(100, (value / Math.max(1, max)) * 100));
-  const v = useRef(new Animated.Value(pct)).current;
+  const v = useAnimationValue(pct);
   useEffect(() => {
     Animated.timing(v, { toValue: pct, duration: 450, useNativeDriver: false }).start();
   }, [pct, v]);

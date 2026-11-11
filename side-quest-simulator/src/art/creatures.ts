@@ -1,4 +1,5 @@
 import { BLOOD, BONE, DUSK, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, flat, glare, line, shape, slit } from './ink';
+import { EXTRA_OBJECTIVES } from '../game/content/stories.generated';
 
 /**
  * Card art in the comic-ink style: one angular figure per card, half in black shadow.
@@ -405,5 +406,5 @@ export const ART_FOR: Record<string, string> = {
 };
 
 /** Quest board thumbnails are keyed by objective id. */
-export const artForObjective = (objectiveId: string) => ART[ART_FOR[`x-${objectiveId}`]];
-export const artForCard = (cardId: string) => ART[ART_FOR[cardId]];
+export const artForObjective = (objectiveId: string) => ART[ART_FOR[`x-${EXTRA_OBJECTIVES.find((o) => o.id === objectiveId)?.art ?? objectiveId}`]];
+export const artForCard = (cardId: string) => cardId.startsWith('x-') ? artForObjective(cardId.slice(2)) : ART[ART_FOR[cardId]];

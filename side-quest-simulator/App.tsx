@@ -4,13 +4,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
-  applyAiLines, bribe, buyPotion, choose, dmContext, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
+  applyAiNarration, bribe, buyPotion, choose, clearAiNarration, dmMomentContext, narrationKey, newRun, pickBoon, pickQuest, proceed, reroll, revive, type HeroChoice,
 } from './src/game/engine';
 import { buyUpgrade, defaultMeta, finishRun, unlockClass } from './src/game/meta';
 import type { Meta, RunState } from './src/game/types';
 import type { Placement } from './src/services/adConfig';
 import { adsAreSimulated, initAds, setAdTone, showRewarded } from './src/services/ads';
-import { generateQuestLines, isModelDownloaded, localDmSupported } from './src/services/localDm';
+import { cancelMomentLine, generateMomentLine, isModelDownloaded, localDmSupported } from './src/services/localDm';
 import { loadMeta, loadRun, saveMeta, saveRun } from './src/services/storage';
 import { C } from './src/ui/kit';
 import { CreateScreen, HomeScreen, JournalScreen, SettingsScreen, ShopScreen, ToneScreen } from './src/ui/menus';
@@ -67,6 +67,24 @@ export default function App() {
     else setNotice(NO_AD);
   }, []);
 
+  useEffect(() => {
+    if (!meta?.liveDm || !run?.quest || screen !== 'run' || !localDmSupported || !isModelDownloaded(meta.dmModel) ||
+      !['card', 'result', 'boon'].includes(run.phase)) return;
+    const key = narrationKey(run);
+    if (run.liveNarrationKey === key) return;
+    let cancelled = false;
+    generateMomentLine(meta.dmModel, dmMomentContext(run, meta.tone)).then((line) => {
+      if (cancelled || !line) return;
+      setRunState((current) => {
+        if (!current) return current;
+        const merged = applyAiNarration(current, key, line);
+        if (merged !== current) saveRun(merged);
+        return merged;
+      });
+    });
+    return () => { cancelled = true; cancelMomentLine(); };
+  }, [run, meta?.liveDm, meta?.dmModel, meta?.tone, screen]);
+
   if (!meta) {
     return (
       <View style={{ flex: 1, backgroundColor: C.wood, alignItems: 'center', justifyContent: 'center' }}>
@@ -84,23 +102,10 @@ export default function App() {
     else start();
   };
 
-  /** Accept a quest and, if the AI Dungeon Master is on, have it write this quest's lines. */
+  /** The narration effect follows the actual scene and resolved choice. */
   const startQuest = (index: number) => {
     if (!run) return;
-    const next = pickQuest(run, index);
-    setRun(next);
-    if (!meta.liveDm || !localDmSupported || !isModelDownloaded(meta.dmModel)) return;
-    const questIndex = next.questIndex;
-    generateQuestLines(meta.dmModel, dmContext(next, meta.tone)).then((lines) => {
-      if (!lines) return;
-      // The player has moved on while the model was writing, so merge into the latest state.
-      setRunState((current) => {
-        if (!current) return current;
-        const merged = applyAiLines(current, questIndex, lines);
-        if (merged !== current) saveRun(merged);
-        return merged;
-      });
-    });
+    setRun(pickQuest(run, index));
   };
 
   const bank = (doubled: boolean) => {
@@ -132,9 +137,13 @@ export default function App() {
           onTone={(tone) => {
             setAdTone(tone);
             setMeta({ ...meta, tone });
+            if (run) setRun(clearAiNarration(run));
           }}
           onHaptics={(haptics) => setMeta({ ...meta, haptics })}
-          onDm={(patch) => setMeta({ ...meta, ...patch })}
+          onDm={(patch) => {
+            setMeta({ ...meta, ...patch });
+            if (run) setRun(clearAiNarration(run));
+          }}
           onReset={() => {
             setRun(null);
             setMeta({ ...defaultMeta(), tone: meta.tone, toneChosen: true, haptics: meta.haptics });
