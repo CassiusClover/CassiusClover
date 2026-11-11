@@ -110,6 +110,13 @@ context. Common violations are rejected in favour of authored narration; the wor
 not a complete semantic content filter. AI writing quality and device performance still
 need phone testing. These controls also work in the browser with the AI switched off.
 
+## Artwork
+
+The original angular SVG figures now stage 19 quest comic panels, six extra scene variants
+and rival encounters. Quest givers and rivals have recurring portraits; heroes react to
+triumphs and disasters. Flat colours, heavy shadows and simple props keep the original look.
+See [the art guide](docs/ART_GUIDE.md) and [art samples](docs/artwork-preview.png).
+
 ## Before a store release
 
 1. Create an AdMob account, register the iOS and Android apps, and create three rewarded ad

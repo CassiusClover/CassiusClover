@@ -8,8 +8,10 @@ import {
 } from '../game/engine';
 import { canChoose, choiceConsequence, choiceUnlocked } from '../game/stories';
 import { deathDescription, deathHeading, injuryDescription } from '../game/contentSettings';
-import { Art, HeroArt } from '../art/Art';
+import { Art, ArtBanner, HeroArt } from '../art/Art';
 import { artForCard, artForObjective } from '../art/creatures';
+import { artForGiver } from '../art/cast';
+import { panelForCard } from '../art/panels';
 import { tipsFor } from '../game/meta';
 import type { Meta, RunState, Tone, Violence } from '../game/types';
 import { STATS } from '../game/types';
@@ -31,7 +33,7 @@ export const Hud = ({ run, onClose }: { run: RunState; onClose?: () => void }) =
     <View style={{ gap: 8 }}>
       <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
         <Shake trigger={hits}>
-          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={56} />
+          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={56} mood={run.phase === 'result' ? 'neutral' : run.hero.hp <= run.hero.maxHp / 4 ? 'disaster' : 'neutral'} />
         </Shake>
         <View style={{ flex: 1, gap: 6 }}>
           <Row style={{ justifyContent: 'space-between', flexWrap: 'nowrap' }}>
@@ -81,7 +83,10 @@ export const BoardScreen = ({ run, tone, violence = 0, onPick, onQuit }: { run: 
               <Art art={artForObjective(offer.objectiveId)} size={72} />
               <H2 style={{ flex: 1 }}>{t(obj.title, tone, violence)}</H2>
             </View>
-            <P>{t(giverOf(offer.giverId).name, tone, violence)} needs you to {t(obj.task, tone, violence)}. {t(twist.text, tone, violence)}</P>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'flex-start' }}>
+              <Art art={artForGiver(offer.giverId)} size={38} />
+              <P style={{ flex: 1 }}>{t(giverOf(offer.giverId).name, tone, violence)} needs you to {t(obj.task, tone, violence)}. {t(twist.text, tone, violence)}</P>
+            </View>
             <Small>
               {twist.note}
               {offer.tier === 2 ? '  |  Harder rolls, guaranteed relic offer' : offer.tier === 0 ? '  |  Easier rolls' : ''}
@@ -102,6 +107,7 @@ export const CardScreen = ({
 }: { run: RunState; tone: Tone; violence?: Violence; onChoose: (i: number) => void; onBribe: () => void; onQuit: () => void }) => {
   const card = currentCard(run)!;
   const q = run.quest!;
+  const panel = panelForCard(card.id, run.rival);
   const art = card.art ? artForObjective(card.art) : artForCard(card.id);
   const key = `${run.questIndex}-${q.cardIdx}`;
   return (
@@ -112,9 +118,9 @@ export const CardScreen = ({
       <DmSays text={narrationFor(run, tone, violence)} live={isLiveNarration(run, tone, violence)} />
       <Enter key={`card-${key}`} delay={80}>
         <Paper>
-          <View style={{ height: 150, backgroundColor: art?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
+          {panel ? <ArtBanner art={panel} /> : <View style={{ height: 150, backgroundColor: art?.bg, borderRadius: 6, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderWidth: 2, borderColor: '#15100b' }}>
             <Bob><Art art={art} size={150} /></Bob>
-          </View>
+          </View>}
           {isClimax(run) ? <Small style={{ fontWeight: '700', color: C.red }}>THE FINALE</Small> : null}
           {q.momentum ? <Small style={{ color: q.momentum > 0 ? C.green : C.red }}>Finale preparation: {signed(q.momentum)} to the final check</Small> : null}
           <P style={{ fontSize: 19, lineHeight: 27 }}>{textFor(run, card.text, tone, violence)}</P>
@@ -205,7 +211,10 @@ export const ResultScreen = ({
           <P style={{ color: C.inkSoft }}>The die is cast...</P>
         ) : (
           <>
-            <Pop><H2 style={{ color: tint }}>{outcomeTitle[res.outcome]}</H2></Pop>
+            <Pop><Row style={{ justifyContent: 'center', gap: 12 }}>
+              <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={48} mood={!hasRoll ? 'neutral' : res.outcome === 'crit' || res.outcome === 'success' ? 'triumphant' : 'disaster'} />
+              <H2 style={{ color: tint }}>{outcomeTitle[res.outcome]}</H2>
+            </Row></Pop>
             {choice && hasRoll ? (
               <Small>
                 Rolled {res.d20} {signed(res.mod)} {res.stat}{res.bonus ? ` ${signed(res.bonus)} bonus` : ''} = {res.total} against {res.dc}
@@ -294,7 +303,7 @@ export const DeadScreen = ({
     <Paper style={{ alignItems: 'center', gap: 10 }}>
       <Small style={{ fontWeight: '700', color: C.red }}>{deathHeading(violence)}</Small>
       <View style={{ opacity: 0.8, transform: [{ rotate: '7deg' }] }}>
-        <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} />
+        <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={120} mood="disaster" />
       </View>
       <H1 style={{ textAlign: 'center' }}>{run.hero.name}</H1>
       <P style={{ textAlign: 'center' }}>{run.epitaph}</P>
@@ -330,7 +339,7 @@ export const SummaryScreen = ({
       <Paper style={{ gap: 10 }}>
         <Small style={{ fontWeight: '700', color: won ? C.green : C.red }}>{won ? 'A LEGEND RETIRES' : 'FINAL INVOICE'}</Small>
         <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={80} />
+          <HeroArt classId={run.hero.classId} ancestryId={run.hero.ancestryId} size={80} mood={won ? 'triumphant' : 'disaster'} />
           <H1 style={{ flex: 1 }}>{run.hero.name}</H1>
         </View>
         <Small>{ancestryOf(run.hero.ancestryId).name} {cls.name}, {quirkOf(run.hero.quirkId).name}</Small>

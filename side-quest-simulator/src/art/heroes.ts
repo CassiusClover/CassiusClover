@@ -127,13 +127,38 @@ const CLASS: Record<string, Klass> = {
 export const CLASS_IDS = Object.keys(CLASS);
 export const ANCESTRY_IDS = Object.keys(ANCESTRY);
 
-export const heroSvg = (classId: string, ancestryId: string): string => {
+export type HeroMood = 'neutral' | 'triumphant' | 'disaster';
+
+/** Reactions use the same few flat marks as the original faces. Beards keep their shape. */
+const reaction = (ancestry: string, mood: HeroMood): string => {
+  if (mood === 'neutral') return '';
+  const eyeY = ancestry === 'elf' ? 32 : ancestry === 'human' || ancestry === 'goblin' ? 33 : ancestry === 'dwarf' ? 34 : 36;
+  const eyes = mood === 'triumphant'
+    ? line(`M52 ${eyeY + 2} L56 ${eyeY} L58 ${eyeY + 2} M62 ${eyeY + 2} L66 ${eyeY} L68 ${eyeY + 2}`, BONE, 2)
+    : flat(`M52 ${eyeY - 1} h6 v6 h-6z M62 ${eyeY - 1} h6 v6 h-6z`, BONE) + black(`M54 ${eyeY} h2 v4 h-2z M64 ${eyeY} h2 v4 h-2z`);
+  const bearded = ancestry === 'dwarf' || ancestry === 'gnome';
+  const mouthY = ancestry === 'orc' ? 50 : ancestry === 'goblin' ? 47 : 44;
+  return eyes + (bearded ? '' : mood === 'triumphant'
+    ? black(`M54 ${mouthY - 2} L67 ${mouthY - 3} L63 ${mouthY + 3} L57 ${mouthY + 2}z`) + flat(`M55 ${mouthY - 2} L66 ${mouthY - 3} L64 ${mouthY} L57 ${mouthY}z`, BONE)
+    : black(`M57 ${mouthY - 3} L63 ${mouthY - 3} L65 ${mouthY + 3} L56 ${mouthY + 3}z`));
+};
+
+export const heroFigure = (classId: string, ancestryId: string, mood: HeroMood = 'neutral'): string => {
+  const c = CLASS[classId] ?? CLASS.fighter;
+  const a = ANCESTRY[ancestryId] ?? ANCESTRY.human;
+  return c.body(a.skin) + a.head(a.skin) + reaction(ancestryId, mood) + c.hat;
+};
+
+export const heroSvg = (classId: string, ancestryId: string, mood: HeroMood = 'neutral'): string => {
   const c = CLASS[classId] ?? CLASS.fighter;
   const a = ANCESTRY[ancestryId] ?? ANCESTRY.human;
   const [sx, sy] = a.scale;
   return (
     backdrop(c.bg, c.back, [60, 58, 44], HERO_H) +
-    `<g transform="translate(60 144) scale(${sx} ${sy}) translate(-60 -138)">` + c.body(a.skin) + a.head(a.skin) + c.hat + '</g>' +
+    `<g transform="translate(60 144) scale(${sx} ${sy}) translate(-60 -138)">` +
+    (mood === 'neutral' ? '' : `<g transform="rotate(${mood === 'triumphant' ? -4 : 7} 60 130)">`) +
+    heroFigure(classId, ancestryId, mood) + (mood === 'neutral' ? '' : '</g>') + '</g>' +
+    (mood === 'disaster' ? line('M24 14 L20 22 M32 10 L30 17 M88 14 L94 19', BONE, 2.5) : '') +
     border(HERO_H)
   );
 };

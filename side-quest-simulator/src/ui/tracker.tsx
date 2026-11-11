@@ -4,6 +4,8 @@ import { TIER_NAMES } from '../game/content/quests';
 import { objectiveOf, QUESTS_TO_WIN, rivalProgress, t } from '../game/engine';
 import type { RunState, Tone, Violence } from '../game/types';
 import { C, CloseButton, H2, P, Small, serif } from './kit';
+import { Art } from '../art/Art';
+import { artForRival } from '../art/cast';
 
 const GOLD_DARK = '#7a5a17';
 
@@ -69,9 +71,12 @@ export const Tracker = ({ run, tone, violence = 0 }: { run: RunState; tone: Tone
               <H2 style={{ flex: 1 }}>Season log</H2>
               <CloseButton onPress={() => setOpen(false)} size={32} />
             </View>
-            <Small>
-              Hero of the Year goes to whoever wins the showdown at quest {QUESTS_TO_WIN}. {run.rival} has finished {rival} quests to your {run.questsDone}.
-            </Small>
+            <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+              <Art art={artForRival(run.rival)} size={52} />
+              <Small style={{ flex: 1 }}>
+                Hero of the Year goes to whoever wins the showdown at quest {QUESTS_TO_WIN}. {run.rival} has finished {rival} quests to your {run.questsDone}.
+              </Small>
+            </View>
             <ScrollView style={{ marginTop: 8 }} showsVerticalScrollIndicator={false}>
               {nodes.map((i) => {
                 const rec = run.history[i];

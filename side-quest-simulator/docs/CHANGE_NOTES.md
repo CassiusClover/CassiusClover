@@ -10,6 +10,7 @@ Based on `claude/epic-franklin-cttqyz` at `b74bc97`. The linked branch contained
 - The AI receives the current scene, selected action, resolved consequence and recent accepted memories. It writes one short JSON line rather than a speculative batch for the entire quest. Native inference requests are serialised; stale queued requests and stale replies are discarded. A 20-second inference stop preserves the scripted fallback.
 - Tone/model changes clear stored AI replies. Existing meta-progress and pre-update active saves are supported. New story scenes are used on newly accepted quests; an already-active old quest keeps its existing cards.
 - Language and violence now have separate, persistent controls and a live preview. All 50 scene bodies and every narrator event have real language alternatives. Current saved narration is rendered from source text; changing preferences does not keep an old family-only or adult AI line. Violence controls injury and defeat descriptions and existing blood-specific passages without changing rules. Older saves retain their progress and default to Cartoon violence.
+- Artwork expands the original angular SVG style: 19 quest comic panels, six scene variations, 14 giver portraits and eight recurring rivals. Rival portraits match across the season log, road encounters and finale. Heroes have triumph and disaster reactions. All original neutral portraits and card illustrations retain their drawing content. See [ART_GUIDE.md](ART_GUIDE.md) for the style and extension format.
 - Checks are slightly harder, including a later-season increase, to offset preparation and guaranteed bargains. The existing 6,400-run balance simulation remains within its original bounds for all eight classes.
 
 ## Write more
@@ -18,7 +19,7 @@ Use [STORY_GUIDE.md](STORY_GUIDE.md) and `stories/TEMPLATE.json.example`. New jo
 
 ## Verification and limits
 
-- 47 automated tests pass, including all nine language/violence combinations, full scene/narrator coverage, content validation, branching, affordability, one-time costs, deterministic runs, revive behaviour, old-save compatibility, model request serialisation, AI content guards and balance.
+- 50 automated tests pass, including all nine language/violence combinations, full scene/narrator/art coverage, content validation, branching, affordability, one-time costs, deterministic runs, revive behaviour, old-save compatibility, model request serialisation, AI content guards and balance.
 - TypeScript passes. Expo lint passes with two warnings for the intentional optional native SDK `require` calls (the same pattern allows the game to open without those SDKs in Expo Go).
 - Web, iOS and Android JavaScript/Hermes bundle exports pass. These exports are not signed phone installers and do not update the existing installed builds.
 - Browser interaction evidence is in `browser-check.json`; screenshots show the actual mobile-width web preview with synthetic test saves and the scripted narrator.

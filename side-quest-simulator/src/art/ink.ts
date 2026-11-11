@@ -65,5 +65,22 @@ export interface Piece {
   disc?: [number, number, number];
 }
 
-export const build = (p: Piece): string =>
-  backdrop(p.bg, p.back ?? BONE, p.disc ?? [60, 52, 40]) + (p.under ?? '') + shaded(p.sil, p.fill, p.shadow) + (p.over ?? '') + border();
+export interface InkArt {
+  bg: string;
+  svg: string;
+  width?: number;
+  height?: number;
+  label?: string;
+}
+
+export interface InkFigure extends InkArt { figure: string }
+
+/** The original actor without its card frame, for staging comic panels. */
+export const figure = (p: Piece): string => (p.under ?? '') + shaded(p.sil, p.fill, p.shadow) + (p.over ?? '');
+
+export const build = (p: Piece, actor = figure(p)): string =>
+  backdrop(p.bg, p.back ?? BONE, p.disc ?? [60, 52, 40]) + actor + border();
+
+/** Repeated actors in one SVG must not share clip-path ids. */
+export const instance = (svg: string, prefix: string): string =>
+  svg.replace(/id="([^"]+)"/g, `id="${prefix}-$1"`).replace(/url\(#([^)]+)\)/g, `url(#${prefix}-$1)`);

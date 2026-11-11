@@ -1,11 +1,14 @@
-import { BLOOD, BONE, DUSK, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, flat, glare, line, shape, slit } from './ink';
+import { BLOOD, BONE, DUSK, INK, MOSS, MUSTARD, PLUM, RUST, STEEL, black, build, figure, flat, glare, line, shape, slit, type InkFigure } from './ink';
 import { EXTRA_OBJECTIVES } from '../game/content/stories.generated';
 
 /**
  * Card art in the comic-ink style: one angular figure per card, half in black shadow.
  * See ink.ts for the kit. `bg` is the dominant backdrop colour of each piece.
  */
-const piece = (p: Parameters<typeof build>[0]) => ({ bg: p.bg, svg: build(p) });
+const piece = (p: Parameters<typeof build>[0]): InkFigure => {
+  const actor = figure(p);
+  return { bg: p.bg, svg: build(p, actor), figure: actor };
+};
 const NIGHT = '#1e2a33';
 const SOOT = '#2b2620';
 const WINE = '#4a1c14';
@@ -23,7 +26,7 @@ const knight = (dark: boolean) => piece({
       : shape('M40 58 L78 54 L82 78 L44 84z', BONE) + line('M48 64 L56 70 L62 62 L70 72 M50 76 L58 74', BLOOD, 1.6) + flat('M54 44 L66 44 L64 54 L56 54z', MUSTARD)),
 });
 
-export const ART: Record<string, { bg: string; svg: string }> = {
+export const ART: Record<string, InkFigure> = {
   troll: piece({
     bg: '#3f4a2e', back: MUSTARD, disc: [60, 46, 38],
     under: shape('M96 70 L108 14 L118 18 L112 40 L118 44 L106 74z', RUST),
@@ -403,8 +406,9 @@ export const ART_FOR: Record<string, string> = {
   'x-giant-furniture': 'wardrobe', 'x-babysit': 'imp', 'x-password': 'door', 'x-vampire-wedding': 'vampire',
   'x-fountain': 'fountain', 'x-marrow': 'marrow', 'x-kraken': 'kraken', 'x-parade': 'snail',
   'x-showdown': 'blackknight',
+  'x-goose-lawyer': 'goose', 'x-checkout-haunting': 'ghost',
 };
 
 /** Quest board thumbnails are keyed by objective id. */
-export const artForObjective = (objectiveId: string) => ART[ART_FOR[`x-${EXTRA_OBJECTIVES.find((o) => o.id === objectiveId)?.art ?? objectiveId}`]];
+export const artForObjective = (objectiveId: string) => ART[ART_FOR[`x-${objectiveId}`] ?? ART_FOR[`x-${EXTRA_OBJECTIVES.find((o) => o.id === objectiveId)?.art}`]];
 export const artForCard = (cardId: string) => cardId.startsWith('x-') ? artForObjective(cardId.slice(2)) : ART[ART_FOR[cardId]];
