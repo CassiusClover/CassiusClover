@@ -1,0 +1,139 @@
+{
+  "version": 1,
+  "objectives": [
+    {
+      "id": "haunted-invoice",
+      "title": "Audit a Haunted Invoice",
+      "task": "persuade a haunted invoice that being overdue is not a personality",
+      "art": "lich-eviction",
+      "climax": {
+        "id": "x-haunted-invoice",
+        "text": {
+          "f": "The invoice demands your signature in ominous ink. Accounts Payable asks whether blue will do.",
+          "v": {
+            "gritty": "The invoice demands your signature in blood. Accounts Payable asks whether blue ink will do.",
+            "brutal": "The invoice demands a blood signature. It offers a sharp nib and an exceptionally absorbent form."
+          }
+        },
+        "choices": [
+          {
+            "label": "Reconcile the accounts",
+            "stat": "INT",
+            "risk": "bold",
+            "win": "The balance is zero. The invoice ascends as a credit note.",
+            "lose": "The invoice adds a charge for your time."
+          },
+          {
+            "label": "Negotiate a living-wage payment plan",
+            "stat": "CHA",
+            "risk": "safe",
+            "win": "The invoice accepts instalments in mildly haunted copper.",
+            "lose": "It invoices you for the negotiation."
+          },
+          {
+            "label": "Tear it up in front of Accounts Payable",
+            "stat": "STR",
+            "risk": "reckless",
+            "win": "A thousand tiny invoices are still technically paid in full.",
+            "lose": "Each piece becomes a separate overdue invoice."
+          }
+        ]
+      }
+    }
+  ],
+  "stories": [
+    {
+      "objective": "haunted-invoice",
+      "entry": "invoice-interview",
+      "scenes": [
+        {
+          "id": "invoice-interview",
+          "art": "lich-eviction",
+          "text": {
+            "f": "The invoice's first demand is tea. Its second is your firstborn receipt.",
+            "c": "The invoice demands tea and your firstborn receipt. It has an alarmingly well-rehearsed collections policy.",
+            "x": "The invoice demands tea and your firstborn receipt. Even haunted stationery is a debt-collecting bastard now."
+          },
+          "next": [
+            {
+              "scene": "invoice-archive"
+            }
+          ],
+          "choices": [
+            {
+              "label": "Listen to its original grievance",
+              "stat": "WIS",
+              "risk": "safe",
+              "win": "Someone once rounded it down. You find a note of the exact amount.",
+              "lose": "It reads you every reminder letter since the plague.",
+              "onWin": {
+                "flag": "invoice-evidence",
+                "momentum": 1,
+                "memory": "You learned that the invoice was originally rounded down."
+              }
+            },
+            {
+              "label": "Pay for the original ledger",
+              "stat": "INT",
+              "risk": "bold",
+              "deal": {
+                "gold": 15
+              },
+              "hint": "Unlock an evidence-based finale approach.",
+              "win": "The original ledger contains a terrible secret: a halfpenny.",
+              "lose": "The ledger is unavailable.",
+              "onWin": {
+                "flag": "invoice-evidence",
+                "memory": "You purchased the ledger that explains the haunted halfpenny."
+              }
+            }
+          ]
+        },
+        {
+          "id": "invoice-archive",
+          "art": "library-book",
+          "text": {
+            "f": "The filing cabinet refuses access because the invoice is technically still alive.",
+            "c": "The filing cabinet cites the living-document exemption, then asks you to stop breathing near confidential paperwork.",
+            "x": "The filing cabinet says the invoice is technically alive and refuses access. The obstructive bastard is enjoying this."
+          },
+          "choices": [
+            {
+              "label": "Explain the difference between life and financial activity",
+              "stat": "INT",
+              "risk": "bold",
+              "win": "The cabinet considers its own career and unlocks.",
+              "lose": "It classifies your explanation as an unpaid consultation."
+            },
+            {
+              "label": "Distract it with a perfectly alphabetised complaint",
+              "stat": "DEX",
+              "risk": "safe",
+              "win": "The cabinet purrs. The file slides free.",
+              "lose": "Your complaint is filed under Never."
+            }
+          ]
+        }
+      ],
+      "finaleChoices": [
+        {
+          "label": "Show the original rounding error",
+          "stat": "INT",
+          "risk": "safe",
+          "requires": "invoice-evidence",
+          "win": {
+            "f": "One halfpenny settles a haunting. The invoice apologises for the ominous-ink clause.",
+            "v": {
+              "gritty": "One halfpenny settles a haunting. The invoice apologises for the blood clause.",
+              "brutal": "One halfpenny settles a haunting. The invoice withdraws the demand for a blood signature."
+            }
+          },
+          "lose": "The halfpenny has accrued supernatural interest.",
+          "onWin": {
+            "memory": "A haunted invoice found peace after you corrected a halfpenny rounding error."
+          }
+        }
+      ]
+    }
+  ]
+}

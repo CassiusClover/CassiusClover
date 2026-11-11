@@ -1,0 +1,465 @@
+{
+  "version": 1,
+  "objectives": [
+    {
+      "id": "goose-lawyer",
+      "title": "Represent a Goose in Court",
+      "task": "defend a goose accused of stealing the mayor’s campaign hats",
+      "art": "showdown",
+      "climax": {
+        "id": "x-goose-lawyer",
+        "text": "The judge asks whether the hats were stolen or given away. The goose has arrived wearing all seventeen. The mayor insists this proves something.",
+        "choices": [
+          {
+            "label": "Prove the hats were campaign gifts",
+            "stat": "INT",
+            "risk": "bold",
+            "win": "You show the gift labels. The judge dismisses the theft charge.",
+            "lose": "The mayor disputes a missing label. The goose objects by biting you.",
+            "onWin": {
+              "memory": "You show the gift labels. The judge dismisses the theft charge."
+            }
+          },
+          {
+            "label": "Ask the crowd to confirm the giveaway",
+            "stat": "CHA",
+            "risk": "reckless",
+            "win": "The crowd remembers the giveaway. The mayor withdraws the charge rather than lose their votes.",
+            "lose": "The mayor calls his own supporters. The crowd jostles you away from the stand.",
+            "onWin": {
+              "memory": "The crowd remembers the giveaway. The mayor withdraws the charge rather than lose their votes."
+            }
+          },
+          {
+            "label": "Keep the goose still for the verdict",
+            "stat": "DEX",
+            "risk": "safe",
+            "win": "The goose stays quiet long enough for the judge to acquit it. Then it steals the gavel.",
+            "lose": "The goose grabs the verdict before it is read. You are knocked over trying to retrieve it.",
+            "onWin": {
+              "memory": "The goose stays quiet long enough for the judge to acquit it. Then it steals the gavel."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "checkout-haunting",
+      "title": "Exorcise the Self-Checkout",
+      "task": "settle a ghost’s unfinished purchase at a grocery checkout",
+      "art": "lich-eviction",
+      "climax": {
+        "id": "x-checkout-haunting",
+        "text": "The ghost has its receipt, but the checkout still announces an unexpected customer in the bagging area. You need to clear the final transaction so it can leave.",
+        "choices": [
+          {
+            "label": "Convince the register the sale is complete",
+            "stat": "CHA",
+            "risk": "bold",
+            "win": "The register closes the transaction. The ghost takes its milk and finally moves on.",
+            "lose": "The register demands another supervisor. Its alarm sends you staggering into the carts.",
+            "onWin": {
+              "memory": "The register closes the transaction. The ghost takes its milk and finally moves on."
+            }
+          },
+          {
+            "label": "Reset the checkout safely",
+            "stat": "INT",
+            "risk": "safe",
+            "win": "You finish the transaction and restart the register. The ghost departs through a pleasantly quiet wall.",
+            "lose": "The register rejects the reset and shocks your fingers.",
+            "onWin": {
+              "memory": "You finish the transaction and restart the register. The ghost departs through a pleasantly quiet wall."
+            }
+          },
+          {
+            "label": "Pull the stuck receipt free",
+            "stat": "STR",
+            "risk": "reckless",
+            "win": "The last piece of receipt comes loose. The ghost leaves with its proof of purchase.",
+            "lose": "The receipt tangles around your boot. The ghost pulls harder and topples you into the baskets.",
+            "onWin": {
+              "memory": "The last piece of receipt comes loose. The ghost leaves with its proof of purchase."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "stories": [
+    {
+      "objective": "goose-lawyer",
+      "entry": "goose-interview",
+      "scenes": [
+        {
+          "id": "goose-interview",
+          "art": "showdown",
+          "text": {
+            "f": "A goose has been arrested for stealing the mayor's hat. It refuses to speak to anyone who cannot honk. The officer hands you seventeen previous complaints.",
+            "c": "The goose is accused of stealing the mayor's hat. It demands a lawyer who can honk. The officer says this is the most reasonable thing it has asked for.",
+            "x": "The goose stole the mayor's hat and now wants a lawyer. It refuses to speak until you honk. The officer calls it a difficult little bastard."
+          },
+          "next": [
+            {
+              "scene": "goose-evidence"
+            }
+          ],
+          "choices": [
+            {
+              "label": "Honk until the goose cooperates",
+              "stat": "WIS",
+              "risk": "bold",
+              "win": "The goose tells you the hats were abandoned campaign gifts. You ask to examine them.",
+              "lose": "Your honk sounds like an insult. The goose bites your hand.",
+              "onWin": {
+                "flag": "goose-confidential",
+                "momentum": 1,
+                "memory": "The goose tells you the hats were abandoned campaign gifts. You ask to examine them."
+              }
+            },
+            {
+              "label": "Hire an interpreter",
+              "stat": "CHA",
+              "risk": "safe",
+              "deal": {
+                "gold": 18
+              },
+              "win": "The interpreter explains that the goose claims the mayor gave the hats away.",
+              "lose": "The interpreter refuses to work with this goose again.",
+              "onWin": {
+                "memory": "The interpreter explains that the goose claims the mayor gave the hats away."
+              }
+            },
+            {
+              "label": "Read the officer’s complaints",
+              "stat": "INT",
+              "risk": "safe",
+              "win": "You find a note saying the mayor distributed hats during his campaign.",
+              "lose": "You turn the pages too slowly. The goose adds your finger to its list of objections.",
+              "onWin": {
+                "memory": "You find a note saying the mayor distributed hats during his campaign."
+              }
+            }
+          ]
+        },
+        {
+          "id": "goose-evidence",
+          "art": "library-book",
+          "text": {
+            "f": "The evidence locker holds seventeen identical mayoral hats. Each says FREE CAMPAIGN GIFT inside. The officer insists the goose could not possibly need seventeen.",
+            "c": "Every hat says FREE CAMPAIGN GIFT. The officer's case now rests on the claim that seventeen free hats is simply too many hats.",
+            "x": "All seventeen hats say FREE CAMPAIGN GIFT. The officer still wants a conviction. Apparently the goose is guilty of being an irritating little bastard."
+          },
+          "choices": [
+            {
+              "label": "Show the judge the labels",
+              "stat": "CHA",
+              "risk": "bold",
+              "win": "The judge agrees the hats were gifts. The case can proceed with the evidence corrected.",
+              "lose": "You grab the wrong hat. The goose bites you before you can show the label.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "The judge agrees the hats were gifts. The case can proceed with the evidence corrected."
+              }
+            },
+            {
+              "label": "Measure the hats against the goose",
+              "stat": "DEX",
+              "risk": "safe",
+              "win": "You prove the hats were made for campaign supporters of every size.",
+              "lose": "The goose refuses the fitting and chases you around the evidence table.",
+              "onWin": {
+                "memory": "You prove the hats were made for campaign supporters of every size."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "objective": "checkout-haunting",
+      "entry": "checkout-receipt",
+      "scenes": [
+        {
+          "id": "checkout-receipt",
+          "art": "lich-eviction",
+          "text": {
+            "f": "A ghost is haunting a grocery checkout. It paid for milk just before it died, but the register says payment failed. It will not leave without a receipt.",
+            "c": "The ghost paid for its milk and then died in line. The register says payment failed. Customer service says it needs a living signature.",
+            "x": "The ghost is owed a receipt for milk. Customer service wants a living signature. It has been arguing with these bastards since it died."
+          },
+          "next": [
+            {
+              "scene": "checkout-supervisor"
+            }
+          ],
+          "choices": [
+            {
+              "label": "Match the payment to the register",
+              "stat": "INT",
+              "risk": "bold",
+              "win": "You find the payment in the register’s records. A supervisor must authorize the refund.",
+              "lose": "The register prints twenty feet of errors. You slip on the paper.",
+              "onWin": {
+                "flag": "ghost-coupon",
+                "momentum": 1,
+                "memory": "You find the payment in the register’s records. A supervisor must authorize the refund."
+              }
+            },
+            {
+              "label": "Pay the disputed milk charge",
+              "stat": "WIS",
+              "risk": "safe",
+              "deal": {
+                "gold": 14
+              },
+              "win": "The register accepts the payment. A supervisor must now approve the ghost’s receipt.",
+              "lose": "The register refuses the payment.",
+              "onWin": {
+                "flag": "ghost-coupon",
+                "memory": "The register accepts the payment. A supervisor must now approve the ghost’s receipt."
+              }
+            },
+            {
+              "label": "Lift the register to check its records",
+              "stat": "STR",
+              "risk": "reckless",
+              "win": "You find the trapped receipt beneath the register. It still needs a supervisor’s stamp.",
+              "lose": "The register’s cord pulls tight. You drop it on your foot.",
+              "onLose": {
+                "momentum": -1,
+                "memory": "The register’s cord pulls tight. You drop it on your foot."
+              }
+            }
+          ]
+        },
+        {
+          "id": "checkout-supervisor",
+          "art": "lich-eviction",
+          "text": {
+            "f": "The supervisor agrees the ghost paid. She says refunds require a customer survey. The ghost asks whether being dead counts as a poor shopping experience.",
+            "c": "The supervisor insists on a customer survey before approving the refund. The ghost asks whether 'never shop here again' is meant to include the afterlife.",
+            "x": "The supervisor agrees the ghost paid, then demands a customer survey. The ghost says dying in line was already a pretty fucking clear review."
+          },
+          "choices": [
+            {
+              "label": "Ask the supervisor to approve an exception",
+              "stat": "CHA",
+              "risk": "bold",
+              "win": "She approves the receipt. The ghost finally has proof of purchase.",
+              "lose": "She directs you to the complaints desk. A falling stack of baskets blocks your way.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "She approves the receipt. The ghost finally has proof of purchase."
+              }
+            },
+            {
+              "label": "Complete the customer survey",
+              "stat": "CON",
+              "risk": "safe",
+              "win": "You finish the survey. The ghost collects its receipt and stops haunting the register.",
+              "lose": "The survey restarts on the last question. The ghost loses patience and shoves the register into you.",
+              "onWin": {
+                "memory": "You finish the survey. The ghost collects its receipt and stops haunting the register."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "dragon-offshore",
+      "objective": "dragon-tax",
+      "entry": "offshore-hoard",
+      "scenes": [
+        {
+          "id": "offshore-hoard",
+          "art": "dragon-tax",
+          "text": {
+            "f": "The dragon has moved its gold onto a raft beyond the tax inspector's reach. It calls this an offshore account. The raft is leaking.",
+            "c": "The dragon's offshore account is a raft three feet from shore. It is leaking gold through the floor. The inspector is enjoying the audit immensely.",
+            "x": "The dragon has put its gold on a leaking raft and called it an offshore account. The inspector says it is the stupidest tax dodge he has ever bloody seen."
+          },
+          "choices": [
+            {
+              "label": "Explain that the raft is still taxable",
+              "stat": "INT",
+              "risk": "bold",
+              "win": "The inspector accepts the declaration and helps secure the raft.",
+              "lose": "The dragon refuses the explanation and shoves you into the shallows.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "The inspector accepts the declaration and helps secure the raft."
+              }
+            },
+            {
+              "label": "Bring the gold back without tipping the raft",
+              "stat": "STR",
+              "risk": "reckless",
+              "win": "You recover the gold before the raft sinks. The inspector starts counting.",
+              "lose": "The raft tips. You fall between the gold crates and the dock.",
+              "onLose": {
+                "momentum": -1,
+                "memory": "The raft tips. You fall between the gold crates and the dock."
+              }
+            },
+            {
+              "label": "Buy waterproof boxes for the records",
+              "stat": "WIS",
+              "risk": "safe",
+              "deal": {
+                "gold": 18
+              },
+              "win": "You keep the tax records dry while the inspector secures the raft.",
+              "lose": "The supply shop has no waterproof boxes.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "You keep the tax records dry while the inspector secures the raft."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "soup-election",
+      "objective": "soup",
+      "entry": "soup-manifesto",
+      "scenes": [
+        {
+          "id": "soup-manifesto",
+          "art": "soup",
+          "text": {
+            "f": "Gregory the soup has organized a walkout. The other dishes agree they should not be eaten, but none can reach the kitchen door. The chef is fetching bowls.",
+            "c": "Gregory has persuaded the other dishes to walk out. The plan has reached a small difficulty: most of his supporters do not have legs.",
+            "x": "Gregory has organized a kitchen walkout. None of his supporters can walk. The chef is fetching bowls, so you had better sort the bloody transport."
+          },
+          "next": [
+            {
+              "scene": "soup-debate"
+            }
+          ],
+          "choices": [
+            {
+              "label": "Arrange a tray for the escaping dishes",
+              "stat": "CHA",
+              "risk": "bold",
+              "win": "You load the dishes onto a serving cart and wheel them away from the chef.",
+              "lose": "The overloaded cart tips into your legs. The kitchen staff hears the crash.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "You load the dishes onto a serving cart and wheel them away from the chef."
+              }
+            },
+            {
+              "label": "Print signs declaring the food alive",
+              "stat": "INT",
+              "risk": "safe",
+              "deal": {
+                "gold": 15
+              },
+              "win": "The staff stops serving the dishes while a manager checks the complaint.",
+              "lose": "The printer is unavailable.",
+              "onWin": {
+                "memory": "The staff stops serving the dishes while a manager checks the complaint."
+              }
+            },
+            {
+              "label": "Hold the door against the kitchen staff",
+              "stat": "CON",
+              "risk": "bold",
+              "win": "You hold the door while Gregory’s supporters reach the exit.",
+              "lose": "A waiter pushes a bread cart through the door and knocks you down.",
+              "onLose": {
+                "momentum": -1,
+                "memory": "A waiter pushes a bread cart through the door and knocks you down."
+              }
+            }
+          ]
+        },
+        {
+          "id": "soup-debate",
+          "art": "soup",
+          "text": {
+            "f": "The manager will release Gregory if the staff agrees. Gregory argues that talking food deserves a choice. The chef argues that soup is much harder to sell once it talks.",
+            "c": "The manager has called a staff vote. Gregory asks for the right to leave. The chef says he has already sold six portions and would prefer nobody mention that.",
+            "x": "The staff is voting on Gregory's freedom. The chef is worried about refunds. Gregory points out that being eaten is rather more of a bloody inconvenience."
+          },
+          "choices": [
+            {
+              "label": "Ask the staff whether they would eat Gregory",
+              "stat": "INT",
+              "risk": "bold",
+              "win": "Nobody volunteers. The manager agrees that Gregory may leave.",
+              "lose": "The chef describes his recipe. The hungry staff crowds you away from the table.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "Nobody volunteers. The manager agrees that Gregory may leave."
+              }
+            },
+            {
+              "label": "Remind them that Gregory asked for help",
+              "stat": "WIS",
+              "risk": "safe",
+              "win": "The staff backs Gregory’s request. The manager reluctantly agrees to release him.",
+              "lose": "The chef calls it part of the dinner show. A waiter bundles you out of the meeting.",
+              "onWin": {
+                "memory": "The staff backs Gregory’s request. The manager reluctantly agrees to release him."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "password-customer-service",
+      "objective": "password",
+      "entry": "password-lute",
+      "scenes": [
+        {
+          "id": "password-lute",
+          "art": "password",
+          "text": {
+            "f": "The tower's support line has played the same lute note for two hours. A clerk finally answers and asks you to identify the note as a security check.",
+            "c": "Two hours on hold, one lute note. The support clerk now wants its name before discussing the password. The musician looks as tired as you feel.",
+            "x": "Two hours of the same bloody lute note. Support finally answers, then asks you to identify it. The wizard is ready to attack the instrument."
+          },
+          "choices": [
+            {
+              "label": "Identify the note for the support clerk",
+              "stat": "INT",
+              "risk": "bold",
+              "win": "You identify the note. The clerk starts the password reset.",
+              "lose": "You give the wrong note. The security alarm knocks you off the doorstep.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "You identify the note. The clerk starts the password reset."
+              }
+            },
+            {
+              "label": "Wait for a senior support clerk",
+              "stat": "CON",
+              "risk": "reckless",
+              "win": "A senior clerk answers and authorizes a reset. You exchange exhausted sympathies.",
+              "lose": "The line sends you back to the beginning. You slump backward off the waiting bench.",
+              "onWin": {
+                "memory": "A senior clerk answers and authorizes a reset. You exchange exhausted sympathies."
+              }
+            },
+            {
+              "label": "Ask the lute player for a hint",
+              "stat": "CHA",
+              "risk": "safe",
+              "win": "The musician quietly names the note. Support accepts your answer.",
+              "lose": "The musician calls security instead. A guard escorts you out with unnecessary force.",
+              "onWin": {
+                "momentum": 1,
+                "memory": "The musician quietly names the note. Support accepts your answer."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "expo": {
+    "name": "Side Quest Simulator",
+    "slug": "side-quest-simulator",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cassiusclover.sidequestsimulator",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#2a1c12",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.cassiusclover.sidequestsimulator"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "backgroundColor": "#2a1c12",
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#2a1c12",
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain"
+        }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-7682672193157403~2748279690",
+          "iosAppId": "ca-app-pub-7682672193157403~9070658815"
+        }
+      ],
+      [
+        "llama.rn",
+        {
+          "enableEntitlements": false,
+          "forceCxx20": true,
+          "enableOpenCLAndHexagon": true
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "buildArchs": [
+              "arm64-v8a"
+            ]
+          }
+        }
+      ],
+      "./plugins/withLlamaBuild"
+    ],
+    "owner": "cassiusclover",
+    "extra": {
+      "eas": {
+        "projectId": "ad17a67e-7b95-47cf-a771-d45fef7a477d"
+      }
+    }
+  }
+}

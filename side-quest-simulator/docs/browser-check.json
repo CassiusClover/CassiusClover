@@ -1,0 +1,17 @@
+{
+  "viewport": "393x852",
+  "checks": [
+    "tone selection and character creation",
+    "real bargain UI without d20",
+    "one-time cost",
+    "branch after purchase",
+    "save and resume",
+    "earned finale option",
+    "d20 finale to completed quest",
+    "accepted decision callbacks in season log",
+    "tracker modal",
+    "remembered rival truce",
+    "broke hero can continue"
+  ],
+  "pageErrors": []
+}

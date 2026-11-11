@@ -1,0 +1,142 @@
+import type { AncestryDef, ClassDef, QuirkDef, RelicDef } from '../types';
+
+export const CLASSES: ClassDef[] = [
+  {
+    id: 'fighter',
+    name: 'Fighter',
+    blurb: 'Solves problems by hitting them. Has not yet met a problem that minded.',
+    stats: { STR: 15, DEX: 12, CON: 14, INT: 8, WIS: 10, CHA: 13 },
+    hp: 10,
+    perkName: 'Second Wind',
+    perkText: 'Heal 2 HP whenever you finish a quest.',
+    cost: 0,
+  },
+  {
+    id: 'wizard',
+    name: 'Wizard',
+    blurb: 'Seven years of arcane study. Mostly uses it to win arguments.',
+    stats: { STR: 8, DEX: 13, CON: 10, INT: 15, WIS: 14, CHA: 12 },
+    hp: 10,
+    perkName: 'Prepared Spell',
+    perkText: '+4 to your first roll of every quest.',
+    cost: 0,
+  },
+  {
+    id: 'rogue',
+    name: 'Rogue',
+    blurb: 'Insists the gold was already in their pocket when they arrived.',
+    stats: { STR: 10, DEX: 15, CON: 12, INT: 13, WIS: 8, CHA: 14 },
+    hp: 11,
+    perkName: 'Sticky Fingers',
+    perkText: 'Earn 40% more gold from everything.',
+    cost: 0,
+  },
+  {
+    id: 'bard',
+    name: 'Bard',
+    blurb: 'Knows three chords and is not afraid to use them on civilians.',
+    stats: { STR: 8, DEX: 14, CON: 12, INT: 13, WIS: 10, CHA: 15 },
+    hp: 11,
+    perkName: 'Inspiring Nonsense',
+    perkText: 'Critical success on a natural 18, 19 or 20.',
+    cost: 60,
+  },
+  {
+    id: 'cleric',
+    name: 'Cleric',
+    blurb: 'Their god is real, attentive, and mildly disappointed.',
+    stats: { STR: 13, DEX: 8, CON: 14, INT: 10, WIS: 15, CHA: 12 },
+    hp: 8,
+    perkName: 'Thoughts and Prayers',
+    perkText: 'Take 1 less damage from every failure.',
+    cost: 60,
+  },
+  {
+    id: 'barbarian',
+    name: 'Barbarian',
+    blurb: 'Has two moods. You will be meeting the other one shortly.',
+    stats: { STR: 15, DEX: 13, CON: 15, INT: 8, WIS: 10, CHA: 8 },
+    hp: 11,
+    perkName: 'Rage',
+    perkText: '+3 to every roll while at half HP or below.',
+    cost: 120,
+  },
+  {
+    id: 'ranger',
+    name: 'Ranger',
+    blurb: 'Technically it is the squirrel who is the ranger.',
+    stats: { STR: 12, DEX: 15, CON: 13, INT: 10, WIS: 14, CHA: 8 },
+    hp: 10,
+    perkName: 'Animal Companion',
+    perkText: 'Gain a luck token at the start of every quest.',
+    cost: 120,
+  },
+  {
+    id: 'paladin',
+    name: 'Paladin',
+    blurb: 'Sworn an oath. Will tell you about the oath. At length.',
+    stats: { STR: 14, DEX: 8, CON: 13, INT: 10, WIS: 12, CHA: 15 },
+    hp: 11,
+    perkName: 'Smite',
+    perkText: '+3 to the final roll of every quest.',
+    cost: 200,
+  },
+];
+
+export const ANCESTRIES: AncestryDef[] = [
+  { id: 'human', name: 'Human', blurb: '+1 to everything. Remarkable only on paper.', effects: { stats: { STR: 1, DEX: 1, CON: 1, INT: 1, WIS: 1, CHA: 1 } } },
+  { id: 'elf', name: 'Elf', blurb: '+2 DEX, +1 INT. Four hundred years old and still renting.', effects: { stats: { DEX: 2, INT: 1 } } },
+  { id: 'dwarf', name: 'Dwarf', blurb: '+2 CON, +1 STR, +2 HP. Has opinions about gravel.', effects: { stats: { CON: 2, STR: 1 }, maxHp: 2 } },
+  { id: 'halfling', name: 'Halfling', blurb: '+2 CHA. Lucky: your first natural 1 each quest is rerolled.', effects: { stats: { CHA: 2 } }, lucky: true },
+  { id: 'goblin', name: 'Goblin', blurb: '+2 DEX, -1 CHA, +25% gold. Bites.', effects: { stats: { DEX: 2, CHA: -1 }, goldMult: 1.25 } },
+  { id: 'orc', name: 'Orc', blurb: '+2 STR, +1 CON. Gentle, patient, built like a shed.', effects: { stats: { STR: 2, CON: 1 } } },
+  { id: 'gnome', name: 'Gnome', blurb: '+2 INT, +1 WIS. Currently inventing something regrettable.', effects: { stats: { INT: 2, WIS: 1 } } },
+];
+
+export const QUIRKS: QuirkDef[] = [
+  { id: 'gold-allergy', name: 'Allergic to Gold', text: '+2 CON, but 25% less gold. Payday is a medical event.', effects: { stats: { CON: 2 }, goldMult: 0.75 } },
+  { id: 'lucky', name: 'Suspiciously Lucky', text: 'Start with an extra luck token. Nobody trusts it.', effects: { startLuck: 1 } },
+  { id: 'doors', name: 'Afraid of Doors', text: '+2 WIS, -1 DEX. Windows are fine. Windows are honest.', effects: { stats: { WIS: 2, DEX: -1 } } },
+  { id: 'geese', name: 'Raised by Geese', text: '+2 CON, -1 CHA. Hisses when cornered.', effects: { stats: { CON: 2, CHA: -1 } } },
+  { id: 'chosen', name: 'Believes They Are the Chosen One', text: '+2 CHA, -1 WIS. No prophecy has confirmed this.', effects: { stats: { CHA: 2, WIS: -1 } } },
+  { id: 'manager', name: 'Former Middle Manager', text: '+1 INT, +1 CHA, -1 STR. Would like to circle back.', effects: { stats: { INT: 1, CHA: 1, STR: -1 } } },
+  { id: 'punctual', name: 'Extremely Punctual', text: '+2 DEX, -1 CON. Arrives early to ambushes.', effects: { stats: { DEX: 2, CON: -1 } } },
+  { id: 'debt', name: 'Owes Money to a Wizard', text: 'Start with 20 borrowed gold, -1 INT. The interest is in frogs.', effects: { startGold: 20, stats: { INT: -1 } } },
+  { id: 'certificate', name: 'Has a Certificate', text: '+2 INT, -1 STR. The certificate is laminated.', effects: { stats: { INT: 2, STR: -1 } } },
+  { id: 'bones', name: 'Slightly Better Bones', text: '+3 max HP. Do not ask whose they were.', effects: { maxHp: 3 } },
+  { id: 'manners', name: 'Cursed with Good Manners', text: '+2 CHA, -1 STR. Apologises to traps.', effects: { stats: { CHA: 2, STR: -1 } } },
+  { id: 'gym', name: 'Never Skips Arm Day', text: '+2 STR, -1 INT. Only arm day.', effects: { stats: { STR: 2, INT: -1 } } },
+  { id: 'whistle', name: 'Cannot Whistle', text: 'No effect whatsoever. It haunts you.', effects: {} },
+];
+
+export const RELICS: RelicDef[] = [
+  { id: 'spoon', name: 'Spoon of Mild Destiny', text: '+1 to every roll.', effects: { rollBonus: 1 } },
+  { id: 'boots', name: 'Boots of Loud Sneaking', text: '+2 DEX.', effects: { stats: { DEX: 2 } } },
+  { id: 'helmet', name: 'Helmet of Second Opinions', text: '+2 WIS.', effects: { stats: { WIS: 2 } } },
+  { id: 'calculator', name: 'Slightly Haunted Abacus', text: '+2 INT.', effects: { stats: { INT: 2 } } },
+  { id: 'belt', name: "Belt of Somebody Else's Strength", text: '+2 STR.', effects: { stats: { STR: 2 } } },
+  { id: 'cloak', name: 'Cloak of Plausible Deniability', text: '+2 CHA.', effects: { stats: { CHA: 2 } } },
+  { id: 'amulet', name: 'Amulet of Eating Anything', text: '+2 CON and +2 max HP.', effects: { stats: { CON: 2 }, maxHp: 2 } },
+  { id: 'thermos', name: 'Flask of Endless Lukewarm Tea', text: 'Heal 2 HP after every quest.', effects: { healPerQuest: 2 } },
+  { id: 'rock', name: 'Emotional Support Rock', text: '+5 max HP.', effects: { maxHp: 5 } },
+  { id: 'loyalty', name: 'Loyalty Card (Nine Stamps)', text: '+30% gold.', effects: { goldMult: 1.3 } },
+  { id: 'padding', name: 'Padded Everything', text: 'Take 1 less damage from failures.', effects: { dmgReduce: 1 } },
+  { id: 'dice', name: 'Loaded Dice (Legal in Some Kingdoms)', text: 'Critical success on a natural 19.', effects: { critRange: 1 } },
+  { id: 'rabbit', name: 'Lucky Rabbit (Whole, Alive, Annoyed)', text: 'Gain a luck token at the start of every quest.', effects: { luckPerQuest: 1 } },
+  { id: 'poster', name: 'Motivational Tapestry', text: '+3 to the final roll of every quest.', effects: { climaxBonus: 3 } },
+  { id: 'sword', name: 'Sword of Paperwork', text: '+1 STR and +1 INT.', effects: { stats: { STR: 1, INT: 1 } } },
+  { id: 'hat', name: 'Hat of Unearned Confidence', text: '+3 CHA, -1 WIS.', effects: { stats: { CHA: 3, WIS: -1 } } },
+  { id: 'map', name: 'Map of Somewhere Else', text: '+1 DEX and +1 WIS.', effects: { stats: { DEX: 1, WIS: 1 } } },
+  { id: 'whistle', name: 'Whistle That Summons Regret', text: '+2 to every roll, but 20% less gold.', effects: { rollBonus: 2, goldMult: 0.8 } },
+];
+
+export const FIRST_NAMES = [
+  'Brenda', 'Gary', 'Thistle', 'Mungo', 'Derek', 'Agnes', 'Bort', 'Wendy', 'Kevin', 'Petunia',
+  'Clive', 'Ursula', 'Nigel', 'Mabel', 'Grub', 'Doris', 'Fenwick', 'Olga', 'Stan', 'Prudence',
+];
+
+export const EPITHETS = [
+  'the Adequate', 'the Mostly Harmless', 'of Indeterminate Skill', 'the Overbooked', 'the Punctual',
+  'Who Means Well', 'the Uninsured', 'Slayer of Deadlines', 'the Third', 'the Reasonably Brave',
+  'of the Wrong Village', 'the Underpaid', 'Bane of Soup', 'the Persistent', 'the Available',
+];

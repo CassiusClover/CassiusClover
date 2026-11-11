@@ -1,0 +1,98 @@
+{
+  "viewport": "393x852",
+  "firstRunControls": true,
+  "oldSaveMigration": true,
+  "combinations": [
+    {
+      "language": 0,
+      "violence": 0,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 0,
+      "violence": 1,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 0,
+      "violence": 2,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 1,
+      "violence": 0,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 1,
+      "violence": 1,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 1,
+      "violence": 2,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 2,
+      "violence": 0,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 2,
+      "violence": 1,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    },
+    {
+      "language": 2,
+      "violence": 2,
+      "persisted": true,
+      "storyChanged": true,
+      "narratorChanged": true,
+      "injuryChanged": true,
+      "defeatChanged": true,
+      "rulesUnchanged": true
+    }
+  ],
+  "pageErrors": []
+}

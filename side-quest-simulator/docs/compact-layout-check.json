@@ -1,0 +1,901 @@
+{
+  "checkedAt": "2026-11-11T20:25:44.352Z",
+  "method": "Rendered web UI, synthetic test saves, default font scale; viewport height reserves space equivalent to native safe areas.",
+  "checks": [
+    {
+      "name": "Parade",
+      "buttons": [
+        {
+          "bottom": 588,
+          "label": "Find a route around the curb. Bold · WIS +0 · DC 10 · 55%",
+          "top": 535
+        },
+        {
+          "bottom": 647,
+          "label": "Hire a tiny wagon. 14 gold · Guaranteed · No roll prize",
+          "top": 594
+        },
+        {
+          "bottom": 706,
+          "label": "Carry the marshal to lead the way. Careful · STR +3 · DC 7 · 85%",
+          "top": 653
+        },
+        {
+          "bottom": 744,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 712
+        }
+      ],
+      "content": {
+        "bottom": 526,
+        "clientHeight": 423,
+        "scrollHeight": 423,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 526
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Rain",
+      "buttons": [
+        {
+          "bottom": 647,
+          "label": "Persuade the marshal to approve a detour. Bold · CHA +2 · DC 10 · 65%",
+          "top": 594
+        },
+        {
+          "bottom": 706,
+          "label": "Build a bridge with your umbrella. Reckless · CON +2 · DC 14 · 45%",
+          "top": 653
+        },
+        {
+          "bottom": 744,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 712
+        }
+      ],
+      "content": {
+        "bottom": 585,
+        "clientHeight": 482,
+        "scrollHeight": 482,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 585
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Longest",
+      "buttons": [
+        {
+          "bottom": 647,
+          "label": "Remove the candles with the drain hook. Bold · WIS +0 · DC 10 · 55%",
+          "top": 594
+        },
+        {
+          "bottom": 706,
+          "label": "Wade in and reach the overflow valve. Careful · CON +2 · DC 7 · 80%",
+          "top": 653
+        },
+        {
+          "bottom": 744,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 712
+        }
+      ],
+      "content": {
+        "bottom": 585,
+        "clientHeight": 482,
+        "scrollHeight": 482,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 585
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Finale",
+      "buttons": [
+        {
+          "bottom": 508,
+          "label": "Duel for the trophy. Bold · STR +5 · DC 23 · 15%",
+          "top": 455
+        },
+        {
+          "bottom": 567,
+          "label": "Present your quest record. Bold · CHA +4 · DC 23 · 10%",
+          "top": 514
+        },
+        {
+          "bottom": 626,
+          "label": "Check the trophy engraving. Careful · INT +1 · DC 20 · 10%",
+          "top": 573
+        },
+        {
+          "bottom": 685,
+          "label": "Take the trophy and leave. Reckless · DEX +3 · DC 27 · 5%",
+          "top": 632
+        },
+        {
+          "bottom": 744,
+          "label": "Offer the shared hero contract. Careful · CHA +4 · DC 20 · 25%",
+          "top": 691
+        }
+      ],
+      "content": {
+        "bottom": 446,
+        "clientHeight": 343,
+        "scrollHeight": 343,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 446
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Board",
+      "buttons": [
+        {
+          "bottom": 744,
+          "label": "Accept · 5 gold reward",
+          "top": 696
+        }
+      ],
+      "content": {
+        "bottom": 687,
+        "clientHeight": 584,
+        "scrollHeight": 584,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 687
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Success",
+      "buttons": [
+        {
+          "bottom": 744,
+          "label": "Onwards",
+          "top": 696
+        }
+      ],
+      "content": {
+        "bottom": 687,
+        "clientHeight": 612,
+        "scrollHeight": 612,
+        "top": 75.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 687
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Failure",
+      "buttons": [
+        {
+          "bottom": 690,
+          "label": "Try again · 1 luck (2 left)",
+          "top": 642
+        },
+        {
+          "bottom": 744,
+          "label": "Onwards",
+          "top": 696
+        }
+      ],
+      "content": {
+        "bottom": 633,
+        "clientHeight": 558,
+        "scrollHeight": 558,
+        "top": 75.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 633
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Bonus",
+      "buttons": [
+        {
+          "bottom": 588,
+          "label": "Padded Everything. Take 1 less damage from failures.",
+          "top": 535
+        },
+        {
+          "bottom": 647,
+          "label": "Cash in Hand. About 20 gold, no questions asked.",
+          "top": 594
+        },
+        {
+          "bottom": 706,
+          "label": "A Proper Lunch. Heal 6 HP.",
+          "top": 653
+        },
+        {
+          "bottom": 744,
+          "label": "Buy a healing potion for 25 gold and heal 6 HP",
+          "top": 712
+        }
+      ],
+      "content": {
+        "bottom": 526,
+        "clientHeight": 423,
+        "scrollHeight": 423,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 526
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 30, modifier +10",
+          "DEX: score 30, modifier +10",
+          "CON: score 30, modifier +10",
+          "INT: score 30, modifier +10",
+          "WIS: score 30, modifier +10",
+          "CHA: score 30, modifier +10"
+        ],
+        "scrollWidth": 366,
+        "text": "STR +10DEX +10CON +10INT +10WIS +10CHA +10",
+        "top": 55,
+        "width": 366
+      },
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Death",
+      "buttons": [
+        {
+          "bottom": 690,
+          "label": "Second chance: watch an ad. Return at half health and carry on. Once per run. (Ad simulated in this build.)",
+          "top": 623
+        },
+        {
+          "bottom": 744,
+          "label": "Accept fate",
+          "top": 696
+        }
+      ],
+      "content": {
+        "bottom": 614,
+        "clientHeight": 614,
+        "scrollHeight": 614,
+        "top": 0
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 614
+      },
+      "stats": null,
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Summary",
+      "buttons": [
+        {
+          "bottom": 690,
+          "label": "Double it to 684: watch an ad. Ad simulated in this build.",
+          "top": 637
+        },
+        {
+          "bottom": 744,
+          "label": "Collect 342 tips",
+          "top": 696
+        }
+      ],
+      "content": {
+        "bottom": 628,
+        "clientHeight": 628,
+        "scrollHeight": 628,
+        "top": 0
+      },
+      "dock": {
+        "bottom": 756,
+        "top": 628
+      },
+      "stats": null,
+      "viewport": {
+        "height": 756,
+        "width": 390
+      }
+    },
+    {
+      "name": "Parade",
+      "buttons": [
+        {
+          "bottom": 412,
+          "label": "Find a route around the curb. Bold · WIS +0 · DC 10 · 55%",
+          "top": 359
+        },
+        {
+          "bottom": 471,
+          "label": "Hire a tiny wagon. 14 gold · Guaranteed · No roll prize",
+          "top": 418
+        },
+        {
+          "bottom": 530,
+          "label": "Carry the marshal to lead the way. Careful · STR +3 · DC 7 · 85%",
+          "top": 477
+        },
+        {
+          "bottom": 568,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 536
+        }
+      ],
+      "content": {
+        "bottom": 350,
+        "clientHeight": 247,
+        "scrollHeight": 247,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 350
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Rain",
+      "buttons": [
+        {
+          "bottom": 471,
+          "label": "Persuade the marshal to approve a detour. Bold · CHA +2 · DC 10 · 65%",
+          "top": 418
+        },
+        {
+          "bottom": 530,
+          "label": "Build a bridge with your umbrella. Reckless · CON +2 · DC 14 · 45%",
+          "top": 477
+        },
+        {
+          "bottom": 568,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 536
+        }
+      ],
+      "content": {
+        "bottom": 409,
+        "clientHeight": 306,
+        "scrollHeight": 306,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 409
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Longest",
+      "buttons": [
+        {
+          "bottom": 471,
+          "label": "Remove the candles with the drain hook. Bold · WIS +0 · DC 10 · 55%",
+          "top": 418
+        },
+        {
+          "bottom": 530,
+          "label": "Wade in and reach the overflow valve. Careful · CON +2 · DC 7 · 80%",
+          "top": 477
+        },
+        {
+          "bottom": 568,
+          "label": "Bribe your way past, 14 gold. No reward.",
+          "top": 536
+        }
+      ],
+      "content": {
+        "bottom": 409,
+        "clientHeight": 306,
+        "scrollHeight": 306,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 409
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Finale",
+      "buttons": [
+        {
+          "bottom": 412,
+          "label": "Duel for the trophy. STR +5 · DC 23 · 15%",
+          "top": 340
+        },
+        {
+          "bottom": 412,
+          "label": "Present your quest record. CHA +4 · DC 23 · 10%",
+          "top": 340
+        },
+        {
+          "bottom": 490,
+          "label": "Check the trophy engraving. INT +1 · DC 20 · 10%",
+          "top": 418
+        },
+        {
+          "bottom": 490,
+          "label": "Take the trophy and leave. DEX +3 · DC 27 · 5%",
+          "top": 418
+        },
+        {
+          "bottom": 568,
+          "label": "Offer the shared hero contract. CHA +4 · DC 20 · 25%",
+          "top": 496
+        }
+      ],
+      "content": {
+        "bottom": 331,
+        "clientHeight": 228,
+        "scrollHeight": 228,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 331
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Board",
+      "buttons": [
+        {
+          "bottom": 568,
+          "label": "Accept · 5 gold reward",
+          "top": 520
+        }
+      ],
+      "content": {
+        "bottom": 511,
+        "clientHeight": 408,
+        "scrollHeight": 408,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 511
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Success",
+      "buttons": [
+        {
+          "bottom": 568,
+          "label": "Onwards",
+          "top": 520
+        }
+      ],
+      "content": {
+        "bottom": 511,
+        "clientHeight": 436,
+        "scrollHeight": 436,
+        "top": 75.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 511
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Failure",
+      "buttons": [
+        {
+          "bottom": 514,
+          "label": "Try again · 1 luck (2 left)",
+          "top": 466
+        },
+        {
+          "bottom": 568,
+          "label": "Onwards",
+          "top": 520
+        }
+      ],
+      "content": {
+        "bottom": 457,
+        "clientHeight": 382,
+        "scrollHeight": 382,
+        "top": 75.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 457
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 16, modifier +3",
+          "DEX: score 13, modifier +1",
+          "CON: score 15, modifier +2",
+          "INT: score 9, modifier -1",
+          "WIS: score 11, modifier +0",
+          "CHA: score 14, modifier +2"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +3DEX +1CON +2INT -1WIS +0CHA +2",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Bonus",
+      "buttons": [
+        {
+          "bottom": 412,
+          "label": "Padded Everything. Take 1 less damage from failures.",
+          "top": 359
+        },
+        {
+          "bottom": 471,
+          "label": "Cash in Hand. About 20 gold, no questions asked.",
+          "top": 418
+        },
+        {
+          "bottom": 530,
+          "label": "A Proper Lunch. Heal 6 HP.",
+          "top": 477
+        },
+        {
+          "bottom": 568,
+          "label": "Buy a healing potion for 25 gold and heal 6 HP",
+          "top": 536
+        }
+      ],
+      "content": {
+        "bottom": 350,
+        "clientHeight": 247,
+        "scrollHeight": 247,
+        "top": 103.5
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 350
+      },
+      "stats": {
+        "bottom": 75.5,
+        "labels": [
+          "STR: score 30, modifier +10",
+          "DEX: score 30, modifier +10",
+          "CON: score 30, modifier +10",
+          "INT: score 30, modifier +10",
+          "WIS: score 30, modifier +10",
+          "CHA: score 30, modifier +10"
+        ],
+        "scrollWidth": 351,
+        "text": "STR +10DEX +10CON +10INT +10WIS +10CHA +10",
+        "top": 55,
+        "width": 351
+      },
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Death",
+      "buttons": [
+        {
+          "bottom": 514,
+          "label": "Second chance: watch an ad. Return at half health and carry on. Once per run. (Ad simulated in this build.)",
+          "top": 447
+        },
+        {
+          "bottom": 568,
+          "label": "Accept fate",
+          "top": 520
+        }
+      ],
+      "content": {
+        "bottom": 438,
+        "clientHeight": 438,
+        "scrollHeight": 438,
+        "top": 0
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 438
+      },
+      "stats": null,
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    },
+    {
+      "name": "Summary",
+      "buttons": [
+        {
+          "bottom": 514,
+          "label": "Double it to 684: watch an ad. Ad simulated in this build.",
+          "top": 461
+        },
+        {
+          "bottom": 568,
+          "label": "Collect 342 tips",
+          "top": 520
+        }
+      ],
+      "content": {
+        "bottom": 452,
+        "clientHeight": 452,
+        "scrollHeight": 452,
+        "top": 0
+      },
+      "dock": {
+        "bottom": 580,
+        "top": 452
+      },
+      "stats": null,
+      "viewport": {
+        "height": 580,
+        "width": 375
+      }
+    }
+  ],
+  "note": "Six live stat modifiers are visible on quest, board, roll and reward screens. All twenty cases fit without scrolling. Large accessibility text can scroll independently of fixed actions."
+}

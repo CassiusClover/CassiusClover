@@ -1,0 +1,777 @@
+import { CARDS } from './content/cards';
+import { ANCESTRIES, CLASSES, EPITHETS, FIRST_NAMES, QUIRKS, RELICS } from './content/heroes';
+import { DM_LINES, RIVALS, type DmEvent } from './content/dm';
+import { readableDmLine } from '../services/dmReadability';
+import { GIVERS, OBJECTIVES, TWISTS } from './content/quests';
+import { RIVAL_SCENES } from './content/stories.generated';
+import { allowsModelLine, contentText, injuryDescription, VIOLENCE_NAMES } from './contentSettings';
+import { canChoose, nextScene, storyCard, storiesFor, storyOf, storyRoute } from './stories';
+import type {
+  AiLines, Boon, Card, Choice, Effects, Meta, QuestOffer, Risk, RollResult, RunState, Stats, Tier, Tone, Txt, Violence,
+} from './types';
+import { STATS } from './types';
+
+export const QUESTS_TO_WIN = 10;
+export const CARDS_PER_QUEST = 2;
+export const POTION_HEAL = 6;
+
+const RISK: Record<Risk, { dc: number; gold: number; dmg: number }> = {
+  safe: { dc: -3, gold: 0.6, dmg: 2 },
+  bold: { dc: 0, gold: 1, dmg: 3 },
+  reckless: { dc: 4, gold: 2.2, dmg: 5 },
+};
+const TIER: Record<Tier, { dc: number; pay: number }> = {
+  0: { dc: -2, pay: 0.6 },
+  1: { dc: 0, pay: 1 },
+  2: { dc: 2, pay: 1.8 },
+};
+
+const byId = <T extends { id: string }>(list: T[], id: string): T => {
+  const found = list.find((x) => x.id === id);
+  if (!found) throw new Error(`Unknown id: ${id}`);
+  return found;
+};
+export const classOf = (id: string) => byId(CLASSES, id);
+export const ancestryOf = (id: string) => byId(ANCESTRIES, id);
+export const quirkOf = (id: string) => byId(QUIRKS, id);
+export const relicOf = (id: string) => byId(RELICS, id);
+export const giverOf = (id: string) => byId(GIVERS, id);
+export const objectiveOf = (id: string) => byId(OBJECTIVES, id);
+export const twistOf = (id: string) => byId(TWISTS, id);
+export const cardOf = (id: string, storyId?: string): Card => {
+  const scene = storyCard(id);
+  if (scene) return scene;
+  if (!id.startsWith('x-')) return byId(CARDS, id);
+  const objective = byId(OBJECTIVES, id.slice(2));
+  return { ...objective.climax, choices: [...objective.climax.choices, ...(storyOf(objective.id, storyId)?.finaleChoices ?? [])] };
+};
+
+export const t = contentText;
+
+export const modOf = (score: number) => Math.floor((score - 10) / 2);
+export const textFor = (run: RunState, txt: Txt, tone: Tone, violence: Violence = 0) => t(txt, tone, violence).replace(/\{rival\}/g, run.rival).replace(/\{hero\}/g, run.hero.name);
+
+// --- RNG (mulberry32, state carried in the run so saves are deterministic) ---
+const rand = (run: { rng: number }): number => {
+  let x = (run.rng = (run.rng + 0x6d2b79f5) >>> 0);
+  x = Math.imul(x ^ (x >>> 15), x | 1);
+  x ^= x + Math.imul(x ^ (x >>> 7), x | 61);
+  return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+};
+const randInt = (run: { rng: number }, n: number) => Math.floor(rand(run) * n);
+const pick = <T>(run: { rng: number }, list: T[]): T => list[randInt(run, list.length)];
+const shuffled = <T>(run: { rng: number }, list: T[]): T[] => {
+  const a = [...list];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = randInt(run, i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
+
+// --- The Dungeon Master ---
+/** Sets the DM's current line. Picks deterministically without disturbing the run's dice. */
+const say = (run: RunState, event: DmEvent, choice = '') => {
+  run.liveNarrationKey = undefined;
+  run.liveNarrationSettings = undefined;
+  const pool = DM_LINES[event];
+  const line = pool[((run.rng >>> 5) + run.said * 7) % pool.length];
+  run.scriptedNarration = { text: line, choice };
+  const live = liveLine(run, event);
+  if (live) {
+    run.said += 1;
+    run.narration = live;
+    return;
+  }
+  run.said += 1;
+  run.narration = renderNarration(run, line, choice, 0, 0);
+};
+
+const renderNarration = (run: RunState, line: Txt, choice: string, tone: Tone, violence: Violence) =>
+  t(line, tone, violence)
+    .replace(/\{hero\}/g, run.hero.name)
+    .replace(/\{rival\}/g, run.rival)
+    .replace(/\{class\}/g, classOf(run.hero.classId).name.toLowerCase())
+    .replace(/\{quest\}/g, run.quest ? t(objectiveOf(run.quest.offer.objectiveId).title, tone, violence) : '')
+    .replace(/\{choice\}/g, choice);
+
+const scriptEvent = (run: RunState): DmEvent => {
+  if (run.phase === 'dead') return 'dead';
+  if (run.phase === 'victory') return 'victory';
+  if (run.phase === 'boon') return run.quest?.climaxFailed ? 'questDoneBadly' : 'questDone';
+  if (run.phase === 'result') {
+    const outcome = run.result?.outcome;
+    return outcome === 'deal' || outcome === 'bribe' ? 'bribe' : outcome === 'fail' || outcome === 'fumble' || outcome === 'crit' ? outcome : 'success';
+  }
+  if (run.phase === 'card') return isClimax(run) ? 'climaxGood' : 'questStart';
+  return run.questIndex === 0 ? 'intro' : 'board';
+};
+
+export const isLiveNarration = (run: RunState, tone: Tone, violence: Violence = 0) =>
+  run.liveNarrationKey === narrationKey(run) && run.liveNarrationSettings?.tone === tone && run.liveNarrationSettings?.violence === violence && readableDmLine(run.narration);
+
+/** Render saved source text, including on an old save, with the CURRENT preferences. */
+export const narrationFor = (run: RunState, tone: Tone, violence: Violence = 0): string => {
+  if (isLiveNarration(run, tone, violence)) return run.narration;
+  const pool = DM_LINES[scriptEvent(run)];
+  const fallback = pool[((run.rng >>> 5) + Math.max(0, run.said - 1) * 7) % pool.length];
+  const source = run.scriptedNarration ?? { text: fallback, choice: '' };
+  return renderNarration(run, source.text, source.choice, tone, violence);
+};
+
+const narrate = (run: RunState, text: Txt) => {
+  run.scriptedNarration = { text, choice: '' };
+  run.liveNarrationKey = undefined;
+  run.liveNarrationSettings = undefined;
+  run.narration = renderNarration(run, text, '', 0, 0);
+};
+/** The live Dungeon Master's line for this moment, if one has arrived for the current quest. */
+const liveLine = (run: RunState, event: DmEvent): string => {
+  const ai = run.ai;
+  const q = run.quest;
+  if (!ai || !q || ai.questIndex !== run.questIndex) return '';
+  const card = ai.cards[q.cardIdx];
+  switch (event) {
+    case 'bridgeGood': return ai.bridgeGood;
+    case 'bridgeBad': return ai.bridgeBad;
+    case 'climaxGood': case 'climaxBad': return ai.finaleIntro;
+    case 'success': case 'crit': return card?.good ?? '';
+    case 'fail': case 'fumble': return card?.bad ?? '';
+    case 'questDone': return ai.done;
+    case 'questDoneBadly': return ai.doneBadly;
+    default: return '';
+  }
+};
+
+const clean = (s: unknown) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, 240) : '');
+
+/**
+ * Accepts lines from the live Dungeon Master. Ignored unless they are for the quest still
+ * in progress and well formed, so a slow or broken reply can never disturb a run.
+ */
+export const applyAiLines = (prev: RunState, questIndex: number, raw: unknown): RunState => {
+  if (!prev.quest || prev.questIndex !== questIndex || !raw || typeof raw !== 'object') return prev;
+  const r = raw as Record<string, unknown>;
+  const cards = Array.isArray(r.cards) ? r.cards.map((c) => ({ good: clean((c as any)?.good), bad: clean((c as any)?.bad) })) : [];
+  const ai: AiLines = {
+    questIndex,
+    bridgeGood: clean(r.bridgeGood), bridgeBad: clean(r.bridgeBad), finaleIntro: clean(r.finaleIntro),
+    cards, done: clean(r.done), doneBadly: clean(r.doneBadly),
+  };
+  if (!ai.finaleIntro && !ai.done && !cards.some((c) => c.good || c.bad)) return prev;
+  return { ...clone(prev), ai };
+};
+
+/** Everything the live Dungeon Master needs to know to write lines for the quest just accepted. */
+export const dmContext = (run: RunState, tone: Tone, violence: Violence = 0) => {
+  const q = run.quest!;
+  const twist = twistOf(q.offer.twistId);
+  return {
+    tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    violence: VIOLENCE_NAMES[violence],
+    hero: { name: run.hero.name, class: classOf(run.hero.classId).name, ancestry: ancestryOf(run.hero.ancestryId).name, quirk: quirkOf(run.hero.quirkId).name },
+    rival: run.rival,
+    questNumber: run.questIndex + 1,
+    questsTotal: QUESTS_TO_WIN,
+    health: `${run.hero.hp}/${run.hero.maxHp}`,
+    relics: run.relics.map((id) => relicOf(id).name),
+    history: run.history.map((h) => ({ quest: t(objectiveOf(h.objectiveId).title, tone, violence), result: h.clean ? 'clean' : 'botched' })),
+    quest: {
+      title: t(objectiveOf(q.offer.objectiveId).title, tone, violence),
+      client: t(giverOf(q.offer.giverId).name, tone, violence),
+      task: t(objectiveOf(q.offer.objectiveId).task, tone, violence),
+      twist: t(twist.text, tone, violence),
+      cards: q.cards.map((id) => {
+        const c = cardOf(id, q.storyId);
+        return { scene: t(c.text, tone, violence), options: c.choices.map((x) => t(x.label, tone, violence)) };
+      }),
+    },
+  };
+};
+
+/** Identifies a playable moment, not the current narration text. */
+export const narrationKey = (run: RunState): string => [
+  run.id ?? `${run.hero.name}:${run.rival}`, run.questIndex, run.quest?.offer.objectiveId,
+  run.phase, run.quest?.cards[run.quest.cardIdx], run.result?.choiceIdx, run.result?.outcome, run.result?.d20, run.rng, run.hero.hp, run.gold, run.luck,
+].join('|');
+
+/** Actual decisions and consequences, rather than speculative lines for both outcomes. */
+export const dmMomentContext = (run: RunState, tone: Tone, violence: Violence = 0) => {
+  const q = run.quest!;
+  const card = currentCard(run)!;
+  const result = run.result;
+  const choice = result && result.choiceIdx >= 0 ? card.choices[result.choiceIdx] : null;
+  const good = !!result && result.dmg === 0;
+  return {
+    key: narrationKey(run), tone: (['family', 'cheeky', 'crude'] as const)[tone],
+    violence: VIOLENCE_NAMES[violence],
+    hero: `${run.hero.name}, ${ancestryOf(run.hero.ancestryId).name} ${classOf(run.hero.classId).name}; ${quirkOf(run.hero.quirkId).name}`,
+    health: `${run.hero.hp}/${run.hero.maxHp}`,
+    rival: run.rival,
+    quest: t(objectiveOf(q.offer.objectiveId).title, tone, violence),
+    scene: textFor(run, card.text, tone, violence),
+    moment: run.phase === 'result' ? 'reaction' : run.phase === 'boon' ? 'quest complete' : 'arrival',
+    action: choice ? t(choice.label, tone, violence) : result?.outcome === 'bribe' ? 'Paid to pass' : '',
+    outcome: result ? result.outcome : '',
+    consequence: choice ? t(good ? choice.win : choice.lose, tone, violence) : '',
+    injury: result ? injuryDescription(result, violence) : '',
+    changed: result?.storyEffect?.memory ? t(result.storyEffect.memory, tone, violence) : '',
+    memories: (run.decisions ?? []).slice(-3).map((d) => t(d.memory, tone, violence)),
+    flags: [...(q.flags ?? []), ...(run.storyFlags ?? [])],
+    preparation: q.momentum ?? 0,
+    voice: (run.questIndex + q.cardIdx + run.said) % 5,
+  };
+};
+
+export const applyAiNarration = (prev: RunState, key: string, raw: unknown, tone: Tone = 0, violence: Violence = 0): RunState => {
+  if (narrationKey(prev) !== key || !['card', 'result', 'boon'].includes(prev.phase)) return prev;
+  const value = raw && typeof raw === 'object' ? (raw as { line?: unknown }).line : null;
+  if (typeof value !== 'string') return prev;
+  const line = value.replace(/\s+/g, ' ').trim();
+  if (line.length < 8 || line.length > 240 || /[{}<>]|```/.test(line)) return prev;
+  if (!readableDmLine(line)) return prev;
+  if (!allowsModelLine(line, { tone, violence })) return prev;
+  return { ...prev, narration: line, liveNarrationKey: key, liveNarrationSettings: { tone, violence } };
+};
+
+/** A changed tone/model must not keep an old AI line or legacy quest reply on screen. */
+export const clearAiNarration = (prev: RunState): RunState => {
+  if (!prev.ai && !prev.liveNarrationKey) return prev;
+  const next = { ...prev, ai: null, liveNarrationKey: undefined, liveNarrationSettings: undefined };
+  return { ...next, narration: narrationFor(next, 0, 0) };
+};
+
+const lower = (label: string) => label.charAt(0).toLowerCase() + label.slice(1);
+/** How many quests the rival has finished: always a little ahead, until the showdown. */
+export const rivalProgress = (run: RunState) => Math.min(QUESTS_TO_WIN - 1, Math.floor(run.questsDone * 0.8) + 2);
+export const isFinalQuest = (run: RunState) => run.questIndex >= QUESTS_TO_WIN - 1;
+
+// --- Aggregated modifiers from ancestry, quirk and relics ---
+export interface Mods {
+  rollBonus: number;
+  climaxBonus: number;
+  goldMult: number;
+  dmgReduce: number;
+  healPerQuest: number;
+  critRange: number;
+  luckPerQuest: number;
+}
+
+const effectSources = (run: RunState): Effects[] => [
+  ancestryOf(run.hero.ancestryId).effects,
+  quirkOf(run.hero.quirkId).effects,
+  ...run.relics.map((id) => relicOf(id).effects),
+];
+
+export const modsOf = (run: RunState): Mods => {
+  const m: Mods = { rollBonus: run.metaRollBonus, climaxBonus: 0, goldMult: 1, dmgReduce: 0, healPerQuest: 0, critRange: 0, luckPerQuest: 0 };
+  for (const e of effectSources(run)) {
+    m.rollBonus += e.rollBonus ?? 0;
+    m.climaxBonus += e.climaxBonus ?? 0;
+    m.goldMult *= e.goldMult ?? 1;
+    m.dmgReduce += e.dmgReduce ?? 0;
+    m.healPerQuest += e.healPerQuest ?? 0;
+    m.critRange += e.critRange ?? 0;
+    m.luckPerQuest += e.luckPerQuest ?? 0;
+  }
+  const cls = run.hero.classId;
+  if (cls === 'rogue') m.goldMult *= 1.4;
+  if (cls === 'cleric') m.dmgReduce += 1;
+  if (cls === 'fighter') m.healPerQuest += 2;
+  if (cls === 'bard') m.critRange += 2;
+  if (cls === 'ranger') m.luckPerQuest += 1;
+  if (cls === 'paladin') m.climaxBonus += 3;
+  return m;
+};
+
+const applyEffects = (run: RunState, e: Effects) => {
+  for (const s of STATS) run.hero.stats[s] += e.stats?.[s] ?? 0;
+  if (e.maxHp) {
+    run.hero.maxHp += e.maxHp;
+    run.hero.hp += e.maxHp;
+  }
+  // CON gained after creation also toughens the hero a little.
+  if (e.stats?.CON && e.stats.CON >= 2) {
+    run.hero.maxHp += 1;
+    run.hero.hp += 1;
+  }
+};
+
+const heal = (run: RunState, amount: number) => {
+  run.hero.hp = Math.min(run.hero.maxHp, run.hero.hp + amount);
+};
+
+// --- Run creation ---
+export interface HeroChoice {
+  classId: string;
+  ancestryId: string;
+  quirkId: string;
+  name?: string;
+}
+
+export const rollQuirk = (seed: number): string => QUIRKS[randInt({ rng: seed >>> 0 }, QUIRKS.length)].id;
+export const rollName = (seed: number): string => {
+  const r = { rng: (seed ^ 0x9e3779b9) >>> 0 };
+  return `${pick(r, FIRST_NAMES)} ${pick(r, EPITHETS)}`;
+};
+
+export const newRun = (meta: Meta, choice: HeroChoice, seed: number, blessed = false): RunState => {
+  const cls = classOf(choice.classId);
+  const up = meta.upgrades;
+  const stats: Stats = { ...cls.stats };
+  const run: RunState = {
+    id: `sqs-${seed >>> 0}-${choice.name ?? rollName(seed)}`,
+    decisions: [],
+    storyFlags: [],
+    rng: seed >>> 0,
+    hero: {
+      name: choice.name ?? rollName(seed),
+      classId: cls.id,
+      ancestryId: choice.ancestryId,
+      quirkId: choice.quirkId,
+      stats,
+      hp: 0,
+      maxHp: 0,
+    },
+    gold: 15 * (up.purse ?? 0),
+    goldEarned: 0,
+    luck: up.coin ?? 0,
+    relics: [],
+    questIndex: 0,
+    questsDone: 0,
+    phase: 'board',
+    board: [],
+    quest: null,
+    result: null,
+    boons: [],
+    payout: 0,
+    revived: false,
+    blessed,
+    metaRollBonus: up.training ?? 0,
+    seenCards: [],
+    objectivesDone: [],
+    epitaph: '',
+    rival: RIVALS[(seed >>> 7) % RIVALS.length],
+    narration: '',
+    said: 0,
+    streak: 0,
+    history: [],
+    ai: null,
+  };
+  const anc = ancestryOf(choice.ancestryId).effects;
+  const quirk = quirkOf(choice.quirkId).effects;
+  for (const e of [anc, quirk]) {
+    for (const s of STATS) stats[s] += e.stats?.[s] ?? 0;
+    run.luck += e.startLuck ?? 0;
+    run.gold += e.startGold ?? 0;
+  }
+  run.hero.maxHp = Math.max(4, cls.hp + modOf(stats.CON) + (anc.maxHp ?? 0) + (quirk.maxHp ?? 0) + 2 * (up.boots ?? 0));
+  run.hero.hp = run.hero.maxHp;
+  if (blessed) {
+    // Sponsor's Blessing (rewarded ad): a relic, a luck token and some gold.
+    const relic = pick(run, RELICS);
+    run.relics.push(relic.id);
+    applyEffects(run, relic.effects);
+    run.luck += 1;
+    run.gold += 20;
+  }
+  dealBoard(run);
+  say(run, 'intro');
+  return run;
+};
+
+const dealBoard = (run: RunState) => {
+  run.phase = 'board';
+  run.quest = null;
+  run.result = null;
+  if (isFinalQuest(run)) {
+    // The season always ends the same way: one posting, and the rival is on it.
+    run.board = [{ giverId: 'guild', objectiveId: 'showdown', twistId: 'rival', tier: 1 }];
+    say(run, 'final');
+    return;
+  }
+  const recent = new Set(run.objectivesDone.slice(-6));
+  const pool = shuffled(run, OBJECTIVES.filter((o) => !o.final && !recent.has(o.id)));
+  const givers = shuffled(run, GIVERS);
+  run.board = ([0, 1, 2] as Tier[]).map((tier, i): QuestOffer => ({
+    giverId: givers[i].id,
+    objectiveId: pool[i].id,
+    twistId: pick(run, TWISTS).id,
+    tier,
+  }));
+  const beat: Record<number, DmEvent> = { 2: 'rival1', 5: 'rival2', 8: 'rival3' };
+  say(run, beat[run.questIndex] ?? (run.hero.hp * 2 <= run.hero.maxHp ? 'boardHurt' : 'board'));
+};
+
+export const questPay = (run: RunState, offer: QuestOffer): number => {
+  const twist = twistOf(offer.twistId);
+  return Math.round((18 + 7 * run.questIndex) * TIER[offer.tier].pay * (twist.goldMult ?? 1) * modsOf(run).goldMult);
+};
+
+export const pickQuest = (prev: RunState, idx: number): RunState => {
+  const run = clone(prev);
+  if (run.phase !== 'board') return prev;
+  if (!Number.isInteger(idx) || idx < 0 || idx >= run.board.length) return prev;
+  const offer = run.board[idx];
+  const recent = new Set(run.seenCards.slice(-12));
+  let pool = CARDS.filter((c) => !recent.has(c.id));
+  if (pool.length < CARDS_PER_QUEST) pool = CARDS;
+  const versions = storiesFor(offer.objectiveId);
+  const story = versions.length ? pick(run, versions) : undefined;
+  const cards = story ? storyRoute(story.entry, run.storyFlags ?? []) : shuffled(run, pool).slice(0, CARDS_PER_QUEST).map((c) => c.id);
+  const rivalIndex = [2, 5, 8].indexOf(run.questIndex);
+  if (rivalIndex >= 0 && RIVAL_SCENES[rivalIndex]) cards.push(RIVAL_SCENES[rivalIndex].id);
+  run.quest = {
+    offer,
+    cards: [...cards, objectiveOf(offer.objectiveId).climax.id],
+    cardIdx: 0,
+    firstRollDone: false,
+    luckyUsed: false,
+    climaxFailed: false,
+    flags: [],
+    momentum: 0,
+    storyId: story?.id ?? story?.objective,
+  };
+  run.ai = null;
+  run.luck += modsOf(run).luckPerQuest;
+  run.phase = 'card';
+  noteCard(run);
+  say(run, 'questStart');
+  return run;
+};
+
+const noteCard = (run: RunState) => {
+  const id = run.quest!.cards[run.quest!.cardIdx];
+  if (!run.seenCards.includes(id)) run.seenCards.push(id);
+  else {
+    run.seenCards.splice(run.seenCards.indexOf(id), 1);
+    run.seenCards.push(id);
+  }
+};
+
+export const currentCard = (run: RunState): Card | null =>
+  run.quest ? cardOf(run.quest.cards[run.quest.cardIdx], run.quest.storyId) : null;
+
+export const isClimax = (run: RunState): boolean =>
+  !!run.quest && run.quest.cardIdx === run.quest.cards.length - 1;
+
+// --- Checks ---
+export interface CheckInfo {
+  dc: number;
+  mod: number;
+  bonus: number;
+  /** Chance of success, 0..1, ignoring rerolls. */
+  chance: number;
+  notes: string[];
+}
+
+export const checkInfo = (run: RunState, choice: Choice): CheckInfo => {
+  if (choice.deal) return { dc: 0, mod: 0, bonus: 0, chance: 1, notes: ['Guaranteed deal; no roll'] };
+  const q = run.quest!;
+  const twist = twistOf(q.offer.twistId);
+  const m = modsOf(run);
+  const climax = isClimax(run);
+  const dc =
+    10 + Math.round(run.questIndex * 1.25) + Math.floor(run.questIndex / 5) + TIER[q.offer.tier].dc + RISK[choice.risk].dc +
+    (twist.dcMod ?? 0) + (twist.statDc?.[choice.stat] ?? 0) + (climax ? 1 : 0);
+  const notes: string[] = [];
+  let bonus = m.rollBonus;
+  if (climax && q.momentum) {
+    bonus += q.momentum;
+    notes.push(`Preparation ${q.momentum >= 0 ? '+' : ''}${q.momentum}`);
+  }
+  if (climax && m.climaxBonus) {
+    bonus += m.climaxBonus;
+    notes.push(`Finale +${m.climaxBonus}`);
+  }
+  if (run.hero.classId === 'wizard' && !q.firstRollDone) {
+    bonus += 4;
+    notes.push('Prepared Spell +4');
+  }
+  if (run.hero.classId === 'barbarian' && run.hero.hp * 2 <= run.hero.maxHp) {
+    bonus += 3;
+    notes.push('Rage +3');
+  }
+  const mod = modOf(run.hero.stats[choice.stat]);
+  // d20: natural 1 always fails, natural 20 always succeeds.
+  const need = dc - mod - bonus;
+  const chance = Math.min(19, Math.max(1, 21 - need)) / 20;
+  return { dc, mod, bonus, chance, notes };
+};
+
+export const bribeCost = (run: RunState) => 14 + 6 * run.questIndex;
+export const canBribe = (run: RunState) => run.phase === 'card' && !isClimax(run) && run.gold >= bribeCost(run);
+
+const rollChoice = (run: RunState, choiceIdx: number): RollResult => {
+  const q = run.quest!;
+  const card = currentCard(run)!;
+  const choice = card.choices[choiceIdx];
+  const info = checkInfo(run, choice);
+  const m = modsOf(run);
+  const twist = twistOf(q.offer.twistId);
+  const notes = [...info.notes];
+  let d20 = 1 + randInt(run, 20);
+  if (d20 === 1 && ancestryOf(run.hero.ancestryId).lucky && !q.luckyUsed) {
+    q.luckyUsed = true;
+    d20 = 1 + randInt(run, 20);
+    notes.push('Halfling luck: natural 1 rerolled');
+  }
+  q.firstRollDone = true;
+  const total = d20 + info.mod + info.bonus;
+  const critAt = 20 - m.critRange;
+  const success = d20 !== 1 && (d20 === 20 || total >= info.dc);
+  const outcome = d20 === 1 ? 'fumble' : success ? (d20 >= critAt ? 'crit' : 'success') : 'fail';
+  let gold = 0;
+  let dmg = 0;
+  let healed = 0;
+  if (success) {
+    gold = Math.round((7 + 2 * run.questIndex) * RISK[choice.risk].gold * (isClimax(run) ? 1.5 : 1) * (twist.goldMult ?? 1) * m.goldMult);
+    if (outcome === 'crit') {
+      gold *= 2;
+      healed = 1;
+    }
+  } else {
+    dmg = RISK[choice.risk].dmg + Math.floor(run.questIndex / 2) + (twist.dmgMod ?? 0) + (outcome === 'fumble' ? 2 : 0) - m.dmgReduce;
+    dmg = Math.max(1, dmg);
+  }
+  return { cardId: card.id, choiceIdx, stat: choice.stat, d20, mod: info.mod, bonus: info.bonus, total, dc: info.dc, outcome, dmg, gold, heal: healed, notes, storyEffect: success ? choice.onWin : choice.onLose };
+};
+
+/** Pick a choice on the current card. The result is shown, then applied by `proceed`. */
+export const choose = (prev: RunState, choiceIdx: number): RunState => {
+  if (prev.phase !== 'card' || !prev.quest) return prev;
+  const choice = currentCard(prev)?.choices[choiceIdx];
+  if (!Number.isInteger(choiceIdx) || !choice || !canChoose(prev, choice)) return prev;
+  const run = clone(prev);
+  if (choice.deal) {
+    run.result = { cardId: currentCard(run)!.id, choiceIdx, stat: choice.stat, d20: 0, mod: 0, bonus: 0, total: 0, dc: 0,
+      outcome: 'deal', dmg: 0, gold: 0, heal: 0, notes: ['A bargain, not a roll.'], cost: choice.deal.gold, luckCost: choice.deal.luck ?? 0, storyEffect: choice.onWin };
+  } else run.result = rollChoice(run, choiceIdx);
+  run.phase = 'result';
+  if (choice.deal) {
+    say(run, 'bribe');
+    narrate(run, {
+      f: 'Terms agreed. Keep the receipt; the consequences are not refundable.',
+      c: 'A bargain struck. The small print is wearing a very large grin.',
+      x: 'Paid up. The bastards charge extra for consequences, so keep the receipt.',
+    });
+  } else react(run);
+  return run;
+};
+
+/** The DM's verdict on the roll now showing. */
+const react = (run: RunState) => {
+  const res = run.result!;
+  const good = res.dmg === 0;
+  const streak = good ? Math.max(run.streak, 0) + 1 : Math.min(run.streak, 0) - 1;
+  const label = lower(t(cardOf(res.cardId, run.quest?.storyId).choices[res.choiceIdx].label, 0));
+  if (res.dmg >= run.hero.hp) say(run, 'lethal');
+  else if (res.outcome === 'fumble') say(run, 'fumble');
+  else if (res.outcome === 'crit') say(run, 'crit');
+  else if (streak === 3) say(run, 'streakGood');
+  else if (streak === -2 || streak === -4) say(run, 'streakBad');
+  else say(run, good ? 'success' : 'fail', label);
+};
+
+export const bribe = (prev: RunState): RunState => {
+  if (!canBribe(prev)) return prev;
+  const run = clone(prev);
+  const card = currentCard(run)!;
+  run.gold -= bribeCost(run);
+  run.quest!.firstRollDone = true;
+  run.result = { cardId: card.id, choiceIdx: -1, stat: 'CHA', d20: 0, mod: 0, bonus: 0, total: 0, dc: 0, outcome: 'bribe', dmg: 0, gold: 0, heal: 0, notes: [] };
+  run.phase = 'result';
+  say(run, 'bribe');
+  return run;
+};
+
+export const canReroll = (run: RunState) =>
+  run.phase === 'result' && !!run.result && (run.result.outcome === 'fail' || run.result.outcome === 'fumble') && run.luck > 0;
+
+/** Spend a luck token to reroll a failed check. */
+export const reroll = (prev: RunState): RunState => {
+  if (!canReroll(prev)) return prev;
+  const run = clone(prev);
+  run.luck -= 1;
+  const res = rollChoice(run, run.result!.choiceIdx);
+  res.notes.push('Luck token spent');
+  run.result = res;
+  react(run);
+  return run;
+};
+
+/** Apply the shown result and move on: next card, boon screen, or death. */
+export const proceed = (prev: RunState): RunState => {
+  if (prev.phase !== 'result' || !prev.result || !prev.quest) return prev;
+  const run = clone(prev);
+  const res = run.result!;
+  const q = run.quest!;
+  run.gold -= res.cost ?? 0;
+  run.luck -= res.luckCost ?? 0;
+  const effect = res.storyEffect;
+  if (effect) {
+    q.flags ??= [];
+    if (effect.flag && !q.flags.includes(effect.flag)) q.flags.push(effect.flag);
+    if (effect.flag?.startsWith('season-')) run.storyFlags = [...new Set([...(run.storyFlags ?? []), effect.flag])];
+    q.momentum = Math.max(-2, Math.min(2, (q.momentum ?? 0) + (effect.momentum ?? 0)));
+  }
+  const selected = res.choiceIdx >= 0 ? cardOf(res.cardId, q.storyId).choices[res.choiceIdx] : null;
+  run.decisions = [...(run.decisions ?? []), {
+    quest: q.offer.objectiveId, scene: res.cardId, choice: selected ? t(selected.label, 0) : 'Paid to pass', outcome: res.outcome,
+    memory: effect?.memory ?? `${selected ? t(selected.label, 0) : 'Paid to pass'}: ${res.outcome}.`,
+  }].slice(-12);
+  run.gold += res.gold;
+  run.goldEarned += res.gold;
+  heal(run, res.heal);
+  run.hero.hp -= res.dmg;
+  if (res.outcome !== 'bribe' && res.outcome !== 'deal') run.streak = res.dmg === 0 ? Math.max(run.streak, 0) + 1 : Math.min(run.streak, 0) - 1;
+  if (res.dmg > 0 && isClimax(run)) q.climaxFailed = true;
+  if (run.hero.hp <= 0) {
+    run.hero.hp = 0;
+    const card = cardOf(res.cardId, q.storyId);
+    const label = t(card.choices[res.choiceIdx].label, 0);
+    run.epitaph = `Tried to "${lower(label)}" during "${t(objectiveOf(q.offer.objectiveId).title, 0)}".`;
+    run.phase = 'dead';
+    say(run, 'dead');
+    return run;
+  }
+  return advance(run);
+};
+
+const advance = (run: RunState): RunState => {
+  const q = run.quest!;
+  const wentWell = !run.result || run.result.dmg === 0;
+  const next = nextScene(currentCard(run)!, [...(q.flags ?? []), ...(run.storyFlags ?? [])]);
+  if (next) {
+    const tail = q.cards.slice(q.cardIdx + 1).filter((id) => id.startsWith('rival-') || !storyCard(id));
+    q.cards = [...q.cards.slice(0, q.cardIdx + 1), ...storyRoute(next, [...(q.flags ?? []), ...(run.storyFlags ?? [])]), ...tail];
+  }
+  run.result = null;
+  if (q.cardIdx < q.cards.length - 1) {
+    q.cardIdx += 1;
+    run.phase = 'card';
+    noteCard(run);
+    if (isClimax(run)) say(run, run.hero.hp * 2 > run.hero.maxHp ? 'climaxGood' : 'climaxBad');
+    else say(run, wentWell ? 'bridgeGood' : 'bridgeBad');
+    return run;
+  }
+  // Quest complete.
+  const twist = twistOf(q.offer.twistId);
+  const m = modsOf(run);
+  const pay = Math.round(questPay(run, q.offer) * (q.climaxFailed ? 0.5 : 1));
+  run.payout = pay;
+  run.gold += pay;
+  run.goldEarned += pay;
+  heal(run, m.healPerQuest + (twist.heal ?? 0));
+  run.questsDone += 1;
+  run.history.push({ objectiveId: q.offer.objectiveId, tier: q.offer.tier, pay, clean: !q.climaxFailed,
+    memories: (run.decisions ?? []).filter((d) => d.quest === q.offer.objectiveId).map((d) => d.memory).slice(-3) });
+  if (!run.objectivesDone.includes(q.offer.objectiveId)) run.objectivesDone.push(q.offer.objectiveId);
+  else {
+    run.objectivesDone.splice(run.objectivesDone.indexOf(q.offer.objectiveId), 1);
+    run.objectivesDone.push(q.offer.objectiveId);
+  }
+  if (run.questsDone >= QUESTS_TO_WIN) {
+    run.phase = 'victory';
+    run.epitaph = `Hero of the Year. Beat ${run.rival} to the trophy and retired to open a modest tavern.`;
+    if (q.flags?.includes('shared-ending')) run.epitaph = `Joint Heroes of the Year with ${run.rival}. One trophy, two desks, incompatible office hours.`;
+    say(run, 'victory');
+    if (q.flags?.includes('shared-ending')) narrate(run, {
+      f: 'Two names on the trophy. I prepared a duel and you negotiated office hours. I shall invoice both of you.',
+      c: 'Shared heroism. Separate expense claims. The Guild has accidentally invented middle management.',
+      x: 'Two heroes, one trophy, twice the bloody paperwork. Somehow this is your happy ending.',
+    });
+    return run;
+  }
+  run.boons = dealBoons(run, q.offer.tier === 2);
+  run.phase = 'boon';
+  say(run, q.climaxFailed ? 'questDoneBadly' : 'questDone');
+  return run;
+};
+
+const dealBoons = (run: RunState, guaranteeRelic: boolean): Boon[] => {
+  const available = RELICS.filter((r) => !run.relics.includes(r.id));
+  const options: Boon[] = [
+    { kind: 'heal', amount: 6 },
+    { kind: 'stat', stat: pick(run, STATS), amount: 2 },
+    { kind: 'luck', amount: 1 },
+    { kind: 'gold', amount: 20 + 6 * run.questIndex },
+  ];
+  if (available.length) options.push({ kind: 'relic', relicId: pick(run, available).id });
+  if (available.length > 1 && rand(run) < 0.5) {
+    const first = options[options.length - 1] as { relicId: string };
+    options.push({ kind: 'relic', relicId: pick(run, available.filter((r) => r.id !== first.relicId)).id });
+  }
+  let picked = shuffled(run, options).slice(0, 3);
+  if (guaranteeRelic && available.length && !picked.some((b) => b.kind === 'relic')) {
+    picked[0] = options.find((b) => b.kind === 'relic')!;
+  }
+  // Always offer healing to a badly hurt hero, so a run is never lost on the boon screen.
+  if (run.hero.hp * 2 <= run.hero.maxHp && !picked.some((b) => b.kind === 'heal')) {
+    const slot = picked.findIndex((b) => b.kind !== 'relic');
+    picked[slot === -1 ? 2 : slot] = options[0];
+  }
+  return picked;
+};
+
+export const potionCost = (run: RunState) => 25 + 5 * run.questIndex;
+
+export const canBuyPotion = (run: RunState) => run.phase === 'boon' && run.gold >= potionCost(run) && run.hero.hp < run.hero.maxHp;
+
+export const buyPotion = (prev: RunState): RunState => {
+  if (!canBuyPotion(prev)) return prev;
+  const run = clone(prev);
+  run.gold -= potionCost(run);
+  heal(run, POTION_HEAL);
+  return run;
+};
+
+export const pickBoon = (prev: RunState, idx: number): RunState => {
+  if (prev.phase !== 'boon') return prev;
+  const run = clone(prev);
+  const boon = run.boons[idx];
+  if (boon.kind === 'heal') heal(run, boon.amount);
+  if (boon.kind === 'stat') applyEffects(run, { stats: { [boon.stat]: boon.amount } });
+  if (boon.kind === 'luck') run.luck += boon.amount;
+  if (boon.kind === 'gold') {
+    const amount = Math.round(boon.amount * modsOf(run).goldMult);
+    run.gold += amount;
+    run.goldEarned += amount;
+  }
+  if (boon.kind === 'relic') {
+    run.relics.push(boon.relicId);
+    applyEffects(run, relicOf(boon.relicId).effects);
+  }
+  run.boons = [];
+  run.questIndex += 1;
+  dealBoard(run);
+  return run;
+};
+
+export const canRevive = (run: RunState) => run.phase === 'dead' && !run.revived;
+
+/** Second chance (rewarded ad): back on your feet at half health, once per run. */
+export const revive = (prev: RunState): RunState => {
+  if (!canRevive(prev)) return prev;
+  const run = clone(prev);
+  run.revived = true;
+  run.hero.hp = Math.ceil(run.hero.maxHp / 2);
+  run.epitaph = '';
+  const next = advance(run);
+  if (next.phase === 'card') say(next, 'revived');
+  return next;
+};
+
+export const describeBoon = (boon: Boon): { title: string; text: string } => {
+  switch (boon.kind) {
+    case 'heal': return { title: 'A Proper Lunch', text: `Heal ${boon.amount} HP.` };
+    case 'stat': return { title: 'Character Development', text: `+${boon.amount} ${boon.stat}, permanently for this run.` };
+    case 'luck': return { title: 'Four-Leaf Something', text: `Gain ${boon.amount} luck token. Spend it to reroll a failure.` };
+    case 'gold': return { title: 'Cash in Hand', text: `About ${boon.amount} gold, no questions asked.` };
+    case 'relic': {
+      const r = relicOf(boon.relicId);
+      return { title: r.name, text: r.text };
+    }
+  }
+};
